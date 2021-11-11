@@ -24,12 +24,13 @@ def delovna_skupina(request, delovna_skupina_id):
     return render(request, 'zahteve/delovna_skupina.html', context={'demands': demands, 'delovna_skupina': delovna_skupina})
 
 def demand(request, demand_id):
+    form = RegisterForm()
     try:
         demand = Demand.objects.get(id=demand_id)
     except:
         Demand.HttpResponseNotFound()
 
-    return render(request, 'zahteve/zahteva.html', context={'demand': demand})
+    return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
 
 class Registracija(View):
     def get(self, request):
@@ -41,4 +42,4 @@ class Registracija(View):
         password = request.POST.get('password')
         user = User.objects.create_user(username, username, password)
         # TODO send verification email
-        return redirect('/')
+        return redirect(request.META['HTTP_REFERER'])
