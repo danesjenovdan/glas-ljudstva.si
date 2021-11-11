@@ -4,5 +4,4 @@ gunicorn
 django-storages
 boto3
 django-cors-headers
-numpy
 entropy-based-binning
