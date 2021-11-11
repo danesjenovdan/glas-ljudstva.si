@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: glas-ljudstva
+resources:
+# images:
+# - name: glas-ljudstva
+#   newName: rg.fr-par.scw.cloud/djnd/glas-ljudstva
+#   newTag: 'latest'

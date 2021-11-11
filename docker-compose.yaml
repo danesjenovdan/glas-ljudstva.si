@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  glasljudstva:
+    build: ./glasljudstva
+    ports:
+      - 8000:8000
+    environment:
+      PYTHONUNBUFFERED: 1
+      DJANGO_DEBUG: "yes"
+      DJANGO_SETTINGS_MODULE: glasljudstva.settings
+      DJANGO_SECRET_KEY: make-me-secret
+    volumes:
+      - ./glasljudstva:/app

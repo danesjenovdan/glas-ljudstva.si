@@ -1,0 +1,59 @@
+Calculating TRANSPARENTNOST DELOVANJA OBČINSKEGA SVETA ...
+Calculated TRANSPARENTNOST DELOVANJA OBČINSKEGA SVETA, here it comes:
+TRANSPARENTNOST DELOVANJA OBČINSKEGA SVETA
+ID	minimum	maximum	members
+0 	-1.0 	3.5 	49
+1 	4.0 	4.5 	43
+2 	5.0 	5.5 	34
+3 	6.0 	7.0 	42
+4 	7.5 	14.0 	44
+
+##################
+
+Calculating PREGLEDNOST SPLETNE STRANI IN DOSTOP DO INFORMACIJ ...
+Calculated PREGLEDNOST SPLETNE STRANI IN DOSTOP DO INFORMACIJ, here it comes:
+PREGLEDNOST SPLETNE STRANI IN DOSTOP DO INFORMACIJ
+ID	minimum	maximum	members
+0 	1.0 	6.0 	52
+1 	7.0 	7.0 	43
+2 	8.0 	9.0 	50
+3 	10.0 	11.0 	41
+4 	12.0 	16.0 	26
+
+##################
+
+Calculating PRORAČUN ...
+Calculated PRORAČUN, here it comes:
+PRORAČUN
+ID	minimum	maximum	members
+0 	-0.5 	4.0 	43
+1 	4.5 	6.0 	41
+2 	6.5 	7.5 	41
+3 	8.0 	9.0 	41
+4 	9.5 	12.0 	46
+
+##################
+
+Calculating DOSTOPNOST SPLETNEGA MESTA ...
+Calculated DOSTOPNOST SPLETNEGA MESTA, here it comes:
+DOSTOPNOST SPLETNEGA MESTA
+ID	minimum	maximum	members
+0 	0.0 	10.5 	42
+1 	11.0 	12.0 	53
+2 	12.25 	13.0 	52
+3 	13.25 	14.25 	25
+4 	15.0 	19.0 	40
+
+##################
+
+Calculating VKLJUČENOST IN OBVEŠČANJE ...
+Calculated VKLJUČENOST IN OBVEŠČANJE, here it comes:
+VKLJUČENOST IN OBVEŠČANJE
+ID	minimum	maximum	members
+0 	0.0 	0.0 	155
+1 	0.5 	5.65 	14
+2 	6.0 	7.7 	14
+3 	7.75 	9.2 	15
+4 	9.65 	16.1 	14
+
+##################

@@ -1,0 +1,329 @@
+@font-face {
+    font-family: 'freesansbold';
+    src: url('/static/fonts/freesansbold.woff2') format('woff2'),
+        url('/static/fonts/freesansbold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freesansboldoblique';
+    src: url('/static/fonts/freesansboldoblique.woff2') format('woff2'),
+        url('/static/fonts/freesansboldoblique.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine';
+    src: url('/static/fonts/linlibertine.woff2') format('woff2'),
+        url('/static/fonts/linlibertine.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine-bold';
+    src: url('/static/fonts/linlibertine-bold.woff2') format('woff2'),
+        url('/static/fonts/linlibertine-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine-italic';
+    src: url('/static/fonts/linlibertine-italic.woff2') format('woff2'),
+        url('/static/fonts/linlibertine-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine-bold-italic';
+    src: url('/static/fonts/linlibertine-bold-italic.woff2') format('woff2'),
+        url('/static/fonts/linlibertine-bold-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    padding: 0;
+    font-family: 'freesansbold', sans-serif;
+    margin: 0;
+}
+
+h1 {
+    color: #ed1c24;
+    font-size: 24px;
+    line-height: 26.67px;
+}
+
+p {
+    font-family: 'linlibertine', serif;
+    margin-top: 29px;
+}
+
+a {
+    color: #000000;
+}
+
+.container {
+    overflow: hidden;
+    max-width: 992px;
+    position: relative;
+    margin: auto;
+    flex-wrap: wrap;
+    padding: 50px;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    min-width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    /* margin-left: -10px;
+    margin-right: -10px; */
+}
+
+.col {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-shrink: 1;
+    flex-grow: 1;
+    flex-wrap: wrap;
+}
+.col:nth-child(3n-1) {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.col-third {
+    width: calc(33.333% - 20px);
+    flex-shrink: 0;
+}
+
+.logo {
+    width: 66px;
+    height: 101px;
+}
+
+.wordslogo {
+    color: #000000;
+    font-family: 'freesansbold';
+    font-size: 67px;
+    line-height: 58px;
+}
+
+.wordslogo:nth-child(2) {
+    color: #ed1c24;
+}
+
+.intro-text {
+    color: #000000;
+    font-family: 'linlibertine';
+    font-size: 20px;
+    line-height: 33.33px;
+    text-align: left;
+
+    max-width: 700px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.card {
+    border: 3px solid #ed1c24;
+    padding: 28px;
+    padding-bottom: 180px;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+}
+
+.card h1 {
+    margin-top: 0;
+}
+
+.card p {
+    font-size: 16px;
+}
+
+.card-footer {
+    border-top: 3px solid #ed1c24;
+    padding-left: 28px;
+    padding-right: 28px;
+    background-color: #f3f3f3;
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    height: 133px;
+}
+
+.instructions {
+    color: #000000;
+    font-family: "linlibertine-bold-italic";
+    font-size: 20px !important;
+    letter-spacing: normal;
+    line-height: 20px;
+    text-align: left;
+    position: absolute;
+    left: 28px;
+    top: 49px;
+    margin: 0;
+}
+.instructions.longtext {
+    top: 26px;
+}
+
+.card-button {
+    width: 79px;
+    height: 79px;
+    position: absolute;
+    right: 28px;
+    top: 27px;
+    cursor: pointer;
+}
+.card-button svg {
+    pointer-events: none;
+    display: none;
+}
+.card-button .play-svg {
+    display: block;
+}
+
+.publish {
+    display: block;
+    position: absolute;
+    font-family: 'freesansbold', sans-serif;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: left;
+    text-decoration: underline;
+    font-style: italic;
+    top: 50px;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.repeat {
+    display: block;
+    position: absolute;
+    font-family: 'freesansbold', sans-serif;
+    font-size: 12px;
+    line-height: 14.67px;
+    text-align: left;
+    text-decoration: underline;
+    font-style: italic;
+    top: 50px;
+    right: 29px;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.divider {
+    width: 100%;
+    height: 30px;
+    margin-top: 85px;
+    margin-bottom: 85px;
+    background-image: url('/static/svg/glasljudstva-divider.svg');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.organisations-description {
+    font-family: 'linlibertine-bold', sans-serif;
+    color: #ed1c24;
+    font-size: 32px;
+    line-height: 36px;
+}
+.organisations {
+    padding: 50px;
+}
+
+#number {
+    font-family: 'freesansbold';
+    color: #000000;
+}
+
+.join {
+    background-color: #f3f3f3;
+    margin-top: 70px;
+}
+.join h1 {
+    font-family: 'linlibertine-bold';
+}
+
+.footer {
+    background-color: #f3f3f3;
+}
+.footer p {
+    font-family: 'freesansbold';
+    width: 100%;
+    text-align: right;
+    font-size: 12px;
+}
+label {
+    width: 100%;
+    font-family: 'freesans';
+    font-weight: bold;
+    font-size: 16px;
+}
+input {
+    width: calc(100% - 30px);
+    border: 2px solid #000000;
+    height: 48px;
+    line-height: 46px;
+    font-family: 'freesansbold';
+    background-color: transparent;
+    margin-top: 5px;
+    font-size: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+button {
+    border-radius: 0;
+    width: 157px;
+    height: 48px;
+    border: 2px solid #ed1c24;
+    background-color: #ffffff;
+    font-family: 'freesansboldoblique';
+    font-size: 20px;
+    text-decoration: underline;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+@media (max-width: 1032px) {
+    .wordslogo {
+        font-size: 32px;
+    }
+    .intro-text {
+        width: 100%;
+        flex-shrink: 0;
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .row {
+        flex-wrap: wrap;
+    }
+    .col {
+        width: 100%;
+        flex-shrink: 0;
+    }
+    .col:nth-child(3n-1) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .container {
+        padding: 20px;
+    }
+}
