@@ -7,6 +7,7 @@ urlpatterns = [
     path('', landing),
     path('<int:delovna_skupina_id>/', delovna_skupina),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('comments/', include('django_comments.urls')),
 
 
     path('registracija/', Registracija.as_view()),

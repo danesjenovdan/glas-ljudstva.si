@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'rest_framework',
     'corsheaders',
+    'django_comments',
 
     'zahteve',
 ]
@@ -161,3 +163,5 @@ if os.getenv('DJANGO_ENABLE_S3', False):
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
 LOGIN_REDIRECT_URL = '/'
+
+SITE_ID = 1
