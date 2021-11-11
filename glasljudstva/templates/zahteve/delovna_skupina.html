@@ -40,47 +40,40 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col header">
                 <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
                 <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
             </div>
         </div>
+        <div class="working-group-header">
+            <span></span>
+            <a href="/{{delovna_skupina.id}}"><h1>{{ delovna_skupina.name }}</h1></a>
+        </div>
         <div class="row">
             <div class="col">
-                <p class="intro-text">V preteklem letu in pol se je jasno pokazalo, da sta normalno delujoča
-                    parlamentarna demokracija in zastopanje interesov ljudstva s strani političnih strank v Sloveniji
-                    daleč od samoumevnega. Priča smo ogrožanju narave in voda, napadom na neodvisnost medijev, kršitvam
-                    ustave, prekinitvi socialnega dialoga ter nestrokovnim odločitvam in kadrovanju na skoraj vseh
-                    področjih družbe.
-                </p>
-                <p class="intro-text">Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih
-                    bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.
-                </p>
-
-                <p class="intro-text">Pričujoče spletno mesto bo v predvolilnem letu beležilo strankarske zaveze in
-                    nudilo vse potrebne praktične informacije, da se lahko volitev udeležimo informirano in čim bolj
-                    množično.
+                <p class="intro-text">
+                    Tuki bo opis če bo ampak najbrž ne bo.
                 </p>
             </div>
         </div>
-        <div class="divider"></div>
-        {% for demand in demands %}
-        {% if forloop.counter0|divisibleby:3 == 0 or forloop.first %}
         <div class="row">
-        {% endif %}
             <div class="col">
+                <div class="message">
+                    <h3>Želiš sodelovati?</h3>
+                    <p>Ste nevladna organizacija, ki podpirate iniciativo Glas ljudstva in se želite pridružiti urejanju in pripravi zahtev?</p>
+                    <p>Pošlji mail na: <a href="mailto:demokracija@glas-ljudstva.si">demokracija@glas-ljudstva.si</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="masonry">
+        {% for demand in demands %}
+            <div class="masonry-card">
                 <div class="card">
-                    <h1>{{ demand.naslov }}</h1>
-                    <p>{{ demand.opis }}</p>
+                    <h1>{{ demand.title }}</h1>
+                    <p>{{ demand.description }}</p>
+                    <a href="/zahteve/{{demand.id}}">Komentiraj</a>
                     <div class="card-footer">
-                        <audio>
-                            <source src="file/{{ demand.id }}.mp3"
-                                type="audio/mpeg">
-                        </audio>
                         <p class="instructions">
                             {{ demand.voices }}
                             {% if demand.voices == 1 %}
@@ -251,54 +244,7 @@
                     </div>
                 </div>
             </div>
-            {% if forloop.counter|divisibleby:3 == 0 or forloop.last %}
-        </div>
-        {% endif %}
         {% endfor %}
-        <div class="row">
-            <div class="col">
-                <!-- <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                    sunt
-                    in culpa qui officia deserunt mollit anim id est laborum.</p> -->
-            </div>
-        </div>
-        <div class="divider"></div>
-        <div class="row">
-            <div class="col col-third">
-                <p class="organisations-description">Glas ljudstva trenutno sestavlja <span
-                        id="number">72</span>&nbsp;organizacij in civilnodružbenih iniciativ.</p>
-            </div>
-            <div class="col">
-                <p class="card organisations">
-                    Zavod Global, Društvo SMETUMET so.p., Transparency International Slovenia, Center za slovensko književnost, Danes je nov dan, Protestival, Vitra Cerknica, Kulturni center Danilo Kiš, Ljubljana, Destilator klub, Zavod za kulturo raznolikosti Open, Društvo informacijski center Legebitra, Slovenska filantropija, Društvo Akademija za družbeno odgovornost, Društvo Gibanje za trajnostni razvoj Slovenije - TRS, sindikat taksistov pri SDPZ, IPoP - Inštitut za politike prostora, PIC - pravni center za varstvo človekovih pravic in okolja , Aktiv delavk in delavcev v kulturi, Odbor za pravično in solidarno družbo, IŠSP - Inštitut za študije stanovanj in prostora, Društvo za Združene narode za Slovenijo , Društvo ŠKUC, Inštitut za raziskave in razvoj "Utrip", Amnesty International Slovenije, Forum za enakopraven razvoj, Združenje za državljanski nadzor zdravstvenega varstva -ZaNas , Pekarna Magdalenske mreže Maribor, Inštitut 8. marec, Avanta Largo, Društvo za preučevanje rib Slovenije - DPRS, Zavod Exodos Ljubljana, Mladi za podnebno pravičnost - MZPP, Pravna mreža za varstvo demokracije, Društvo Ženska svetovalnica, Alternativna akademija, Zavod TransAkcija, Mirovni inštitut, Sindikat Mladi plus, Plesni Teater Ljubljana, Društvo UP Jesenice, Društvo Parada ponosa, Društvo za nenasilno komunikacijo, Protestna Ljudska Skupščina, Društvo Ključ - center za boj proti trgovanju z ljudmi, ZAVOD KONC, so.p., Zavod REVIVO, zavod PROJA, Zavod Nefiks , SCCA, Zavod za sodobno umetnost – Ljubljana, Zavezništvo za demokratično in pravično Slovenijo, Forum za demokracijo, Ženski lobi Slovenije, Zavod Tri, Greenpeace Slovenija, Focus, društvo za sonaraven razvoj, Slovenska zveza za javno zdravje, okolje in tobačno kontrolo, Zavod Državljan D, Združenje ROVO, Kandijska cesta 36, 8000 Novo mesto, Društvo Humanitas - center za globalno učenje in sodelovanje, Maska Ljubljana, Umanotera, Slovenska fundacija za trajnostni razvoj, Zavod Krog, Društvo SOS telefon za ženske in otroke - žrtve nasilja, PIU, zavod za vizualno umetnost, Organizacija za participatorno družbo, Društvo Mestni Center Mobilnosti, OPRO, zavod za aplikativne študije, Društvo DIH - Enakopravni pod mavrico, Ustanova Fundacija Sonda, GT22, Iniciativa mestni zbor Maribor, Društvo Prostor.
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card join">
-                    <h1>Podpri iniciativo kot organizacija</h1>
-                    <p class="bold">Če bi se radi aktivno vključili v iniciativo, pomagali pri širjenju glasu ali pa bi
-                        radi predlagali kakšne konkretne zahteve iz svojega področja nam pišite na <a
-                            href="mailto:info@glas-ljudstva.si">info@glas-ljudstva.si</a>!</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card join">
-                    <h1>Pridruži se kot posameznik_ca</h1>
-                    <p>Za začetek nam zaupaj svoj e-naslov in ostani na tekočem z dogajanjem.</p>
-                    <p>Z oddajo se strinjaš, da <a href="https://danesjenovdan.si/">Danes je nov dan</a> tvoj email
-                        hrani, da ti občasno pošlje elektronsko sporočilo z vsebino vezano na Glas ljudstva. Tvojega
-                        e-naslova ne bomo izdali nikomur (niti drugim sodelujočim organizacijam).</p>
-                    <label for="email">Vpiši svoj e-naslov</label>
-                    <input type="email" id="email">
-                    <button id="submit-email">Pridruži se</button>
-                </div>
-            </div>
         </div>
     </div>
     <div class="footer">
