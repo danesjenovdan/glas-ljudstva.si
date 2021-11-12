@@ -188,7 +188,7 @@ if os.getenv('APP_ENV', 'development') == 'production':
     EMAIL_PORT = os.getenv('EMAIL_PORT', '')
     EMAIL_HOST_USER = os.getenv('EMAIL_USERNAME', '')
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
-    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = True
     FROM_EMAIL = os.getenv('FROM_EMAIL', 'dummy@email.com')
 
 else:
