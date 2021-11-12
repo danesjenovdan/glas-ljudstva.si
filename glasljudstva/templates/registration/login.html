@@ -8,11 +8,11 @@
 <form method="POST" class="form-group">
   {% csrf_token %}
   <p>
-    <label for="id_username">Email:</label>
+    <label for="id_username">E-naslov:</label>
     {{ form.username }}
   </p>
   <p>
-    <label for="id_password">Password:</label>
+    <label for="id_password">Geslo:</label>
     {{ form.password }}
   </p>
   <button type="submit" class="btn btn-success">Log in</button>

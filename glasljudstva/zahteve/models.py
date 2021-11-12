@@ -10,6 +10,9 @@ from zahteve.utils import id_generator
 # Create your models here.
 class WorkGroup(Timestampable, Versionable):
     name = models.TextField(null=False, blank=False)
+    description = models.TextField(null=False, blank=False)
+    og_title = models.TextField(null=False, blank=False)
+    og_description = models.TextField(null=False, blank=False)
 
 
 class Demand(Timestampable, Versionable):

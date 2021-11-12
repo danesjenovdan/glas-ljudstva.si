@@ -13,6 +13,7 @@ def landing(request):
     work_groups = WorkGroup.objects.all()
     for wg in work_groups:
         wg.demands = Demand.objects.filter(workgroup=wg)
+
     return render(request, 'zahteve/landing.html', context={'work_groups': work_groups})
 
 def delovna_skupina(request, delovna_skupina_id):
@@ -23,7 +24,10 @@ def delovna_skupina(request, delovna_skupina_id):
 
     demands = Demand.objects.filter(workgroup=delovna_skupina)
 
-    return render(request, 'zahteve/delovna_skupina.html', context={'demands': demands, 'delovna_skupina': delovna_skupina})
+    og_title = delovna_skupina.og_title
+    og_description = delovna_skupina.og_description
+
+    return render(request, 'zahteve/delovna_skupina.html', context={'demands': demands, 'delovna_skupina': delovna_skupina, 'og_title': og_title, 'og_description': og_description})
 
 def demand(request, demand_id):
     form = RegisterForm()

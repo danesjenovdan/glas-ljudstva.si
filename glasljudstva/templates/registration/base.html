@@ -11,18 +11,17 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col header">
+                <div class="col">
                     <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
-                    <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
                 </div>
             </div>
             <div class="row">
-                <div class="col registration">
-                    {% block content %}
-                    {% endblock %}
+                <div class="col">
+                    <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
                 </div>
-
             </div>
+            {% block content %}
+            {% endblock %}
         </div>
     </body>
 </html>
