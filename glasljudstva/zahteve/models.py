@@ -1,8 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from django_comments.moderation import CommentModerator, moderator
 
 from zahteve.behaviors.models import Timestampable, Versionable
+
+from zahteve.utils import id_generator
 
 # Create your models here.
 class WorkGroup(Timestampable, Versionable):
@@ -17,5 +20,14 @@ class Demand(Timestampable, Versionable):
 
 class DemandModerator(CommentModerator):
     email_notification = False
+
+
+class EmailVerification(Timestampable):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='email_verification'
+    )
+    verification_key = models.CharField(max_length=100)
 
 moderator.register(Demand, DemandModerator)
