@@ -180,3 +180,5 @@ else:
     FROM_EMAIL = 'dummy@email.com'
 
 FRONT_URL = os.getenv('FRONT_URL', 'http://localhost:8000/')
+
+LOGIN_URL = '/login/'

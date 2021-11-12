@@ -4,8 +4,8 @@ from django.views import View
 from django.http import HttpResponseNotFound
 from django.contrib.auth import login
 
-from zahteve.models import WorkGroup, Demand, EmailVerification
-from zahteve.forms import RegisterForm
+from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword
+from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
 
 # Create your views here.
 def landing(request):
@@ -52,5 +52,28 @@ class Registracija(View):
         password = request.POST.get('password')
         redirect_path = request.META.get('HTTP_REFERER', '\\')
         user = User.objects.create_user(username, username, password, is_active=False)
-        # TODO send verification email
         return redirect('/')
+
+
+class RestorePasswordView(View):
+    def get(self, request, parameter=None):
+        if parameter:
+            form = RestorePasswordForm()
+            return render(request, 'registration/reset_password.html', context={'form': form})
+        else:
+            form = RequestRestorePasswordForm()
+            return render(request, 'registration/request_reset_password.html', context={'form': form})
+
+    def post(self, request, parameter=None):
+        if parameter:
+            restore_password = get_object_or_404(ResetPassword, key=parameter)
+            password = request.POST.get('password')
+            user = restore_password.user
+            user.set_password(password)
+            user.save()
+            return redirect('/')
+        else:
+            email = request.POST.get('email')
+            user = get_object_or_404(User, email=email)
+            ResetPassword(user=user).save()
+            return redirect('/')
