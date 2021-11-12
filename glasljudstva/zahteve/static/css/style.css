@@ -93,6 +93,9 @@ a {
     width: 100%;
     margin-bottom: 10px;
 }
+/* .masonry-card-body h1 {
+    color: #000000 !important;
+} */
 
 .masonry-card:hover h3 {
     text-decoration: underline;
@@ -178,6 +181,9 @@ a {
     width: 66px;
     height: 101px;
     margin-right: 15px;
+}
+.logo-anchor {
+    text-decoration: none !important;
 }
 
 .wordslogo {
