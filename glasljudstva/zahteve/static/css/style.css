@@ -1,47 +1,47 @@
 @font-face {
     font-family: 'freesansbold';
-    src: url('/static/fonts/freesansbold.woff2') format('woff2'),
-        url('/static/fonts/freesansbold.woff') format('woff');
+    src: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/freesansbold.woff2') format('woff2'),
+        url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/freesansbold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'freesansboldoblique';
-    src: url('/static/fonts/freesansboldoblique.woff2') format('woff2'),
-        url('/static/fonts/freesansboldoblique.woff') format('woff');
+    src: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/freesansboldoblique.woff2') format('woff2'),
+        url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/freesansboldoblique.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'linlibertine';
-    src: url('/static/fonts/linlibertine.woff2') format('woff2'),
-        url('/static/fonts/linlibertine.woff') format('woff');
+    src: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine.woff2') format('woff2'),
+        url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'linlibertine-bold';
-    src: url('/static/fonts/linlibertine-bold.woff2') format('woff2'),
-        url('/static/fonts/linlibertine-bold.woff') format('woff');
+    src: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine-bold.woff2') format('woff2'),
+        url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine-bold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'linlibertine-italic';
-    src: url('/static/fonts/linlibertine-italic.woff2') format('woff2'),
-        url('/static/fonts/linlibertine-italic.woff') format('woff');
+    src: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine-italic.woff2') format('woff2'),
+        url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine-italic.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'linlibertine-bold-italic';
-    src: url('/static/fonts/linlibertine-bold-italic.woff2') format('woff2'),
-        url('/static/fonts/linlibertine-bold-italic.woff') format('woff');
+    src: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine-bold-italic.woff2') format('woff2'),
+        url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/fonts/linlibertine-bold-italic.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -291,7 +291,7 @@ a {
     height: 30px;
     margin-top: 50px;
     margin-bottom: 50px;
-    background-image: url('/static/svg/glasljudstva-divider.svg');
+    background-image: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/svg/glasljudstva-divider.svg');
     background-position: left center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -307,7 +307,7 @@ a {
 .working-group-header span {
     height: 30px;
     width: 33px;
-    background-image: url('/static/svg/glasljudstva-divider.svg');
+    background-image: url('https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/svg/glasljudstva-divider.svg');
     background-position: left center;
     background-repeat: no-repeat;
     background-size: cover;
