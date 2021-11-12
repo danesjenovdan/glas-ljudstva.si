@@ -29,8 +29,8 @@ def demand(request, demand_id):
     form = RegisterForm()
     try:
         demand = Demand.objects.get(id=demand_id)
-    except:
-        Demand.HttpResponseNotFound()
+    except Demand.DoesNotExist:
+        return HttpResponseNotFound()
 
     return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
 

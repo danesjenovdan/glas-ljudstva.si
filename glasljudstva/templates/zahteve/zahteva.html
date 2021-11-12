@@ -34,10 +34,9 @@
         {% get_comment_list for demand as comments %}
         {% for comment in comments %}
         <div class="row">
-            <div class="col">
-                Oddan {{ comment.submit_date|date:'d. m. Y'}} ob {{ comment.submit_date|date:'H:i'}}
-                <br />
-                {{ comment.comment }}
+            <div class="col comment">
+                <p class="timestamp">Oddan {{ comment.submit_date|date:'d. m. Y'}} ob {{ comment.submit_date|date:'H:i'}}</p>
+                <p>{{ comment.comment }}</p>
             </div>
         </div>
         {% endfor %}
