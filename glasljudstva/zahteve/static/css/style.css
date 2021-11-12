@@ -303,6 +303,12 @@ a {
     margin-top: 50px;
     margin-bottom: 20px;
 }
+.working-group-header a {
+    text-decoration: none;
+}
+.working-group-header a:hover {
+    text-decoration: underline;
+}
 
 .working-group-header span {
     height: 30px;
@@ -316,7 +322,7 @@ a {
 .working-group-header h1 {
     margin-left: 15px;
     color: black;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .organisations-description {

@@ -9,9 +9,9 @@ from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePassw
 
 # Create your views here.
 def landing(request):
-    work_groups = WorkGroup.objects.all()
+    work_groups = WorkGroup.objects.all().order_by('?')
     for wg in work_groups:
-        wg.demands = Demand.objects.filter(workgroup=wg)
+        wg.demands = Demand.objects.filter(workgroup=wg).order_by('?')
 
     return render(request, 'zahteve/landing.html', context={'work_groups': work_groups})
 
@@ -21,7 +21,7 @@ def delovna_skupina(request, delovna_skupina_id):
     except WorkGroup.DoesNotExist:
         return HttpResponseNotFound()
 
-    demands = Demand.objects.filter(workgroup=delovna_skupina)
+    demands = Demand.objects.filter(workgroup=delovna_skupina).order_by('?')
 
     og_title = delovna_skupina.og_title
     og_description = delovna_skupina.og_description
