@@ -1,112 +1,68 @@
+{% extends 'zahteve/frame.html' %}
 {% load static %}
 {% load comments %}
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Glas ljudstva">
-    <meta property="og:description"
-        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
-    <meta property="og:image" content="https://glas-ljudstva.si/file/glas-ljudstva-og.png">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Glas ljudstva">
-    <meta name="twitter:description"
-        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
-    <meta name="twitter:image" content="https://glas-ljudstva.si/file/glas-ljudstva-og.png">
-
-    <meta name="author" content="Glas ljudstva">
-    <meta name="description"
-        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
-    <title>Glas ljudstva</title>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/file/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/file/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/file/favicon-16x16.png">
-    <link rel="manifest" href="/file/site.webmanifest">
-    <link rel="mask-icon" href="/file/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script defer data-domain="glas-ljudstva.si" src="https://plausible.lb.djnd.si/js/plausible.js"></script>
-</head>
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col header">
-                <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
-                <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
-            </div>
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>
+                {{ demand.title }}
+            </h1>
         </div>
-        <div class="row">
-            <div class="col">
-                <h1>
-                    {{ demand.title }}
-                </h1>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>
+                {{ demand.description }}
+            </p>
         </div>
-        <div class="row">
-            <div class="col">
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="message">
                 <p>
-                    {{ demand.description }}
+                    Zahtevo ureja delovna skupina:
+                </p>
+                <p>
+                    <a href="/{{demand.workgroup.id}}">
+                        {{ demand.workgroup.name }}
+                    </a>
                 </p>
             </div>
         </div>
+    </div>
+        {% get_comment_list for demand as comments %}
+        {% for comment in comments %}
         <div class="row">
             <div class="col">
-                <div class="message">
-                    <p>
-                        Zahtevo ureja delovna skupina:
-                    </p>
-                    <p>
-                        <a href="/{{demand.workgroup.id}}">
-                            {{ demand.workgroup.name }}
-                        </a>
-                    </p>
-                </div>
+                Oddan {{ comment.submit_date|date:'d. m. Y'}} ob {{ comment.submit_date|date:'H:i'}}
+                <br />
+                {{ comment.comment }}
             </div>
         </div>
-            {% get_comment_list for demand as comments %}
-            {% for comment in comments %}
-            <div class="row">
-                <div class="col">
-                    Oddan {{ comment.submit_date|date:'d. m. Y'}} ob {{ comment.submit_date|date:'H:i'}}
-                    <br />
-                    {{ comment.comment }}
-                </div>
-            </div>
-            {% endfor %}
-        <div class="row">
-            <div class="col">
-                {% if user.is_authenticated %}
-                    {% get_comment_form for demand as form %}
-                    <form action="{% comment_form_target %}" method="POST">
+        {% endfor %}
+    <div class="row">
+        <div class="col">
+            {% if user.is_authenticated %}
+                {% get_comment_form for demand as form %}
+                <form action="{% comment_form_target %}" method="POST">
+                {% csrf_token %}
+                {{ form.comment }}
+                {{ form.honeypot }}
+                {{ form.content_type }}
+                {{ form.object_pk }}
+                {{ form.timestamp }}
+                {{ form.security_hash }}
+                <input type="submit" value="Komentiraj" id="id_submit" />
+                </form>
+            {% else %}
+                <p>Za komentiranje se moraš prijaviti ali registrirati.</p>
+                <form method="POST" action="/registracija/" class="form-group">
                     {% csrf_token %}
-                    {{ form.comment }}
-                    {{ form.honeypot }}
-                    {{ form.content_type }}
-                    {{ form.object_pk }}
-                    {{ form.timestamp }}
-                    {{ form.security_hash }}
-                    <input type="submit" value="Komentiraj" id="id_submit" />
-                    </form>
-                {% else %}
-                    <p>Za komentiranje se moraš prijaviti ali registrirati.</p>
-                    <form method="POST" action="/registracija/" class="form-group">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-success">Registriraj ali prijavi se</button>
-                    </form>
-                {% endif %}
-            </div>
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Registriraj ali prijavi se</button>
+                </form>
+            {% endif %}
         </div>
     </div>
-</body>
+{% endblock %}
