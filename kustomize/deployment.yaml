@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glas-ljudstva-deployment
+  labels:
+    app: glas-ljudstva
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: glas-ljudstva
+  template:
+    metadata:
+      labels:
+        app: glas-ljudstva
+    spec:
+      initContainers:
+        - name: collectstatic
+          image: glas-ljudstva
+          command:
+            - python
+            - manage.py
+            - collectstatic
+            - --no-input
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: glasljudstva.k8s_settings
+          envFrom:
+            - secretRef:
+                name: glas-ljudstva-secrets
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 200m
+            limits:
+              memory: 1Gi
+              cpu: 200m
+        - name: migrate
+          image: glas-ljudstva
+          command:
+            - python
+            - manage.py
+            - migrate
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: glasljudstva.k8s_settings
+          envFrom:
+            - secretRef:
+                name: glas-ljudstva-secrets
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 200m
+            limits:
+              memory: 1Gi
+              cpu: 200m
+      containers:
+        - name: glas-ljudstva
+          image: glas-ljudstva
+          command:
+            - gunicorn
+            - glasljudstva.wsgi:application
+            - -b
+            - 0.0.0.0:8000
+            - --log-level
+            - DEBUG
+            - --workers
+            - "1"
+            - --threads
+            - "3"
+            - --timeout
+            - "120"
+          ports:
+            - containerPort: 8000
+          envFrom:
+              - secretRef:
+                  name: glas-ljudstva-secrets
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: glasljudstva.k8s_settings
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 500m
+            limits:
+              memory: 1Gi
+              cpu: 500m

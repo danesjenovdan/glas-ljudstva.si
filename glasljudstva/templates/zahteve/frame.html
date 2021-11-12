@@ -9,20 +9,42 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <meta property="og:type" content="website">
+    {% if og_title %}
+    <meta property="og:title" content="{{ og_title }}">
+    {% else %}
     <meta property="og:title" content="Glas ljudstva">
+    {% endif %}
+    {% if og_description %}
+    <meta property="og:description" content="{{ og_description }}">
+    {% else %}
     <meta property="og:description"
-        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+          content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+    {% endif %}
     <meta property="og:image" content="https://glas-ljudstva.si/file/glas-ljudstva-og.png">
 
+
     <meta name="twitter:card" content="summary_large_image">
+    {% if og_title %}
+    <meta name="twitter:title" content="{{ og_title }}">
+    {% else %}
     <meta name="twitter:title" content="Glas ljudstva">
+    {% endif %}
+    {% if og_description %}
+    <meta name="twitter:description" content="{{ og_description }}">
+    {% else %}
     <meta name="twitter:description"
-        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+          content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+    {% endif %}
     <meta name="twitter:image" content="https://glas-ljudstva.si/file/glas-ljudstva-og.png">
 
     <meta name="author" content="Glas ljudstva">
+    {% if og_description %}
+    <meta name="description" content="{{ og_description }}">
+    {% else %}
     <meta name="description"
-        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+          content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+    {% endif %}
+
     <title>Glas ljudstva</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/file/apple-touch-icon.png">
@@ -39,18 +61,54 @@
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+        <a class="logo-anchor" href="/">
+            <div class="row">
+                <div class="col">
+                    <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
+            <div class="row">
+                <div class="col">
+                    <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
+                </div>
             </div>
-        </div>
+        </a>
         {% block content %}
         {% endblock %}
+        <div class="divider"></div>
+        <div class="row">
+            <div class="col col-third">
+                <p class="organisations-description">Glas ljudstva trenutno sestavlja <span
+                        id="number">72</span>&nbsp;organizacij in civilnodružbenih iniciativ.</p>
+            </div>
+            <div class="col">
+                <p class="card organisations">
+                    Zavod Global, Društvo SMETUMET so.p., Transparency International Slovenia, Center za slovensko književnost, Danes je nov dan, Protestival, Vitra Cerknica, Kulturni center Danilo Kiš, Ljubljana, Destilator klub, Zavod za kulturo raznolikosti Open, Društvo informacijski center Legebitra, Slovenska filantropija, Društvo Akademija za družbeno odgovornost, Društvo Gibanje za trajnostni razvoj Slovenije - TRS, sindikat taksistov pri SDPZ, IPoP - Inštitut za politike prostora, PIC - pravni center za varstvo človekovih pravic in okolja , Aktiv delavk in delavcev v kulturi, Odbor za pravično in solidarno družbo, IŠSP - Inštitut za študije stanovanj in prostora, Društvo za Združene narode za Slovenijo , Društvo ŠKUC, Inštitut za raziskave in razvoj "Utrip", Amnesty International Slovenije, Forum za enakopraven razvoj, Združenje za državljanski nadzor zdravstvenega varstva -ZaNas , Pekarna Magdalenske mreže Maribor, Inštitut 8. marec, Avanta Largo, Društvo za preučevanje rib Slovenije - DPRS, Zavod Exodos Ljubljana, Mladi za podnebno pravičnost - MZPP, Pravna mreža za varstvo demokracije, Društvo Ženska svetovalnica, Alternativna akademija, Zavod TransAkcija, Mirovni inštitut, Sindikat Mladi plus, Plesni Teater Ljubljana, Društvo UP Jesenice, Društvo Parada ponosa, Društvo za nenasilno komunikacijo, Protestna Ljudska Skupščina, Društvo Ključ - center za boj proti trgovanju z ljudmi, ZAVOD KONC, so.p., Zavod REVIVO, zavod PROJA, Zavod Nefiks , SCCA, Zavod za sodobno umetnost – Ljubljana, Zavezništvo za demokratično in pravično Slovenijo, Forum za demokracijo, Ženski lobi Slovenije, Zavod Tri, Greenpeace Slovenija, Focus, društvo za sonaraven razvoj, Slovenska zveza za javno zdravje, okolje in tobačno kontrolo, Zavod Državljan D, Združenje ROVO, Kandijska cesta 36, 8000 Novo mesto, Društvo Humanitas - center za globalno učenje in sodelovanje, Maska Ljubljana, Umanotera, Slovenska fundacija za trajnostni razvoj, Zavod Krog, Društvo SOS telefon za ženske in otroke - žrtve nasilja, PIU, zavod za vizualno umetnost, Organizacija za participatorno družbo, Društvo Mestni Center Mobilnosti, OPRO, zavod za aplikativne študije, Društvo DIH - Enakopravni pod mavrico, Ustanova Fundacija Sonda, GT22, Iniciativa mestni zbor Maribor, Društvo Prostor.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card join">
+                    <h1>Podpri iniciativo kot organizacija</h1>
+                    <p class="bold">Če bi se radi aktivno vključili v iniciativo, pomagali pri širjenju glasu ali pa bi
+                        radi predlagali kakšne konkretne zahteve iz svojega področja nam pišite na <a
+                            href="mailto:info@glas-ljudstva.si">info@glas-ljudstva.si</a>!</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card join">
+                    <h1>Pridruži se kot posameznik_ca</h1>
+                    <p>Za začetek nam zaupaj svoj e-naslov in ostani na tekočem z dogajanjem.</p>
+                    <p>Z oddajo se strinjaš, da <a href="https://danesjenovdan.si/">Danes je nov dan</a> tvoj email
+                        hrani, da ti občasno pošlje elektronsko sporočilo z vsebino vezano na Glas ljudstva. Tvojega
+                        e-naslova ne bomo izdali nikomur (niti drugim sodelujočim organizacijam).</p>
+                    <label for="email">Vpiši svoj e-naslov</label>
+                    <input type="email" id="email">
+                    <button id="submit-email">Pridruži se</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="footer">
         <div class="container">

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: glas-ljudstva
+spec:
+  selector:
+    app: glas-ljudstva
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

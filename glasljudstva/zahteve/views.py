@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import HttpResponseNotFound
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 
 from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword
 from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
 
 # Create your views here.
 def landing(request):
-    print(request.user)
     work_groups = WorkGroup.objects.all()
     for wg in work_groups:
         wg.demands = Demand.objects.filter(workgroup=wg)
+
     return render(request, 'zahteve/landing.html', context={'work_groups': work_groups})
 
 def delovna_skupina(request, delovna_skupina_id):
@@ -23,14 +23,17 @@ def delovna_skupina(request, delovna_skupina_id):
 
     demands = Demand.objects.filter(workgroup=delovna_skupina)
 
-    return render(request, 'zahteve/delovna_skupina.html', context={'demands': demands, 'delovna_skupina': delovna_skupina})
+    og_title = delovna_skupina.og_title
+    og_description = delovna_skupina.og_description
+
+    return render(request, 'zahteve/delovna_skupina.html', context={'demands': demands, 'delovna_skupina': delovna_skupina, 'og_title': og_title, 'og_description': og_description})
 
 def demand(request, demand_id):
     form = RegisterForm()
     try:
         demand = Demand.objects.get(id=demand_id)
-    except:
-        Demand.HttpResponseNotFound()
+    except Demand.DoesNotExist:
+        return HttpResponseNotFound()
 
     return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
 
@@ -50,9 +53,17 @@ class Registracija(View):
     def post(self, request):
         username = request.POST.get('email')
         password = request.POST.get('password')
-        redirect_path = request.META.get('HTTP_REFERER', '\\')
-        user = User.objects.create_user(username, username, password, is_active=False)
-        return redirect('/')
+        redirect_path = request.META.get('HTTP_REFERER', '/')
+
+        # try logging the user in
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(redirect_path)
+
+        user = User.objects.create_user(username, email=username, password=password, is_active=False)
+        # TODO send verification email
+        return redirect(redirect_path)
 
 
 class RestorePasswordView(View):
