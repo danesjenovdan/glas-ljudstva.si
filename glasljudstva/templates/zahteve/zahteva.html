@@ -78,7 +78,7 @@
             {% for comment in comments %}
             <div class="row">
                 <div class="col">
-                    {{ comment.submit_date}}
+                    Oddan {{ comment.submit_date|date:'d. m. Y'}} ob {{ comment.submit_date|date:'H:i'}}
                     <br />
                     {{ comment.comment }}
                 </div>

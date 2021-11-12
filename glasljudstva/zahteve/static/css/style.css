@@ -351,13 +351,16 @@ a {
     text-align: right;
     font-size: 12px;
 }
+form {
+    width: 100%;
+}
 label {
     width: 100%;
     font-family: 'freesans';
     font-weight: bold;
     font-size: 16px;
 }
-input {
+input, textarea {
     width: calc(100% - 30px);
     border: 2px solid #000000;
     height: 48px;
@@ -368,6 +371,9 @@ input {
     font-size: 20px;
     padding-left: 10px;
     padding-right: 10px;
+}
+textarea {
+    height: 100px;
 }
 button {
     border-radius: 0;
@@ -411,4 +417,15 @@ button {
     .container {
         padding: 20px;
     }
+}
+
+/* comments */
+#id_honeypot {
+    display: none;
+}
+#id_comment {
+    width: calc(100% - 25px);
+}
+#id_submit {
+    width: 100%;
 }
