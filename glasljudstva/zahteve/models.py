@@ -7,7 +7,6 @@ from zahteve.behaviors.models import Timestampable, Versionable
 
 from zahteve.utils import id_generator
 
-# Create your models here.
 class WorkGroup(Timestampable, Versionable):
     name = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
@@ -32,5 +31,6 @@ class EmailVerification(Timestampable):
         related_name='email_verification'
     )
     verification_key = models.CharField(max_length=100)
+    newsletter_permission = models.BooleanField(default=False)
 
 moderator.register(Demand, DemandModerator)
