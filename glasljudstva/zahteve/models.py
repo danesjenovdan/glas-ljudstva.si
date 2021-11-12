@@ -16,9 +16,6 @@ class Demand(Timestampable, Versionable):
 
 
 class DemandModerator(CommentModerator):
-    email_notification = True
-    auto_close_field   = 'posted_date'
-    # Close the comments after 7 days.
-    close_after        = 7
+    email_notification = False
 
 moderator.register(Demand, DemandModerator)

@@ -1,4 +1,5 @@
 {% load static %}
+{% load comments %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,18 +12,18 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Glas ljudstva">
     <meta property="og:description"
-          content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
     <meta property="og:image" content="https://glas-ljudstva.si/file/glas-ljudstva-og.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Glas ljudstva">
     <meta name="twitter:description"
-          content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
     <meta name="twitter:image" content="https://glas-ljudstva.si/file/glas-ljudstva-og.png">
 
     <meta name="author" content="Glas ljudstva">
     <meta name="description"
-          content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
+        content="Predstavljamo prvih 10 vzorčnih zahtev in vabimo k oblikovanju skupnih 100, ki jih bomo predložili strankam in jih pozvali, da se do njih jasno opredelijo.">
     <title>Glas ljudstva</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/file/apple-touch-icon.png">
@@ -73,9 +74,38 @@
                 </div>
             </div>
         </div>
+            {% get_comment_list for demand as comments %}
+            {% for comment in comments %}
+            <div class="row">
+                <div class="col">
+                    {{ comment.submit_date}}
+                    <br />
+                    {{ comment.comment }}
+                </div>
+            </div>
+            {% endfor %}
         <div class="row">
             <div class="col">
-                Komentarji...
+                {% if user.is_authenticated %}
+                    {% get_comment_form for demand as form %}
+                    <form action="{% comment_form_target %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.comment }}
+                    {{ form.honeypot }}
+                    {{ form.content_type }}
+                    {{ form.object_pk }}
+                    {{ form.timestamp }}
+                    {{ form.security_hash }}
+                    <input type="submit" value="Komentiraj" id="id_submit" />
+                    </form>
+                {% else %}
+                    <p>Za komentiranje se moraš prijaviti ali registrirati.</p>
+                    <form method="POST" action="/registracija/" class="form-group">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success">Registriraj ali prijavi se</button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>

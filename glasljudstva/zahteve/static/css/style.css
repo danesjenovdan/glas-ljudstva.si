@@ -371,7 +371,7 @@ input {
 }
 button {
     border-radius: 0;
-    width: 157px;
+    min-width: 157px;
     height: 48px;
     border: 2px solid #ed1c24;
     background-color: #ffffff;
@@ -380,6 +380,8 @@ button {
     text-decoration: underline;
     margin-top: 10px;
     cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 @media (max-width: 1032px) {
