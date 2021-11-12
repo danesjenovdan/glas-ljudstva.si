@@ -13,11 +13,17 @@ class WorkGroup(Timestampable, Versionable):
     og_title = models.TextField(null=False, blank=False)
     og_description = models.TextField(null=False, blank=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Demand(Timestampable, Versionable):
     title = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     workgroup = models.ForeignKey('WorkGroup', null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.title
 
 
 class DemandModerator(CommentModerator):
