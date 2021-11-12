@@ -44,6 +44,7 @@ def verify_email(request, token):
     verification = get_object_or_404(EmailVerification, verification_key=token)
     user = verification.user
     user.is_active = True
+    user.save()
     login(request, user)
     return redirect('/')
 
@@ -66,7 +67,7 @@ class Registracija(View):
 
         user = User.objects.create_user(username, email=username, password=password, is_active=False)
         # TODO send verification email
-        return redirect(redirect_path)
+        return redirect('/hvala/')
 
 
 class RestorePasswordView(View):
