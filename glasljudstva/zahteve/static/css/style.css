@@ -390,6 +390,15 @@ button {
     padding-right: 20px;
 }
 
+.registration {
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.registration input, .registration button {
+    width: 100%;
+}
+
 @media (max-width: 1032px) {
     .wordslogo {
         font-size: 32px;
