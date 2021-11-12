@@ -87,9 +87,35 @@ a {
 }
 
 .masonry-card {
-    /*display: inline-block;*/
+    border: 3px solid #ed1c24;
+    display: inline-block;
+    text-decoration: none;
     width: 100%;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
+}
+
+.masonry-card:hover h3 {
+    text-decoration: underline;
+}
+
+.masonry-card-body {
+    padding: 28px;
+}
+
+.masonry-card-footer {
+    padding: 14px 28px;
+    border-top: 3px solid #ed1c24;
+    background-color: #f3f3f3;
+}
+
+.masonry-card .comment {
+    display: flex;
+    align-items: center;
+}
+
+.masonry-card .comment svg {
+    height: 35px;
+    margin-right: 10px;
 }
 
 @media only screen and (min-width: 480px) {
@@ -180,7 +206,6 @@ a {
 .card {
     border: 3px solid #ed1c24;
     padding: 28px;
-    padding-bottom: 180px;
     position: relative;
     overflow: hidden;
     flex: 1;
@@ -192,20 +217,6 @@ a {
 
 .card p {
     font-size: 16px;
-}
-
-.card-footer {
-    border-top: 3px solid #ed1c24;
-    padding-left: 28px;
-    padding-right: 28px;
-    background-color: #f3f3f3;
-
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
-
-    height: 133px;
 }
 
 .instructions {
