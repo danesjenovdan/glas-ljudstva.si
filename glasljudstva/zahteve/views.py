@@ -4,7 +4,7 @@ from django.views import View
 from django.http import HttpResponseNotFound
 from django.contrib.auth import authenticate, login
 
-from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword
+from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword, Newsletter
 from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
 
 # Create your views here.
@@ -57,6 +57,7 @@ class Registracija(View):
     def post(self, request):
         username = request.POST.get('email')
         password = request.POST.get('password')
+        newsletter_permission = request.POST.get('newsletter_permission', False)
         redirect_path = request.META.get('HTTP_REFERER', '/')
 
         # try logging the user in
@@ -66,6 +67,10 @@ class Registracija(View):
             return redirect(redirect_path)
 
         user = User.objects.create_user(username, email=username, password=password, is_active=False)
+        Newsletter(
+            user=user,
+            permission=True if newsletter_permission == 'on' else False
+        ).save()
         # TODO send verification email
         return redirect('/hvala/')
 

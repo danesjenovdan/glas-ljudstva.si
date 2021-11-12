@@ -49,4 +49,12 @@ class ResetPassword(Timestampable):
     key = models.CharField(max_length=100)
 
 
+class Newsletter(Timestampable):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    permission = models.BooleanField(default=False, blank=True)
+
 moderator.register(Demand, DemandModerator)
