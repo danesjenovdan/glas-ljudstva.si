@@ -445,5 +445,21 @@ button {
     width: 100%;
 }
 .comment {
-    
+    flex-wrap: wrap;
+    border-bottom: 1px solid #000000;
+}
+.comment:last-child {
+    border-bottom: none;
+}
+.comment p {
+    width: 100%;
+    font-family: 'linlibertine-bold', serif;
+    font-weight: normal;
+    padding-bottom: 10px;
+}
+.comment p.timestamp {
+    text-align: right;
+    margin-bottom: -20px;
+    font-family: 'linlibertine', serif;
+    font-weight: normal;
 }

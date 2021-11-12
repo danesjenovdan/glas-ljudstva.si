@@ -2,14 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import HttpResponseNotFound
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 
 from zahteve.models import WorkGroup, Demand, EmailVerification
 from zahteve.forms import RegisterForm
 
 # Create your views here.
 def landing(request):
-    print(request.user)
     work_groups = WorkGroup.objects.all()
     for wg in work_groups:
         wg.demands = Demand.objects.filter(workgroup=wg)
@@ -50,7 +49,14 @@ class Registracija(View):
     def post(self, request):
         username = request.POST.get('email')
         password = request.POST.get('password')
-        redirect_path = request.META.get('HTTP_REFERER', '\\')
-        user = User.objects.create_user(username, username, password, is_active=False)
+        redirect_path = request.META.get('HTTP_REFERER', '/')
+
+        # try logging the user in
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(redirect_path)
+
+        user = User.objects.create_user(username, email=username, password=password, is_active=False)
         # TODO send verification email
-        return redirect('/')
+        return redirect(redirect_path)
