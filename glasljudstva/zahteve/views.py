@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import HttpResponseNotFound
+from django.contrib.auth import login
 
-from zahteve.models import WorkGroup, Demand
+from zahteve.models import WorkGroup, Demand, EmailVerification
 from zahteve.forms import RegisterForm
 
 # Create your views here.
 def landing(request):
+    print(request.user)
     work_groups = WorkGroup.objects.all()
     for wg in work_groups:
         wg.demands = Demand.objects.filter(workgroup=wg)
@@ -33,7 +35,11 @@ def demand(request, demand_id):
     return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
 
 def verify_email(request, token):
-    pass
+    verification = get_object_or_404(EmailVerification, verification_key=token)
+    user = verification.user
+    user.is_active = True
+    login(request, user)
+    return redirect('/')
 
 
 class Registracija(View):

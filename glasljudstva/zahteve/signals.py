@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.conf import settings
 
 from django_comments.models import Comment
 from zahteve.utils import id_generator, send_email
@@ -31,11 +31,11 @@ def handle_social_users(sender, instance, created, **kwargs):
                     verification_key=key_gen,
                     user=instance
                 ).save()
-                send_mail(
+                url = f'{settings.FRONT_URL}potrdi-naslov/{key_gen}/'
+                send_email(
                     'Potrdi prijavo za glas ljudstva.',
-                    f'S klikom na povezavo potrdi',
-                    settings.FROM_EMAIL,
-                    [instance.email],
-                    fail_silently=False,
-)
+                    instance.email,
+                    'emails/email_verification.html',
+                    {'url': url}
+                )
                 break
