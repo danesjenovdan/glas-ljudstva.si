@@ -29,7 +29,7 @@
     <div class="comments">
         <div class="row">
             <div class="col">
-                <p>Komentarji naj bodo konstruktivni in prijazni, saj nam bodo lahko tako pomagali pri pripravi jasnih zahtev in pričakovanj, ki jih bomo predstavili strankam. Razpravo bomo moderirali, zato neprimerni zapisi ne bodo ugledali luči sveta.</p>
+
             </div>
         </div>
         {% get_comment_list for demand as comments %}
@@ -46,6 +46,7 @@
         <div class="col">
             {% if user.is_authenticated %}
                 {% get_comment_form for demand as form %}
+                <p><i>Komentarji naj bodo konstruktivni in prijazni, saj nam bodo lahko tako pomagali pri pripravi jasnih zahtev in pričakovanj, ki jih bomo predstavili strankam. Razpravo bomo moderirali, zato neprimerni zapisi ne bodo ugledali luči sveta.</i></p>
                 <form action="{% comment_form_target %}" method="POST">
                 {% csrf_token %}
                 {{ form.comment }}
@@ -57,7 +58,8 @@
                 <input type="submit" value="Komentiraj" id="id_submit" />
                 </form>
             {% else %}
-                <p>Za komentiranje se moraš prijaviti ali registrirati.</p>
+                <h4>Za komentiranje se moraš prijaviti ali registrirati.</h4>
+                <p><i>Komentarji naj bodo konstruktivni in prijazni, saj nam bodo lahko tako pomagali pri pripravi jasnih zahtev in pričakovanj, ki jih bomo predstavili strankam. Razpravo bomo moderirali, zato neprimerni zapisi ne bodo ugledali luči sveta.</i></p>
                 <form method="POST" action="/registracija/" class="form-group">
                     {% csrf_token %}
                     {{ form.as_p }}

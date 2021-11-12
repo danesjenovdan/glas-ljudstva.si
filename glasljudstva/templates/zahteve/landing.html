@@ -20,14 +20,13 @@
             </p>
         </div>
     </div>
-    <!-- <div class="sub-header">
-        <h2>100 ZAHTEV</h2>
-        <p>Zahteve pripravljamo do 31. 12. 2021.</p>
-    </div> -->
     <div class="divider"></div>
+    <div class="sub-header">
+        <h1>ZAHTEVE</h1>
+    </div>
     {% for wg in work_groups %}
     <div class="working-group-header">
-        <span></span>
+        <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
         <a href="/{{wg.id}}"><h1>{{ wg.name }}</h1></a>
     </div>
     <div class="masonry">
