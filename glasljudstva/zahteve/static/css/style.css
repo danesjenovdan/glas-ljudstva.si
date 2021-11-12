@@ -200,7 +200,7 @@ a {
 .intro-text {
     color: #000000;
     font-family: 'linlibertine';
-    font-size: 20px;
+    font-size: 24px;
     line-height: 33.33px;
     text-align: left;
 
@@ -473,4 +473,9 @@ button {
     margin-bottom: -20px;
     font-family: 'linlibertine', serif;
     font-weight: normal;
+}
+
+.demand-description {
+    font-size: 22px;
+    margin-top: 0;
 }

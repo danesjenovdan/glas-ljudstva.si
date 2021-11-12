@@ -8,6 +8,9 @@ from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword
 from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
 
 # Create your views here.
+def after_registration(request):
+    return render(request, 'registration/thank_you.html')
+
 def landing(request):
     work_groups = WorkGroup.objects.all().order_by('?')
     for wg in work_groups:

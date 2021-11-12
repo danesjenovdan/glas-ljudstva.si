@@ -25,7 +25,7 @@ def copy_date_fields(sender, **kwargs):
 
 
 @receiver(post_save, sender=User)
-def handle_social_users(sender, instance, created, **kwargs):
+def email_confirmation(sender, instance, created, **kwargs):
     if created:
         not_unique = True
         while not_unique:
@@ -46,7 +46,7 @@ def handle_social_users(sender, instance, created, **kwargs):
                 break
 
 @receiver(post_save, sender=ResetPassword)
-def handle_social_users(sender, instance, created, **kwargs):
+def password_reset(sender, instance, created, **kwargs):
     if created:
         not_unique = True
         while not_unique:
