@@ -12,3 +12,19 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = ["email", "password", 'newsletter_permission']
 
+
+class RequestRestorePasswordForm(forms.ModelForm):
+    email = forms.CharField(widget=widgets.EmailInput, label='E-naslov')
+
+    class Meta:
+        model = User
+        fields = ["email"]
+
+
+class RestorePasswordForm(forms.ModelForm):
+    password = forms.CharField(widget=widgets.PasswordInput, label='Geslo')
+
+    class Meta:
+        model = User
+        fields = ["password"]
+

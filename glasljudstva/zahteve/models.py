@@ -33,4 +33,14 @@ class EmailVerification(Timestampable):
     verification_key = models.CharField(max_length=100)
     newsletter_permission = models.BooleanField(default=False)
 
+
+class ResetPassword(Timestampable):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='reset_passwords'
+    )
+    key = models.CharField(max_length=100)
+
+
 moderator.register(Demand, DemandModerator)
