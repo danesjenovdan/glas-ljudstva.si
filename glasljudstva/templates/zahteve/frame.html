@@ -20,7 +20,7 @@
     <meta property="og:description"
           content="Pripravljamo 100 zahtev za izboljšanje družbene, politične, ekonomske in okoljske situacije v Sloveniji, ki jih bomo predložili političnim strankam. Pridruži se nam!">
     {% endif %}
-    <meta property="og:image" content="https://glas-ljudstva.sihttps://s3.fr-par.scw.cloud/djnd/glas-ljudstva/glas-ljudstva-og.png">
+    <meta property="og:image" content="{% static 'img/glas-ljudstva-og.png' %}">
 
 
     <meta name="twitter:card" content="summary_large_image">
@@ -35,7 +35,7 @@
     <meta name="twitter:description"
           content="Pripravljamo 100 zahtev za izboljšanje družbene, politične, ekonomske in okoljske situacije v Sloveniji, ki jih bomo predložili političnim strankam. Pridruži se nam!">
     {% endif %}
-    <meta name="twitter:image" content="https://glas-ljudstva.sihttps://s3.fr-par.scw.cloud/djnd/glas-ljudstva/glas-ljudstva-og.png">
+    <meta name="twitter:image" content="{% static 'img/glas-ljudstva-og.png' %}">
 
     <meta name="author" content="Glas ljudstva">
     {% if og_description %}
@@ -47,11 +47,11 @@
 
     <title>Glas ljudstva</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/favicon-16x16.png">
-    <link rel="manifest" href="https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/site.webmanifest">
-    <link rel="mask-icon" href="https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 
@@ -79,11 +79,11 @@
         <div class="row">
             <div class="col col-third">
                 <p class="organisations-description">Glas ljudstva trenutno sestavlja <span
-                        id="number">73</span>&nbsp;organizacij in civilnodružbenih iniciativ.</p>
+                        id="number">76</span>&nbsp;organizacij in civilnodružbenih iniciativ.</p>
             </div>
             <div class="col">
                 <p class="card organisations">
-                    Zavod Global, Društvo SMETUMET so.p., Transparency International Slovenia, Center za slovensko književnost, Danes je nov dan, Protestival, Vitra Cerknica, Kulturni center Danilo Kiš, Ljubljana, Destilator klub, Zavod za kulturo raznolikosti Open, Društvo informacijski center Legebitra, Slovenska filantropija, Društvo Akademija za družbeno odgovornost, Društvo Gibanje za trajnostni razvoj Slovenije - TRS, sindikat taksistov pri SDPZ, IPoP - Inštitut za politike prostora, PIC - pravni center za varstvo človekovih pravic in okolja , Aktiv delavk in delavcev v kulturi, Odbor za pravično in solidarno družbo, IŠSP - Inštitut za študije stanovanj in prostora, Društvo za Združene narode za Slovenijo , Društvo ŠKUC, Inštitut za raziskave in razvoj "Utrip", Amnesty International Slovenije, Forum za enakopraven razvoj, Združenje za državljanski nadzor zdravstvenega varstva -ZaNas , Pekarna Magdalenske mreže Maribor, Inštitut 8. marec, Avanta Largo, Društvo za preučevanje rib Slovenije - DPRS, Zavod Exodos Ljubljana, Mladi za podnebno pravičnost - MZPP, Pravna mreža za varstvo demokracije, Društvo Ženska svetovalnica, Alternativna akademija, Zavod TransAkcija, Mirovni inštitut, Sindikat Mladi plus, Plesni Teater Ljubljana, Društvo UP Jesenice, Društvo Parada ponosa, Društvo za nenasilno komunikacijo, Protestna Ljudska Skupščina, Društvo Ključ - center za boj proti trgovanju z ljudmi, ZAVOD KONC, so.p., Zavod REVIVO, zavod PROJA, Zavod Nefiks , SCCA, Zavod za sodobno umetnost – Ljubljana, Zavezništvo za demokratično in pravično Slovenijo, Forum za demokracijo, Ženski lobi Slovenije, Zavod Tri, Greenpeace Slovenija, Focus, društvo za sonaraven razvoj, Slovenska zveza za javno zdravje, okolje in tobačno kontrolo, Zavod Državljan D, Združenje ROVO, Kandijska cesta 36, 8000 Novo mesto, Društvo Humanitas - center za globalno učenje in sodelovanje, Maska Ljubljana, Umanotera, Slovenska fundacija za trajnostni razvoj, Zavod Krog, Društvo SOS telefon za ženske in otroke - žrtve nasilja, PIU, zavod za vizualno umetnost, Organizacija za participatorno družbo, Društvo Mestni Center Mobilnosti, OPRO, zavod za aplikativne študije, Društvo DIH - Enakopravni pod mavrico, Ustanova Fundacija Sonda, GT22, Iniciativa mestni zbor Maribor, Društvo Prostor, gibanje Koga bomo volili.
+                    Zavod Global, Društvo SMETUMET so.p., Transparency International Slovenia, Center za slovensko književnost, Danes je nov dan, Protestival, Vitra Cerknica, Kulturni center Danilo Kiš, Ljubljana, Destilator klub, Zavod za kulturo raznolikosti Open, Društvo informacijski center Legebitra, Slovenska filantropija, Društvo Akademija za družbeno odgovornost, Društvo Gibanje za trajnostni razvoj Slovenije - TRS, sindikat taksistov pri SDPZ, IPoP - Inštitut za politike prostora, PIC - pravni center za varstvo človekovih pravic in okolja, Aktiv delavk in delavcev v kulturi, Odbor za pravično in solidarno družbo, IŠSP - Inštitut za študije stanovanj in prostora, Društvo za Združene narode za Slovenijo, Društvo ŠKUC, Inštitut za raziskave in razvoj "Utrip", Amnesty International Slovenije, Forum za enakopraven razvoj, Združenje za državljanski nadzor zdravstvenega varstva -ZaNas, Pekarna Magdalenske mreže Maribor, Inštitut 8. marec, Avanta Largo, Društvo za preučevanje rib Slovenije - DPRS, Zavod Exodos Ljubljana, Mladi za podnebno pravičnost - MZPP, Pravna mreža za varstvo demokracije, Društvo Ženska svetovalnica, Alternativna akademija, Zavod TransAkcija, Mirovni inštitut, Sindikat Mladi plus, Plesni Teater Ljubljana, Društvo UP Jesenice, Društvo Parada ponosa, Društvo za nenasilno komunikacijo, Protestna Ljudska Skupščina, Društvo Ključ - center za boj proti trgovanju z ljudmi, ZAVOD KONC, so.p., Zavod REVIVO, zavod PROJA, Zavod Nefiks, SCCA, Zavod za sodobno umetnost – Ljubljana, Zavezništvo za demokratično in pravično Slovenijo, Forum za demokracijo, Ženski lobi Slovenije, Zavod Tri, Greenpeace Slovenija, Focus, društvo za sonaraven razvoj, Slovenska zveza za javno zdravje, okolje in tobačno kontrolo, Zavod Državljan D, Združenje ROVO, Društvo Humanitas - center za globalno učenje in sodelovanje, Maska Ljubljana, Umanotera, Slovenska fundacija za trajnostni razvoj, Zavod Krog, Društvo SOS telefon za ženske in otroke - žrtve nasilja, PIU, zavod za vizualno umetnost, Organizacija za participatorno družbo, Društvo Mestni Center Mobilnosti, OPRO, zavod za aplikativne študije, Društvo DIH - Enakopravni pod mavrico, Ustanova Fundacija Sonda, GT22, Iniciativa mestni zbor Maribor, Društvo Prostor, gibanje Koga bomo volili, Ekologi brez meja, Zavod Voluntariat - SCI Slovenia, Emanat, zavod za razvoj in afirmacijo plesa in sodobne umetnosti.
                 </p>
             </div>
         </div>
@@ -119,5 +119,5 @@
             </div>
         </div>
     </div>
-    <script src="https://s3.fr-par.scw.cloud/djnd/glas-ljudstva/script.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
