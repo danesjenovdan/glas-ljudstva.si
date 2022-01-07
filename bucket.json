@@ -1,0 +1,9 @@
+{
+    "CORSRules": [{
+        "AllowedOrigins": ["https://glas-ljudstva.lb.djnd.si", "https://glas-ljudstva.si", "https://www.glas-ljudstva.si", "https://demo.glas-ljudstva.si"],
+        "AllowedHeaders": ["*"],
+        "AllowedMethods": ["GET", "HEAD", "POST", "PUT", "DELETE"],
+        "MaxAgeSeconds": 3000,
+        "ExposeHeaders": ["Etag"]
+    }]
+}

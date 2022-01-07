@@ -3,40 +3,79 @@
 {% load comments %}
 
 {% block content %}
-    <div class="row">
-        <div class="col">
-            <p class="intro-text">V preteklem letu in pol se je jasno pokazalo, da sta normalno delujoča
-                parlamentarna demokracija in zastopanje interesov ljudstva s strani političnih strank v Sloveniji
-                daleč od samoumevnega. Priča smo ogrožanju narave in voda, napadom na neodvisnost medijev, kršitvam
-                ustave, prekinitvi socialnega dialoga ter nestrokovnim odločitvam in kadrovanju na skoraj vseh
-                področjih družbe.
-            </p>
-            <p class="intro-text">Zato organizacije, združene v Glas ljudstva, predstavljamo svoje zahteve, s katerimi politike pozivamo k odgovornejšem delovanju ter izboljšanju družbene, politične, ekonomske in okoljske situacije v državi. Postopek priprave zahtev še poteka in ker se zavedamo, da lahko najboljše predloge pripravimo le s sodelovanjem strokovne in zainteresirane javnosti, vse nevladne in civilnodružbene organizacije ter posameznice in posameznike vabimo, da se nam pridružijo na tej poti. Ko bomo skupaj definirali vseh 100 zahtev, jih bomo predložili strankam ter jih pozvali, da se do njih jasno opredelijo.
-            </p>
+<style>
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        padding-top: 30px;
+        height: 0;
+        overflow: hidden;
+        display: block;
+        position: relative;
+        width: 100%;
+    }
 
-            <p class="intro-text">Pričujoče spletno mesto bo v predvolilnem letu beležilo strankarske zaveze in
-                nudilo vse potrebne praktične informacije, da se lahko volitev udeležimo informirano in čim bolj
-                množično.
-            </p>
+    .video-container iframe,
+    .video-container object,
+    .video-container embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+<div class="row">
+    <div class="col">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/IJ8yCCYNCI0?rel=0&modestbranding=1&autoplay=true"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen="allowfullscreen"></iframe>
         </div>
     </div>
-    <div class="divider"></div>
-    <div class="sub-header">
-        <h1>ZAHTEVE V PRIPRAVI</h1>
+</div>
+<div class="row">
+    <div class="col">
+        <p class="intro-text">V preteklem letu in pol se je jasno pokazalo, da sta normalno delujoča
+            parlamentarna demokracija in zastopanje interesov ljudstva s strani političnih strank v Sloveniji
+            daleč od samoumevnega. Priča smo ogrožanju narave in voda, napadom na neodvisnost medijev, kršitvam
+            ustave, prekinitvi socialnega dialoga ter nestrokovnim odločitvam in kadrovanju na skoraj vseh
+            področjih družbe.
+        </p>
+        <p class="intro-text">Zato organizacije, združene v Glas ljudstva, predstavljamo svoje zahteve, s katerimi
+            politike pozivamo k odgovornejšem delovanju ter izboljšanju družbene, politične, ekonomske in okoljske
+            situacije v državi. Postopek priprave zahtev še poteka in ker se zavedamo, da lahko najboljše predloge
+            pripravimo le s sodelovanjem strokovne in zainteresirane javnosti, vse nevladne in civilnodružbene
+            organizacije ter posameznice in posameznike vabimo, da se nam pridružijo na tej poti. Ko bomo skupaj
+            definirali vseh 100 zahtev, jih bomo predložili strankam ter jih pozvali, da se do njih jasno opredelijo.
+        </p>
+
+        <p class="intro-text">Pričujoče spletno mesto bo v predvolilnem letu beležilo strankarske zaveze in
+            nudilo vse potrebne praktične informacije, da se lahko volitev udeležimo informirano in čim bolj
+            množično.
+        </p>
     </div>
-    {% for wg in work_groups %}
-    <div class="working-group-header">
-        <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
-        <a href="/{{wg.id}}"><h1>{{ wg.name }}</h1></a>
-    </div>
-    <div class="masonry">
-        {% for demand in wg.demands %}
-        <a href="/zahteve/{{demand.id}}" class="masonry-card">
-            <div class="masonry-card-body">
-                <h1>{{ demand.title }}</h1>
-                <!-- <p>{{ demand.description }}</p> -->
-            </div>
-            <!-- <div class="masonry-card-footer">
+</div>
+<div class="divider"></div>
+<div class="sub-header">
+    <h1>ZAHTEVE V PRIPRAVI DO 31. 12. 2021</h1>
+</div>
+{% for wg in work_groups %}
+<div class="working-group-header">
+    <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+    <a href="/{{wg.id}}">
+        <h1>{{ wg.name }}</h1>
+    </a>
+</div>
+<div class="masonry">
+    {% for demand in wg.demands %}
+    <a href="/zahteve/{{demand.id}}" class="masonry-card">
+        <div class="masonry-card-body">
+            <h1>{{ demand.title }}</h1>
+            <!-- <p>{{ demand.description }}</p> -->
+        </div>
+        <!-- <div class="masonry-card-footer">
                 <div class="comment">
                     <svg class="i-want-to-record-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456.78 456.78" style="display: block;">
                         <defs>
@@ -83,19 +122,19 @@
                     <h3>Komentiraj</h3>
                 </div>
             </div> -->
-        </a>
-        {% endfor %}
-    </div>
+    </a>
     {% endfor %}
-    <div class="row">
-        <div class="col">
-            <!-- <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col">
+        <!-- <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                 ullamco
                 laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
                 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
                 sunt
                 in culpa qui officia deserunt mollit anim id est laborum.</p> -->
-        </div>
     </div>
+</div>
 {% endblock %}

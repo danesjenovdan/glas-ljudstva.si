@@ -22,7 +22,7 @@ env = dict(
     DATABASE_HOST=os.getenv('DJANGO_DATABASE_HOST', 'localhost'),
     DATABASE_PORT=os.getenv('DJANGO_DATABASE_PORT', '5432'),
     DATABASE_NAME=os.getenv('DJANGO_DATABASE_NAME', 'glasljudstva'),
-    DATABASE_USER=os.getenv('DJANGO_DATABASE_USER', 'postgres'),
+    DATABASE_USER=os.getenv('DJANGO_DATABASE_USERNAME', 'postgres'),
     DATABASE_PASSWORD=os.getenv('DJANGO_DATABASE_PASSWORD', 'postgres'),
     STATIC_ROOT=os.getenv('DJANGO_STATIC_ROOT', os.path.join(BASE_DIR, '../static')),
     STATIC_URL=os.getenv('DJANGO_STATIC_URL_BASE', '/static/'),
@@ -50,7 +50,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['localhost', 'glas-ljudstva.lb.djnd.si', 'glas-ljudstva.si', 'demo.glas-ljudstva.si']
+ALLOWED_HOSTS = ['localhost', 'glas-ljudstva.lb.djnd.si', 'glas-ljudstva.si', 'demo.glas-ljudstva.si', 'www.glas-ljudstva.si']
 
 
 # Application definition

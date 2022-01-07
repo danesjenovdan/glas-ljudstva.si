@@ -30,11 +30,11 @@ spec:
                 name: glas-ljudstva-secrets
           resources:
             requests:
-              memory: 1Gi
-              cpu: 200m
+              memory: 100Mi
+              cpu: 100m
             limits:
               memory: 1Gi
-              cpu: 200m
+              cpu: 100m
         - name: migrate
           image: glas-ljudstva
           command:
@@ -49,11 +49,11 @@ spec:
                 name: glas-ljudstva-secrets
           resources:
             requests:
-              memory: 1Gi
-              cpu: 200m
+              memory: 100Mi
+              cpu: 100m
             limits:
-              memory: 1Gi
-              cpu: 200m
+              memory: 100Mi
+              cpu: 100m
       containers:
         - name: glas-ljudstva
           image: glas-ljudstva
@@ -80,8 +80,8 @@ spec:
               value: glasljudstva.k8s_settings
           resources:
             requests:
-              memory: 1Gi
-              cpu: 500m
+              memory: 100Mi
+              cpu: 100m
             limits:
-              memory: 1Gi
-              cpu: 500m
+              memory: 100Mi
+              cpu: 100m
