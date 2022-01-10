@@ -57,4 +57,25 @@ class Newsletter(Timestampable):
     )
     permission = models.BooleanField(default=False, blank=True)
 
+
+class Party(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+    )
+
+    def  __str__(self):
+        return self.user.first_name
+
+
+class DemandAnswer(models.Model):
+    agree_with_demand = models.BooleanField(null=True, blank=True)
+    comment = models.TextField(blank=True, default='')
+    party = models.ForeignKey('Party', on_delete=models.CASCADE)
+    demand = models.ForeignKey('Demand', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.demand.title + ", " + self.party.user.first_name
+
+
 moderator.register(Demand, DemandModerator)
