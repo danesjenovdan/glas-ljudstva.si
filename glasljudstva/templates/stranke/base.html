@@ -1,0 +1,44 @@
+{% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
+                </div>
+            </div>
+            <div class="row stranke">
+                <div class="sidebar">
+                    <div {% if "navodila" == category_id %}class="active" {% endif %}>
+                        <a href="/stranke/navodila">Navodila</a>
+                    </div>
+                    {% for category in categories %}
+                        <div {% if category.id == category_id %}class="active" {% endif %}>
+                            <a href="/stranke/{{ category.id }}">{{ category.name }}</a>
+                        </div>
+                    {% endfor %}
+                    <div {% if "zakljucek" == category_id %}class="active" {% endif %}>
+                        <a href="/stranke/oddaja">Zaključek</a>
+                    </div>
+                </div>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>

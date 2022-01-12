@@ -1,0 +1,58 @@
+{% extends "./base.html" %}
+
+{% block content %}
+
+<div class="demand-quiz">
+    <form method="POST" id="zahteve">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        
+        {% for form in forms %}
+        <div class="demand-answer-form">
+            <h1>{{ forloop.counter }}. {{ form.title }}</h1>
+
+            <p>{{ form.description }}</p>
+            
+            <div class="form-agree-radio">
+                <label for="id_form-{{ forloop.counter0 }}-agree_with_demand_0">
+                    <input 
+                        type="radio" 
+                        name="form-{{ forloop.counter0 }}-agree_with_demand" 
+                        value="True" 
+                        id="id_form-{{ forloop.counter0 }}-agree_with_demand_0" {% if form.agree_with_demand == True %} checked {% endif %}
+                        onclick="party_quiz_radio_click(this);"
+                    >
+                    DA
+                </label>
+            </div>
+            <div class="form-agree-radio">
+                <label for="id_form-{{ forloop.counter0 }}-agree_with_demand_1">
+                    <input 
+                        type="radio" 
+                        name="form-{{ forloop.counter0 }}-agree_with_demand" 
+                        value="False" 
+                        id="id_form-{{ forloop.counter0 }}-agree_with_demand_1" {% if form.agree_with_demand == False %} checked {% endif %}
+                        onclick="party_quiz_radio_click(this);"
+                    >
+                    NE
+                </label>
+            </div>
+            
+            <div class="form-comment {% if form.agree_with_demand != False %}hidden{% endif %}">
+                <h4>Če želite, lahko dodate komentar:</h4>
+                <textarea name="form-{{ forloop.counter0 }}-comment" cols="40" rows="10" id="id_form-{{ forloop.counter0 }}-comment">{{ form.comment }}</textarea>
+            </div>
+
+            <input type="hidden" name="form-{{ forloop.counter0 }}-demand" id="id_form-{{ forloop.counter0 }}-demand" value="{{ form.demand }}">
+            <input type="hidden" name="form-{{ forloop.counter0 }}-party" id="id_form-{{ forloop.counter0 }}-party" value="{{ form.party }}">
+
+        </div>
+        
+        {% endfor %}
+        <div class="button-wrapper">
+            <button class="submit" type="submit">Shrani in nadaljuj</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

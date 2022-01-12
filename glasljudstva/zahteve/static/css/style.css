@@ -46,6 +46,54 @@
     font-style: normal;
 }
 
+/* @font-face {
+    font-family: 'freesansbold';
+    src: url('../fonts/freesansbold.woff2') format('woff2'),
+        url('../fonts/freesansbold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freesansboldoblique';
+    src: url('../fonts/freesansboldoblique.woff2') format('woff2'),
+        url('../fonts/freesansboldoblique.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine';
+    src: url('../fonts/linlibertine.woff2') format('woff2'),
+        url('../fonts/linlibertine.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine-bold';
+    src: url('../fonts/linlibertine-bold.woff2') format('woff2'),
+        url('../fonts/linlibertine-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine-italic';
+    src: url('../fonts/linlibertine-italic.woff2') format('woff2'),
+        url('../fonts/linlibertine-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linlibertine-bold-italic';
+    src: url('../fonts/linlibertine-bold-italic.woff2') format('woff2'),
+        url('../fonts/linlibertine-bold-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+} */
+
 body {
     padding: 0;
     font-family: 'freesansbold', sans-serif;
@@ -494,4 +542,107 @@ button {
 .demand-description {
     font-size: 22px;
     margin-top: 0;
+}
+
+/* STRANKE KVIZ SUBPAGE */
+.stranke {
+    margin-top: 20px;
+}
+.stranke .sidebar {
+    min-width: 300px;
+    max-width: 300px;
+    margin-right: 30px;
+}
+.stranke .sidebar > div {
+    padding: 10px;
+}
+.stranke .sidebar > div.active {
+    border: #ed1c24 2px solid;
+    background-color: #f3f3f3;
+}
+.stranke .sidebar a {
+    font-size: 20px;
+    font-weight: 400;
+    text-decoration: none;
+}
+.stranke .sidebar a:hover {
+    text-decoration: underline;
+}
+.demand-quiz {
+    /* border-left: black 2px solid; */
+    padding-left: 30px;
+    flex-grow: 1;
+}
+.demand-quiz input[type="radio"] {
+    width: unset;
+    height: unset;
+}
+.demand-quiz textarea {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: 'linlibertine', serif;
+}
+.demand-quiz h4 {
+    margin-bottom: 0;
+}
+.demand-quiz .button-wrapper {
+    padding: 20px 0;
+}
+.demand-quiz button {
+    height: unset;
+    padding: 10px 20px;
+    margin-top: 0;
+}
+.demand-answer-form:not(:first-of-type) {
+    margin-top: 50px;
+}
+.form-comment {
+    margin: 30px 0;
+}
+.form-comment.hidden {
+    display: none;
+}
+.form-agree-radio {
+    margin: 5px 0;
+}
+.form-agree-radio input {
+    margin: 0 5px 0 0;
+}
+.form-agree-radio label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+}
+.quiz-body {
+    padding-left: 30px;
+    flex-grow: 1;
+}
+.quiz-body .button-wrapper {
+    text-align: center;
+    padding: 20px 0;
+}
+.quiz-body .button {
+    border: 2px solid #ed1c24;
+    font-family: 'freesansboldoblique';
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+.demand-quiz p,
+.quiz-body p {
+    font-size: 18px;
+}
+.summary h3 {
+    color: #ed1c24;
+}
+.summary h5 {
+    margin-bottom: 10px;
+}
+.summary p:nth-of-type(2) {
+    font-weight: bold;
+}
+.summary p:nth-of-type(3) {
+    margin-top: 0;
+    margin-bottom: 30px;
 }

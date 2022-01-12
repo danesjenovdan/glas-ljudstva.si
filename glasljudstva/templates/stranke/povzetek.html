@@ -1,0 +1,27 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="quiz-body">
+    {% for wg in answers_by_workgroup %}
+        <div class="working-group-header">
+            <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+            <h1>{{ wg.workgroup }}</h1>
+        </div>
+        {% for answer in wg.answers %}
+            <div class="summary">
+                <h3>{{ forloop.counter }}. {{ answer.demand.title }}</h3>
+                <p>{{ answer.demand.description }}</p>
+                <p>{% if answer.agree_with_demand %}DA{% else %}NE{% endif %}</p>
+                {% if answer.comment %}
+                    <h5>Komentar:</h6>
+                    <p>{{ answer.comment }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <p>Podpis stranke:</p>
+    <p>___________________________</p>
+</div>
+{% endblock %}

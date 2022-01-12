@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import widgets
 from django.contrib.auth.models import User
+from .models import DemandAnswer
 
 
 class RegisterForm(forms.ModelForm):
@@ -36,3 +37,9 @@ class RestorePasswordForm(forms.ModelForm):
         model = User
         fields = ["password"]
 
+
+class DemandAnswerForm(forms.ModelForm):
+    class Meta:
+        model = DemandAnswer
+        fields = ['agree_with_demand', 'comment', 'demand', 'party']
+        widgets = {'agree_with_demand': forms.RadioSelect(choices=[(True, 'da'), (False, 'ne')]), 'demand': forms.HiddenInput(), 'party': forms.HiddenInput()}

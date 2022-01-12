@@ -63,6 +63,7 @@ class Party(models.Model):
         User,
         on_delete=models.CASCADE,
     )
+    finished_quiz = models.BooleanField(default=False)
 
     def  __str__(self):
         return self.user.first_name
@@ -76,6 +77,11 @@ class DemandAnswer(models.Model):
 
     def __str__(self):
         return self.demand.title + ", " + self.party.user.first_name
+
+    class Meta:    
+        constraints = [
+            models.UniqueConstraint(fields= ['party', 'demand'], name='unique_party_demand'),
+        ]
 
 
 moderator.register(Demand, DemandModerator)

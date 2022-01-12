@@ -335,3 +335,11 @@ $('#submit-email').on('click', function () {
       alert('Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama pošlji mail na vsi@danesjenovdan.si.')
     });
 });
+
+function party_quiz_radio_click(myRadio) {
+  if (myRadio.value == "True") {
+    $(myRadio).parents(".demand-answer-form").find(".form-comment").addClass("hidden")
+  } else {
+    $(myRadio).parents(".demand-answer-form").find(".form-comment").removeClass("hidden")
+  }
+}

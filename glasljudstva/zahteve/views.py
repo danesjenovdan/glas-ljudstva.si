@@ -3,8 +3,14 @@ from django.contrib.auth.models import User
 from django.views import View
 from django.http import HttpResponseNotFound
 from django.contrib.auth import authenticate, login
+from django import forms
+from django.core.exceptions import PermissionDenied
 
-from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword, Newsletter
+
+from .models import DemandAnswer
+from .forms import DemandAnswerForm
+
+from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword, Newsletter, Party
 from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
 
 # Create your views here.
@@ -39,6 +45,143 @@ def demand(request, demand_id):
         return HttpResponseNotFound()
 
     return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
+
+
+class PartyDemand(View):
+    def get(self, request, category_id):
+
+        # if user is not a party, restrict access
+        try:
+            party = Party.objects.get(user=request.user)
+        except:
+            raise PermissionDenied
+        # ---------------------------------------
+
+        # for sidebar menu
+        categories = WorkGroup.objects.all().order_by('id')
+
+        category = WorkGroup.objects.get(pk=category_id)
+        demands = Demand.objects.filter(workgroup=category).order_by('id')
+
+        DemandAnswersFormSet = forms.formset_factory(DemandAnswerForm, extra=len(demands))
+        demands_formset = DemandAnswersFormSet()
+
+        f = []
+
+        for demand in demands:
+            da_form = {
+                'demand': demand.pk,
+                'party': party.pk,
+                'agree_with_demand': None,
+                'comment': '',
+                'title': demand.title,
+                'description': demand.description
+            }
+
+            try:
+                demand_answer = DemandAnswer.objects.get(demand=demand.pk, party=party.pk)
+                da_form['agree_with_demand'] = demand_answer.agree_with_demand
+                da_form['comment'] = demand_answer.comment
+            
+            except:
+                pass
+
+            finally:
+                f.append(da_form)
+
+
+        return render(request, 'stranke/stranke.html', context={'categories': categories, 'category_id': category_id, 'forms': f, 'formset': demands_formset})
+
+    def post(self, request, category_id):
+
+        # if user is not a party, restrict access
+        try:
+            party = Party.objects.get(user=request.user)
+        except:
+            raise PermissionDenied
+        # ---------------------------------------
+
+        DemandAnswersFormSet = forms.formset_factory(DemandAnswerForm)
+        formset = DemandAnswersFormSet(request.POST or None)
+
+        for form in formset:
+            if form.is_valid():
+                form.save()
+            else:
+                da = DemandAnswer.objects.get(demand=form['demand'].value(), party=party.pk)
+                da.comment = form['comment'].value()
+                da.agree_with_demand = form['agree_with_demand'].value()
+                da.save()
+
+        # TODO: handle errors
+        
+        next = WorkGroup.objects.filter(id__gt=category_id).order_by('id').first()
+        if next:
+            return redirect(f'/stranke/{next.id}')
+        else:
+            return redirect('/stranke/oddaja') 
+
+
+def party_instructions(request):
+
+    # if user is not a party, restrict access
+    try:
+        party = Party.objects.get(user=request.user)
+    except:
+        raise PermissionDenied
+    # ---------------------------------------
+
+    categories = WorkGroup.objects.all().order_by('id')
+
+    next = WorkGroup.objects.all().order_by('id').first().id
+
+    return render(request, 'stranke/navodila.html', context={'categories': categories, 'category_id': 'navodila', 'next': next})
+
+
+def party_finish(request):
+
+    # if user is not a party, restrict access
+    try:
+        party = Party.objects.get(user=request.user)
+    except:
+        raise PermissionDenied
+    # ---------------------------------------
+
+    categories = WorkGroup.objects.all().order_by('id')
+
+    allow_submit = len(DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False)) == len(Demand.objects.all())
+    finished_quiz = party.finished_quiz
+
+    return render(request, 'stranke/zakljucek.html', context={'categories': categories, 'category_id': 'zakljucek', 'allow_submit': allow_submit, 'finished_quiz': finished_quiz})
+
+
+def party_summary(request):
+
+    # if user is not a party, restrict access
+    try:
+        party = Party.objects.get(user=request.user)
+    except:
+        raise PermissionDenied
+    # ---------------------------------------
+
+    party = Party.objects.get(user=request.user)
+
+    categories = WorkGroup.objects.all().order_by('id')
+
+    answers_by_workgroup = []
+
+    party_answers = DemandAnswer.objects.filter(party=party)
+
+    for category in categories:
+        demands = Demand.objects.filter(workgroup=category)
+        answers = party_answers.filter(demand__in=demands)
+        answers_by_workgroup.append({
+            "workgroup": category.name,
+            "answers": answers
+        })
+
+    return render(request, 'stranke/povzetek.html', context={'answers_by_workgroup': answers_by_workgroup})
+
 
 def verify_email(request, token):
     verification = get_object_or_404(EmailVerification, verification_key=token)
