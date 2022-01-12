@@ -259,10 +259,12 @@ a {
     font-size: 24px;
     line-height: 33.33px;
     text-align: left;
-
     max-width: 700px;
     margin: auto;
     margin-top: 10px;
+}
+.intro-text.working-group-intro {
+    margin: 0;
 }
 
 .card {
@@ -352,6 +354,29 @@ a {
     background-repeat: no-repeat;
     background-size: contain;
 }
+.divider.divider-left {
+    background-position: left center;
+}
+.divider.working-group {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.divider-small {
+    border-bottom: 2px solid black;
+    width: 300px;
+    margin: 50px 0;
+}
+
+.grey-box-text {
+    margin: 40px 0;
+}
+.grey-box-text span {
+    display: inline-block;
+    background-color: #f3f3f3;
+    padding: 16px;
+    font-family: 'linlibertine', sans-serif;
+}
 
 .working-group-header {
     display: flex;
@@ -380,6 +405,13 @@ a {
     margin-left: 15px;
     color: black;
     /* text-decoration: underline; */
+}
+
+.working-group-header.working-group {
+    margin-top: 30px;
+}
+.working-group-header.working-group h1 {
+    font-size: 32px;
 }
 
 .organisations-description {
@@ -412,9 +444,29 @@ a {
 }
 
 .message {
-    border: 3px solid #ed1c24;
-    padding: 28px;
+    border: 2px solid #ed1c24;
+    background-color: #f3f3f3;
+    padding: 28px 24px;
     width: 100%;
+}
+.message h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-family: 'linlibertine-bold', sans-serif;
+    font-size: 28px;
+    color: #ed1c24;
+}
+.message p {
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.5;
+}
+.message p:last-child {
+    margin-top: 24px;
+}
+.message a {
+    text-decoration: none;
+    font-family: 'linlibertine-bold', sans-serif;
 }
 
 .footer {

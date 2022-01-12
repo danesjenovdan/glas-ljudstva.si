@@ -3,17 +3,22 @@
 {% load comments %}
 
 {% block content %}
-    <div class="working-group-header">
-        <span></span>
-        <a href="/{{delovna_skupina.id}}"><h1>{{ delovna_skupina.name }}</h1></a>
+    <div class="divider divider-left working-group"></div>
+    <div class="working-group-header working-group">
+        <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+        <h1>{{ delovna_skupina.name }}</h1>
+    </div>
+    <div class="grey-box-text">
+       <span>Delovna skupina: {{ delovna_skupina.name }}</span>
     </div>
     <div class="row">
         <div class="col">
-            <p class="intro-text">
+            <p class="intro-text working-group-intro">
                 {{ delovna_skupina.description }}
             </p>
         </div>
     </div>
+    <div class="divider-small"></div>
     <div class="row">
         <div class="col">
             <div class="message">
@@ -23,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="divider"></div>
+    <div class="divider divider-left"></div>
     <div class="masonry">
     {% for demand in demands %}
         <a href="/zahteve/{{demand.id}}" class="masonry-card">
