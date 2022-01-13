@@ -71,7 +71,7 @@ class Party(models.Model):
 
 class DemandAnswer(models.Model):
     agree_with_demand = models.BooleanField(null=True, blank=True)
-    comment = models.TextField(blank=True, default='')
+    comment = models.CharField(blank=True, default='', max_length=1024)
     party = models.ForeignKey('Party', on_delete=models.CASCADE)
     demand = models.ForeignKey('Demand', on_delete=models.CASCADE)
 

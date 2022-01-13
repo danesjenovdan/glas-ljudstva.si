@@ -343,3 +343,55 @@ function party_quiz_radio_click(myRadio) {
     $(myRadio).parents(".demand-answer-form").find(".form-comment").removeClass("hidden")
   }
 }
+
+const initialFormValues = {}
+let submitted = false;
+
+$('.demand-quiz-form').submit(function( event ) {
+  submitted = true  
+});
+
+$( document ).ready(function() {
+  // on ready save all field values
+  // if we are on a page with the form that needs checking
+  if ($('.demand-quiz-form').length > 0) {
+
+    // save values
+    $('.demand-quiz-form').find('input[type="radio"]').each(function() {
+      initialFormValues[$(this).attr('id')] = $(this).is(':checked')
+    });
+    $('.demand-quiz-form').find('textarea').each(function() {
+      initialFormValues[$(this).attr('id')] = $(this).val()
+    });
+
+    // add event listener to warn before leaving page
+    window.addEventListener("beforeunload", (e) => {
+      if (submitted) {
+        return;
+      }
+
+      let isDirty = false;
+
+      $('.demand-quiz-form').find('input[type="radio"]').each(function() {
+        if (initialFormValues[$(this).attr('id')] != $(this).is(':checked')) {
+          isDirty = true;
+          return;
+        }
+      });
+
+      $('.demand-quiz-form').find('textarea').each(function() {
+        if (!$(this).parent().hasClass('hidden')) {
+          if (initialFormValues[$(this).attr('id')] != $(this).val()) {
+            isDirty = true;
+            return;
+          }
+        }
+      });
+
+      if (isDirty) {
+        e.returnValue = true;
+        return true
+      }
+    });
+  }
+});

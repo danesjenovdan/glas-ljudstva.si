@@ -4,7 +4,9 @@ from django.views import View
 from django.http import HttpResponseNotFound
 from django.contrib.auth import authenticate, login
 from django import forms
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, BadRequest
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 from .models import DemandAnswer
@@ -47,15 +49,37 @@ def demand(request, demand_id):
     return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
 
 
-class PartyDemand(View):
-    def get(self, request, category_id):
+@login_required
+def party(request):
+    # if user is not a party, restrict access
+    try:
+        party = Party.objects.get(user=request.user)
+    except:
+        raise PermissionDenied
+    # ---------------------------------------
+    
+    if party.finished_quiz:
+        return redirect("/stranke/povzetek")
+    else:
+        return redirect("/stranke/navodila")
 
+
+class PartyDemand(View):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get(self, request, category_id):
         # if user is not a party, restrict access
         try:
             party = Party.objects.get(user=request.user)
         except:
             raise PermissionDenied
         # ---------------------------------------
+
+        if party.finished_quiz:
+            return redirect("/stranke/povzetek")
 
         # for sidebar menu
         categories = WorkGroup.objects.all().order_by('id')
@@ -89,7 +113,6 @@ class PartyDemand(View):
             finally:
                 f.append(da_form)
 
-
         return render(request, 'stranke/stranke.html', context={'categories': categories, 'category_id': category_id, 'forms': f, 'formset': demands_formset})
 
     def post(self, request, category_id):
@@ -101,6 +124,9 @@ class PartyDemand(View):
             raise PermissionDenied
         # ---------------------------------------
 
+        if party.finished_quiz:
+            raise BadRequest
+
         DemandAnswersFormSet = forms.formset_factory(DemandAnswerForm)
         formset = DemandAnswersFormSet(request.POST or None)
 
@@ -109,8 +135,11 @@ class PartyDemand(View):
                 form.save()
             else:
                 da = DemandAnswer.objects.get(demand=form['demand'].value(), party=party.pk)
-                da.comment = form['comment'].value()
                 da.agree_with_demand = form['agree_with_demand'].value()
+                if da.agree_with_demand == 'True':
+                    da.comment = ''
+                else:
+                    da.comment = form['comment'].value()
                 da.save()
 
         # TODO: handle errors
@@ -122,6 +151,7 @@ class PartyDemand(View):
             return redirect('/stranke/oddaja') 
 
 
+@login_required
 def party_instructions(request):
 
     # if user is not a party, restrict access
@@ -131,6 +161,9 @@ def party_instructions(request):
         raise PermissionDenied
     # ---------------------------------------
 
+    if party.finished_quiz:
+        return redirect("/stranke/povzetek")
+
     categories = WorkGroup.objects.all().order_by('id')
 
     next = WorkGroup.objects.all().order_by('id').first().id
@@ -138,6 +171,7 @@ def party_instructions(request):
     return render(request, 'stranke/navodila.html', context={'categories': categories, 'category_id': 'navodila', 'next': next})
 
 
+@login_required
 def party_finish(request):
 
     # if user is not a party, restrict access
@@ -147,6 +181,9 @@ def party_finish(request):
         raise PermissionDenied
     # ---------------------------------------
 
+    if party.finished_quiz:
+        return redirect("/stranke/povzetek")
+
     categories = WorkGroup.objects.all().order_by('id')
 
     allow_submit = len(DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False)) == len(Demand.objects.all())
@@ -155,6 +192,23 @@ def party_finish(request):
     return render(request, 'stranke/zakljucek.html', context={'categories': categories, 'category_id': 'zakljucek', 'allow_submit': allow_submit, 'finished_quiz': finished_quiz})
 
 
+@login_required
+def party_save(request):
+
+    # if user is not a party, restrict access
+    try:
+        party = Party.objects.get(user=request.user)
+    except:
+        raise PermissionDenied
+    # ---------------------------------------
+
+    party.finished_quiz = True
+    party.save()
+
+    return redirect("/stranke/povzetek")
+
+
+@login_required
 def party_summary(request):
 
     # if user is not a party, restrict access

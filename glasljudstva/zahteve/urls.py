@@ -1,5 +1,5 @@
 from django.urls import include, path
-from zahteve.views import landing, delovna_skupina, demand, verify_email, Registracija, RestorePasswordView, after_registration, PartyDemand, party_instructions, party_finish, party_summary
+from zahteve.views import landing, delovna_skupina, demand, verify_email, Registracija, RestorePasswordView, after_registration, party, PartyDemand, party_instructions, party_finish, party_save, party_summary
 
 
 # Wire up our API using automatic URL routing.
@@ -16,8 +16,10 @@ urlpatterns = [
     path('ponastavi-geslo/<str:parameter>/', RestorePasswordView.as_view()),
     path('ponastavi-geslo/', RestorePasswordView.as_view()),
     path('hvala/', after_registration),
+    path('stranke/', party),
     path('stranke/<int:category_id>/', PartyDemand.as_view()),
     path('stranke/navodila/', party_instructions),
     path('stranke/oddaja/', party_finish),
+    path('stranke/oddaj/', party_save),
     path('stranke/povzetek/', party_summary)
 ]

@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="demand-quiz">
-    <form method="POST" id="zahteve">
+    <form method="POST" class="demand-quiz-form">
         {% csrf_token %}
         {{ formset.management_form }}
         
@@ -39,8 +39,8 @@
             </div>
             
             <div class="form-comment {% if form.agree_with_demand != False %}hidden{% endif %}">
-                <h4>Če želite, lahko dodate komentar:</h4>
-                <textarea name="form-{{ forloop.counter0 }}-comment" cols="40" rows="10" id="id_form-{{ forloop.counter0 }}-comment">{{ form.comment }}</textarea>
+                <h4>Če želite, lahko dodate komentar: (največ 1000 znakov)</h4>
+                <textarea name="form-{{ forloop.counter0 }}-comment" cols="40" rows="10" id="id_form-{{ forloop.counter0 }}-comment" maxlength="1000">{{ form.comment }}</textarea>
             </div>
 
             <input type="hidden" name="form-{{ forloop.counter0 }}-demand" id="id_form-{{ forloop.counter0 }}-demand" value="{{ form.demand }}">
