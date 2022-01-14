@@ -139,10 +139,11 @@ class PartyDemand(View):
                 if da.agree_with_demand == 'True':
                     da.comment = ''
                 else:
-                    da.comment = form['comment'].value()
+                    comment_value = form['comment'].value()
+                    if (len(comment_value) > 1000):
+                        comment_value = comment_value[0:1000]
+                    da.comment = comment_value
                 da.save()
-
-        # TODO: handle errors
         
         next = WorkGroup.objects.filter(id__gt=category_id).order_by('id').first()
         if next:

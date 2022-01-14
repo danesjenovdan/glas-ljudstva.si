@@ -640,10 +640,13 @@ button {
 .demand-quiz .button-wrapper {
     padding: 20px 0;
 }
-.demand-quiz button {
+.demand-quiz .button-wrapper button {
     height: unset;
     padding: 10px 20px;
     margin-top: 0;
+}
+.demand-quiz .button-wrapper button:hover {
+    background-color: #f3f3f3;
 }
 .demand-answer-form:not(:first-of-type) {
     margin-top: 50px;

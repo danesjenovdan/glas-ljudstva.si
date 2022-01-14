@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="demand-quiz">
-    <form method="POST" class="demand-quiz-form">
+    <form method="POST" class="demand-quiz-form" autocomplete="off">
         {% csrf_token %}
         {{ formset.management_form }}
         

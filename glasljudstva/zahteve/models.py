@@ -63,10 +63,11 @@ class Party(models.Model):
         User,
         on_delete=models.CASCADE,
     )
+    party_name = models.TextField(blank=True)
     finished_quiz = models.BooleanField(default=False)
 
     def  __str__(self):
-        return self.user.first_name
+        return self.party_name
 
 
 class DemandAnswer(models.Model):
@@ -76,7 +77,7 @@ class DemandAnswer(models.Model):
     demand = models.ForeignKey('Demand', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.demand.title + ", " + self.party.user.first_name
+        return self.demand.title + ", " + self.party.party_name
 
     class Meta:    
         constraints = [

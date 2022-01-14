@@ -26,12 +26,8 @@
             </div>
         </div>
     </div>
-    <div class="comments">
-        <div class="row">
-            <div class="col">
-
-            </div>
-        </div>
+    <!-- komentarji so skriti -->
+    <!-- <div class="comments">
         {% get_comment_list for demand as comments %}
         {% for comment in comments %}
         <div class="row comment">
@@ -41,8 +37,8 @@
             </div>
         </div>
         {% endfor %}
-    </div>
-    <div class="row">
+    </div> -->
+    <!-- <div class="row">
         <div class="col">
             {% if user.is_authenticated %}
                 {% get_comment_form for demand as form %}
@@ -67,5 +63,5 @@
                 </form>
             {% endif %}
         </div>
-    </div>
+    </div> -->
 {% endblock %}
