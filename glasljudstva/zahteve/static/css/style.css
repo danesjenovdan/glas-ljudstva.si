@@ -612,6 +612,14 @@ button {
     border: #ed1c24 2px solid;
     background-color: #f3f3f3;
 }
+.stranke .category-item {
+    display:flex; 
+    align-items: center; 
+    justify-content: space-between;
+}
+.stranke .category-item svg {
+    min-width: 20px;
+}
 .stranke .sidebar a {
     font-size: 20px;
     font-weight: 400;

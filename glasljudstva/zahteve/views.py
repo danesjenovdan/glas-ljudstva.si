@@ -83,6 +83,8 @@ class PartyDemand(View):
 
         # for sidebar menu
         categories = WorkGroup.objects.all().order_by('id')
+        for cat in categories:
+            cat.check = len(DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False, demand__workgroup=cat)) == len(Demand.objects.filter(workgroup=cat))
 
         category = WorkGroup.objects.get(pk=category_id)
         demands = Demand.objects.filter(workgroup=category).order_by('id')
@@ -166,6 +168,8 @@ def party_instructions(request):
         return redirect("/stranke/povzetek")
 
     categories = WorkGroup.objects.all().order_by('id')
+    for cat in categories:
+        cat.check = len(DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False, demand__workgroup=cat)) == len(Demand.objects.filter(workgroup=cat))
 
     next = WorkGroup.objects.all().order_by('id').first().id
 
@@ -186,6 +190,8 @@ def party_finish(request):
         return redirect("/stranke/povzetek")
 
     categories = WorkGroup.objects.all().order_by('id')
+    for cat in categories:
+        cat.check = len(DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False, demand__workgroup=cat)) == len(Demand.objects.filter(workgroup=cat))
 
     allow_submit = len(DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False)) == len(Demand.objects.all())
     finished_quiz = party.finished_quiz
