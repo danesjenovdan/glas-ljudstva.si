@@ -101,7 +101,8 @@ class PartyDemand(View):
                 'agree_with_demand': None,
                 'comment': '',
                 'title': demand.title,
-                'description': demand.description
+                'description': demand.description,
+                'priority_demand': demand.priority_demand
             }
 
             try:

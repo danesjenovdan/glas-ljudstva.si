@@ -609,6 +609,10 @@ button:hover {
     line-height: 1.25;
     margin-top: 0;
 }
+.demand-description strong {
+    font-family: 'linlibertinebold', serif;
+    font-size: 20px;
+}
 
 /* STRANKE KVIZ SUBPAGE */
 .stranke {
@@ -621,6 +625,7 @@ button:hover {
 }
 .stranke .sidebar > div {
     padding: 10px;
+    border: transparent 2px solid;
 }
 .stranke .sidebar > div.active {
     border: #ed1c24 2px solid;
@@ -633,6 +638,7 @@ button:hover {
 }
 .stranke .category-item svg {
     min-width: 20px;
+    padding-left: 10px;
 }
 .stranke .sidebar a {
     font-size: 20px;
@@ -673,6 +679,9 @@ button:hover {
 .demand-answer-form:not(:first-of-type) {
     margin-top: 50px;
 }
+.demand-answer-form p strong {
+    font-family: 'linlibertine-bold', serif;
+}
 .form-comment {
     margin: 30px 0;
 }
@@ -708,6 +717,9 @@ button:hover {
 }
 .quiz-body .button:hover {
     background-color: #f3f3f3;
+}
+.quiz-body h1 {
+    margin-top: 0;
 }
 .demand-quiz p,
 .quiz-body p {

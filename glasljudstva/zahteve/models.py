@@ -21,6 +21,7 @@ class Demand(Timestampable, Versionable):
     title = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     workgroup = models.ForeignKey('WorkGroup', null=True, blank=True, on_delete=models.SET_NULL)
+    priority_demand = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

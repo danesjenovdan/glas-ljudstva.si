@@ -11,6 +11,10 @@
         <div class="demand-answer-form">
             <h1>{{ forloop.counter }}. {{ form.title }}</h1>
 
+            {% if form.priority_demand %}
+            <p><strong>Ta zahteva mora biti izpolnjena do konca 2022.</strong></p>
+            {% endif %}
+
             <p>{{ form.description }}</p>
             
             <div class="form-agree-radio">
