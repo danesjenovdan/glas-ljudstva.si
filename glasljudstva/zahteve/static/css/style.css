@@ -692,6 +692,9 @@ button {
     cursor: pointer;
     padding: 10px 20px;
 }
+.quiz-body .button:hover {
+    background-color: #f3f3f3;
+}
 .demand-quiz p,
 .quiz-body p {
     font-size: 18px;
