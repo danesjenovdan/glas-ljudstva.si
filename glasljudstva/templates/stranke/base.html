@@ -2,24 +2,75 @@
 
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+        <meta property="og:type" content="website">
+        {% if og_title %}
+        <meta property="og:title" content="{{ og_title }}">
+        {% else %}
+        <meta property="og:title" content="Glas ljudstva">
+        {% endif %}
+        {% if og_description %}
+        <meta property="og:description" content="{{ og_description }}">
+        {% else %}
+        <meta property="og:description"
+              content="Pripravljamo 100 zahtev za izboljšanje družbene, politične, ekonomske in okoljske situacije v Sloveniji, ki jih bomo predložili političnim strankam. Pridruži se nam!">
+        {% endif %}
+        <meta property="og:image" content="{% static 'img/glas-ljudstva-og.png' %}">
+    
+    
+        <meta name="twitter:card" content="summary_large_image">
+        {% if og_title %}
+        <meta name="twitter:title" content="{{ og_title }}">
+        {% else %}
+        <meta name="twitter:title" content="Glas ljudstva">
+        {% endif %}
+        {% if og_description %}
+        <meta name="twitter:description" content="{{ og_description }}">
+        {% else %}
+        <meta name="twitter:description"
+              content="Pripravljamo 100 zahtev za izboljšanje družbene, politične, ekonomske in okoljske situacije v Sloveniji, ki jih bomo predložili političnim strankam. Pridruži se nam!">
+        {% endif %}
+        <meta name="twitter:image" content="{% static 'img/glas-ljudstva-og.png' %}">
+    
+        <meta name="author" content="Glas ljudstva">
+        {% if og_description %}
+        <meta name="description" content="{{ og_description }}">
+        {% else %}
+        <meta name="description"
+              content="Pripravljamo 100 zahtev za izboljšanje družbene, politične, ekonomske in okoljske situacije v Sloveniji, ki jih bomo predložili političnim strankam. Pridruži se nam!">
+        {% endif %}
+    
+        <title>Glas ljudstva</title>
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+        <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+    
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <title>
-            {% block title %}
-            {% endblock %}
-        </title>
+        <script defer data-domain="glas-ljudstva.si" src="https://plausible.lb.djnd.si/js/plausible.js"></script>
     </head>
+    
     <body>
         <div class="container">
-            <div class="row">
-                <div class="col">
-                    <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+            <a class="logo-anchor" href="/">
+                <div class="row">
+                    <div class="col">
+                        <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
+                <div class="row">
+                    <div class="col">
+                        <p><span class="wordslogo">GLAS</span><span class="wordslogo">LJUDSTVA</span></p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <div class="row stranke">
                 <div class="sidebar">
                     <div {% if "navodila" == category_id %}class="active" {% endif %}>
