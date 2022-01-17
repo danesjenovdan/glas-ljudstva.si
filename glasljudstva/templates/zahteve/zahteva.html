@@ -3,12 +3,11 @@
 {% load comments %}
 
 {% block content %}
-    <div class="row">
-        <div class="col">
-            <h1>
-                {{ demand.title }}
-            </h1>
-        </div>
+    <div class="divider divider-left working-group"></div>
+    <div class="demand-header">
+        <h1>
+            {{ demand.title }}
+        </h1>
     </div>
     <div class="row">
         <div class="col">
@@ -17,15 +16,12 @@
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="message">
-                <p>
-                    Zahtevo ureja delovna skupina: <a href="/{{demand.workgroup.id}}">{{ demand.workgroup.name }}</a>
-                </p>
-            </div>
-        </div>
+    <div class="grey-box-text demand-grey-box">
+        <span>
+            Zahtevo ureja delovna skupina: <a href="/{{demand.workgroup.id}}">{{ demand.workgroup.name }}</a>
+        </span>
     </div>
+    <div class="divider divider-left"></div>
     <!-- komentarji so skriti -->
     <!-- <div class="comments">
         {% get_comment_list for demand as comments %}
