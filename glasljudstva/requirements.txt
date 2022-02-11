@@ -7,3 +7,4 @@ django-cors-headers
 entropy-based-binning
 django-contrib-comments
 psycopg2
+Pillow

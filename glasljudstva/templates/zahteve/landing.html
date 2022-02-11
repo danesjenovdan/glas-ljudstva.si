@@ -92,6 +92,15 @@
     <a href="/zahteve/{{demand.id}}" class="masonry-card">
         <div class="masonry-card-body">
             <h1>{{ demand.title }}</h1>
+            <div>
+                {% for party in demand.partys_which_agree %}
+                <div class="party-image" title="{{ party.party__party_name }}">
+                    {% if party.party__image %}
+                    <img src="{% get_media_prefix %}{{ party.party__image }}" alt="{{ party.party__party_name }}"/>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
             <!-- <p>{{ demand.description }}</p> -->
         </div>
         <!-- <div class="masonry-card-footer">

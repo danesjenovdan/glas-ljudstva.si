@@ -25,6 +25,56 @@
         </span>
     </div>
     <div class="divider divider-left"></div>
+
+    {% if demand.partys_which_agree %}
+    <div class="support-header">
+        <img src="{% static 'svg/podpira.svg' %}">
+        <h2>OBLJUBLJAJO:</h2>
+    </div>
+    <div class="demand-agree">
+        {% for party in demand.partys_which_agree %}
+            <div class="party">
+                {% if party.party__image %}
+                <a href="/zahteve/stranka/{{ party.party__id }}">
+                    <img src="{% get_media_prefix %}{{ party.party__image }}" alt="{{ party.party__party_name }}"/>
+                </a>
+                {% endif %}
+                <span class="party-name">
+                    <a href="/zahteve/stranka/{{ party.party__id }}">
+                        {{ party.party__party_name }}
+                    </a>
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if demand.partys_which_dont_agree %}
+        <div class="support-header">
+            <img src="{% static 'svg/ne-podpira.svg' %}">
+            <h2>NE OBLJUBLJAJO:</h2>
+        </div>
+        {% for party in demand.partys_which_dont_agree %}
+        <div class="demand-dont-agree">
+            <div class="party">
+                {% if party.party__image %}
+                <a href="/zahteve/stranka/{{ party.party__id }}">
+                    <img src="{% get_media_prefix %}{{ party.party__image }}" alt="{{ party.party__party_name }}"/>
+                </a>
+                {% endif %}
+                <span class="party-name">
+                    <a href="/zahteve/stranka/{{ party.party__id }}">{{ party.party__party_name }}</a>
+                </span>
+            </div>
+            <div class="party-comment">
+                {{ party.comment }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="divider divider-left"></div>
+
     <!-- komentarji so skriti -->
     <!-- <div class="comments">
         {% get_comment_list for demand as comments %}
@@ -63,4 +113,5 @@
             {% endif %}
         </div>
     </div> -->
+
 {% endblock %}

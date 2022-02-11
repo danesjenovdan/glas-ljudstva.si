@@ -21,9 +21,6 @@ def after_registration(request):
 
 def landing(request):
     work_groups = WorkGroup.objects.all().order_by('?')
-    for wg in work_groups:
-        wg.demands = Demand.objects.filter(workgroup=wg).order_by('?')
-
     return render(request, 'zahteve/landing.html', context={'work_groups': work_groups})
 
 def delovna_skupina(request, delovna_skupina_id):
@@ -40,13 +37,39 @@ def delovna_skupina(request, delovna_skupina_id):
     return render(request, 'zahteve/delovna_skupina.html', context={'demands': demands, 'delovna_skupina': delovna_skupina, 'og_title': og_title, 'og_description': og_description})
 
 def demand(request, demand_id):
-    form = RegisterForm()
+    # form = RegisterForm()
     try:
         demand = Demand.objects.get(id=demand_id)
     except Demand.DoesNotExist:
         return HttpResponseNotFound()
 
-    return render(request, 'zahteve/zahteva.html', context={'demand': demand, 'form': form})
+    return render(
+        request, 
+        'zahteve/zahteva.html', 
+        context={
+            'demand': demand,
+            # 'form': form
+        }
+    )
+
+def demands_party(request, party_id):
+    # form = RegisterForm()
+    try:
+        party = Party.objects.get(id=party_id)
+    except Party.DoesNotExist:
+        return HttpResponseNotFound()
+
+    work_groups = WorkGroup.objects.all().order_by('?')
+
+    return render(
+        request, 
+        'zahteve/stranka.html', 
+        context={
+            'party': party,
+            'work_groups': work_groups
+            # 'form': form
+        }
+    )
 
 
 @login_required
