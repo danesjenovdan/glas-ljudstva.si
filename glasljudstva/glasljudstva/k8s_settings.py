@@ -50,7 +50,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['localhost', 'glas-ljudstva.lb.djnd.si', 'glas-ljudstva.si', 'demo.glas-ljudstva.si', 'www.glas-ljudstva.si']
+ALLOWED_HOSTS = ['localhost', 'glas-ljudstva.lb.djnd.si', 'glas-ljudstva.si', 'demo.glas-ljudstva.si', 'www.glas-ljudstva.si', 'staging.glas-ljudstva.si']
 
 
 # Application definition
