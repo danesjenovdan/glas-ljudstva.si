@@ -66,9 +66,11 @@
                     <a href="/zahteve/stranka/{{ party.party__id }}">{{ party.party__party_name }}</a>
                 </span>
             </div>
+            {% if party.comment %}
             <div class="party-comment">
                 {{ party.comment }}
             </div>
+            {% endif %}
         </div>
         {% endfor %}
     {% endif %}

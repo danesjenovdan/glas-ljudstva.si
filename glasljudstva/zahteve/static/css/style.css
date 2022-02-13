@@ -221,6 +221,7 @@ a {
     flex-grow: 1;
     flex-wrap: wrap;
 }
+
 .col:nth-child(3n-1) {
     padding-left: 20px;
     padding-right: 20px;
@@ -252,6 +253,7 @@ a {
     height: 101px;
     margin-right: 15px;
 }
+
 .logo-anchor {
     text-decoration: none !important;
 }
@@ -278,6 +280,7 @@ a {
     height: 40px;
     margin-right: 15px;
 }
+
 .logo-small .wordslogo {
     font-size: 33px;
     line-height: 1;
@@ -293,6 +296,7 @@ a {
     margin: auto;
     margin-top: 10px;
 }
+
 .intro-text.working-group-intro {
     margin: 0;
 }
@@ -325,6 +329,7 @@ a {
     top: 49px;
     margin: 0;
 }
+
 .instructions.longtext {
     top: 26px;
 }
@@ -337,10 +342,12 @@ a {
     top: 27px;
     cursor: pointer;
 }
+
 .card-button svg {
     pointer-events: none;
     display: none;
 }
+
 .card-button .play-svg {
     display: block;
 }
@@ -384,9 +391,11 @@ a {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
 .divider.divider-left {
     background-position: left center;
 }
+
 .divider.working-group {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -401,6 +410,7 @@ a {
 .grey-box-text {
     margin: 40px 0;
 }
+
 .grey-box-text span {
     display: inline-block;
     background-color: #f3f3f3;
@@ -414,12 +424,15 @@ a {
     margin-top: 50px;
     margin-bottom: 20px;
 }
+
 .working-group-header a {
     text-decoration: none;
 }
+
 .working-group-header a:hover {
     text-decoration: underline;
 }
+
 .working-group-header .logo {
     height: 40px;
     width: unset;
@@ -429,14 +442,17 @@ a {
     /*background-repeat: no-repeat;*/
     /*background-size: cover;*/
 }
+
 .working-group-header h1 {
     margin-left: 15px;
     color: black;
     /* text-decoration: underline; */
 }
+
 .working-group-header.working-group {
     margin-top: 30px;
 }
+
 .working-group-header.working-group h1 {
     font-size: 32px;
 }
@@ -444,6 +460,7 @@ a {
 .demand-header {
     margin-top: 60px;
 }
+
 .demand-header h1 {
     font-size: 32px;
     line-height: 1.25;
@@ -454,7 +471,8 @@ a {
     margin-top: 0;
 }
 
-.demand-agree, .demand-dont-agree {
+.demand-agree,
+.demand-dont-agree {
     margin-left: 32px;
     display: flex;
 }
@@ -477,6 +495,20 @@ a {
     line-height: 1.25;
 }
 
+@media (max-width: 767px) {
+    .demand-dont-agree {
+        flex-wrap: wrap;
+    }
+
+    .demand-dont-agree .party {
+        width: 100%;
+    }
+
+    .demand-dont-agree .party-comment {
+        width: 100%;
+    }
+}
+
 .demand-agree .party,
 .demand-dont-agree .party {
     display: inline-flex;
@@ -490,6 +522,7 @@ a {
     height: 60px;
     width: 60px;
 }
+
 .demand-agree .party span,
 .demand-dont-agree .party span {
     font-size: 12px;
@@ -524,6 +557,7 @@ a {
     font-size: 32px;
     line-height: 36px;
 }
+
 .organisations {
     padding: 50px;
     line-height: 22px;
@@ -538,6 +572,7 @@ a {
     background-color: #f3f3f3;
     margin-top: 70px;
 }
+
 .join h1 {
     font-family: 'linlibertine-bold';
     font-size: 28px;
@@ -553,6 +588,7 @@ a {
     padding: 28px 24px;
     width: 100%;
 }
+
 .message h3 {
     margin-top: 0;
     margin-bottom: 10px;
@@ -560,14 +596,17 @@ a {
     font-size: 28px;
     color: #ed1c24;
 }
+
 .message p {
     font-size: 18px;
     margin: 0;
     line-height: 1.5;
 }
+
 .message p:last-child {
     margin-top: 24px;
 }
+
 .message a {
     text-decoration: none;
     font-family: 'linlibertine-bold', sans-serif;
@@ -577,15 +616,18 @@ a {
     background-color: #f3f3f3;
     margin-top: 100px;
 }
+
 .footer p {
     font-family: 'freesansbold';
     width: 100%;
     text-align: right;
     font-size: 12px;
 }
+
 form {
     width: 100%;
 }
+
 label {
     width: 100%;
     font-family: 'freesans';
@@ -593,7 +635,9 @@ label {
     font-size: 16px;
     display: block;
 }
-input, textarea {
+
+input,
+textarea {
     width: calc(100% - 30px);
     border: 2px solid #000000;
     height: 48px;
@@ -605,9 +649,11 @@ input, textarea {
     padding-left: 10px;
     padding-right: 10px;
 }
+
 textarea {
     height: 100px;
 }
+
 button {
     border-radius: 0;
     min-width: 157px;
@@ -622,6 +668,7 @@ button {
     padding-left: 20px;
     padding-right: 20px;
 }
+
 button:hover {
     background-color: #f3f3f3;
 }
@@ -631,7 +678,8 @@ button:hover {
     margin-top: 40px;
 }
 
-.registration input, .registration button {
+.registration input,
+.registration button {
     width: 100%;
 }
 
@@ -639,19 +687,23 @@ button:hover {
     .wordslogo {
         font-size: 32px;
     }
+
     .intro-text {
         width: 100%;
         flex-shrink: 0;
         font-size: 16px;
         line-height: 22px;
     }
+
     .row {
         flex-wrap: wrap;
     }
+
     .col {
         width: 100%;
         flex-shrink: 0;
     }
+
     .col:nth-child(3n-1) {
         padding-left: 0;
         padding-right: 0;
@@ -668,29 +720,36 @@ button:hover {
 #id_honeypot {
     display: none;
 }
+
 #id_comment {
     width: calc(100% - 25px);
 }
+
 #id_submit {
     width: 100%;
 }
+
 #id_newsletter_permission {
     width: 50px;
     margin-left: 0;
 }
+
 .comment {
     flex-wrap: wrap;
     border-bottom: 1px solid #000000;
 }
+
 .comment:last-child {
     border-bottom: none;
 }
+
 .comment p {
     width: 100%;
     font-family: 'linlibertine-bold', serif;
     font-weight: normal;
     padding-bottom: 10px;
 }
+
 .comment p.timestamp {
     text-align: right;
     margin-bottom: -20px;
@@ -703,6 +762,7 @@ button:hover {
     line-height: 1.25;
     margin-top: 0;
 }
+
 .demand-description strong {
     font-family: 'linlibertinebold', serif;
     font-size: 20px;
@@ -712,42 +772,51 @@ button:hover {
 .stranke {
     margin-top: 20px;
 }
+
 .stranke .sidebar {
     min-width: 300px;
     max-width: 300px;
     margin-right: 30px;
 }
-.stranke .sidebar > div {
+
+.stranke .sidebar>div {
     padding: 10px;
     border: transparent 2px solid;
 }
-.stranke .sidebar > div.active {
+
+.stranke .sidebar>div.active {
     border: #ed1c24 2px solid;
     background-color: #f3f3f3;
 }
+
 .stranke .category-item {
-    display:flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: space-between;
 }
+
 .stranke .category-item svg {
     min-width: 20px;
     padding-left: 10px;
 }
+
 .stranke .sidebar a {
     font-size: 20px;
     font-weight: 400;
     text-decoration: none;
 }
+
 .stranke .sidebar a:hover {
     text-decoration: underline;
 }
+
 .demand-quiz {
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 40px;
     flex-grow: 1;
 }
+
 @media (min-width: 992px) {
     .demand-quiz {
         padding-left: 30px;
@@ -755,59 +824,74 @@ button:hover {
         padding-top: 0;
     }
 }
+
 .demand-quiz input[type="radio"] {
     width: unset;
     height: unset;
 }
+
 .demand-quiz textarea {
     font-size: 16px;
     line-height: 20px;
     font-family: 'linlibertine', serif;
 }
+
 .demand-quiz h4 {
     margin-bottom: 0;
 }
+
 .demand-quiz .button-wrapper {
     padding: 20px 0;
 }
+
 .demand-quiz .button-wrapper button {
     height: unset;
     padding: 10px 20px;
     margin-top: 0;
 }
+
 .demand-quiz .button-wrapper button:hover {
     background-color: #f3f3f3;
 }
+
 .demand-answer-form:not(:first-of-type) {
     margin-top: 50px;
 }
+
 .demand-answer-form p strong {
     font-family: 'linlibertine-bold', serif;
 }
+
 .form-comment {
     margin: 30px 0;
 }
+
 .form-comment.hidden {
     display: none;
 }
+
 .form-agree-radio {
     margin: 5px 0;
 }
+
 .form-agree-radio input {
     margin: 0 5px 0 0;
 }
+
 .form-agree-radio label {
     display: flex;
     align-items: center;
     cursor: pointer;
     font-size: 18px;
 }
+
 .quiz-body {
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 40px;
     flex-grow: 1;
 }
+
 @media (min-width: 992px) {
     .quiz-body {
         padding-left: 30px;
@@ -815,10 +899,12 @@ button:hover {
         padding-top: 0;
     }
 }
+
 .quiz-body .button-wrapper {
     text-align: center;
     padding: 20px 0;
 }
+
 .quiz-body .button {
     border: 2px solid #ed1c24;
     font-family: 'freesansboldoblique';
@@ -826,25 +912,32 @@ button:hover {
     cursor: pointer;
     padding: 10px 20px;
 }
+
 .quiz-body .button:hover {
     background-color: #f3f3f3;
 }
+
 .quiz-body h1 {
     margin-top: 0;
 }
+
 .demand-quiz p,
 .quiz-body p {
     font-size: 18px;
 }
+
 .summary h3 {
     color: #ed1c24;
 }
+
 .summary h5 {
     margin-bottom: 10px;
 }
+
 .summary p:nth-of-type(2) {
     font-weight: bold;
 }
+
 .summary p:nth-of-type(3) {
     margin-top: 0;
     margin-bottom: 30px;
