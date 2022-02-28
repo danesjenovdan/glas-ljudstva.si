@@ -13,7 +13,8 @@ from zahteve.views import (
     party_instructions,
     party_finish,
     party_save,
-    party_summary
+    party_summary,
+    Volitvomat
 )
 
 
@@ -37,5 +38,6 @@ urlpatterns = [
     path('stranke/navodila/', party_instructions),
     path('stranke/oddaja/', party_finish),
     path('stranke/oddaj/', party_save),
-    path('stranke/povzetek/', party_summary)
+    path('stranke/povzetek/', party_summary),
+    path('api/volitvomat/', Volitvomat.as_view())
 ]

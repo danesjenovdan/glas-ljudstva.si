@@ -7,10 +7,12 @@ from django import forms
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .models import DemandAnswer
 from .forms import DemandAnswerForm
+from .serializers import PartySerializer
 
 from zahteve.models import WorkGroup, Demand, EmailVerification, ResetPassword, Newsletter, Party
 from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
@@ -325,3 +327,20 @@ class RestorePasswordView(View):
             user = get_object_or_404(User, email=email)
             ResetPassword(user=user).save()
             return redirect('/')
+
+
+class Volitvomat(APIView):
+    def get(self, request, format=None):
+        parties = Party.objects.filter(finished_quiz=True)
+        demands = Demand.objects.filter(workgroup=11) # TODO: change filter
+        questions = {
+            question.id:{
+                "demand_title": question.title,
+                "demand_description": question.description,
+                "party_answers": {
+                    party.user.id:DemandAnswer.objects.get(party=party, demand=question).agree_with_demand for party in parties
+                }
+            } for question in demands
+        }
+        serializer = PartySerializer(parties, many=True)
+        return Response({"questions": questions, "parties": serializer.data})
