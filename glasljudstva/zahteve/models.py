@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.http import urlencode
+from django.utils.encoding import filepath_to_uri
 
 from django_comments.moderation import CommentModerator, moderator
 
@@ -35,9 +37,11 @@ class Demand(Timestampable, Versionable):
 
     @property
     def partys_which_agree(self):
-        return DemandAnswer.objects.filter(
-            demand=self, agree_with_demand=True, party__finished_quiz=True
-        ).values("party__image", "party__party_name", "party__id")
+        return Party.objects.filter(
+            id__in=DemandAnswer.objects.filter(
+                demand=self, agree_with_demand=True, party__finished_quiz=True
+            ).values_list("party__id", flat=True)
+        )
 
     @property
     def partys_which_agree_in_ids(self):
@@ -47,9 +51,17 @@ class Demand(Timestampable, Versionable):
 
     @property
     def partys_which_dont_agree(self):
+        return Party.objects.filter(
+            id__in=DemandAnswer.objects.filter(
+                demand=self, agree_with_demand=False, party__finished_quiz=True
+            ).values_list("party__id", flat=True)
+        )
+
+    @property
+    def answers_which_dont_agree(self):
         return DemandAnswer.objects.filter(
             demand=self, agree_with_demand=False, party__finished_quiz=True
-        ).values("party__image", "party__party_name", "party__id", "comment")
+        )
 
 
 class DemandModerator(CommentModerator):
@@ -89,6 +101,9 @@ class Party(models.Model):
     finished_quiz = models.BooleanField(default=False)
     image = models.ImageField(null=True, blank=True)
     url = models.URLField(blank=True)
+
+    def image_url(self):
+        return f"https://djnd.s3.fr-par.scw.cloud/glas-ljudstva/img/{filepath_to_uri(self.party_name)}.jpg"
 
     def __str__(self):
         return self.party_name

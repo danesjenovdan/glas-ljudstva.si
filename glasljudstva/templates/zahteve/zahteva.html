@@ -34,14 +34,17 @@
     <div class="demand-agree">
         {% for party in demand.partys_which_agree %}
             <div class="party">
-                {% if party.party__image %}
-                <a href="/zahteve/stranka/{{ party.party__id }}">
-                    <img src="{% get_media_prefix %}{{ party.party__image }}" alt="{{ party.party__party_name }}"/>
+                <!-- {% if party.image %}
+                <a href="/zahteve/stranka/{{ party.id }}">
+                    <img src="{% get_media_prefix %}{{ party.image }}" alt="{{ party.party_name }}"/>
                 </a>
-                {% endif %}
+                {% endif %} -->
+                <a href="/zahteve/stranka/{{ party.id }}">
+                    <img src="{{ party.image_url }}" alt="{{ party.party_name }}"/>
+                </a>
                 <span class="party-name">
-                    <a href="/zahteve/stranka/{{ party.party__id }}">
-                        {{ party.party__party_name }}
+                    <a href="/zahteve/stranka/{{ party.id }}">
+                        {{ party.party_name }}
                     </a>
                 </span>
             </div>
@@ -54,21 +57,24 @@
             <img src="{% static 'svg/ne-podpira.svg' %}">
             <h2>NE OBLJUBLJAJO:</h2>
         </div>
-        {% for party in demand.partys_which_dont_agree %}
+        {% for answer in demand.answers_which_dont_agree %}
         <div class="demand-dont-agree">
             <div class="party">
-                {% if party.party__image %}
-                <a href="/zahteve/stranka/{{ party.party__id }}">
-                    <img src="{% get_media_prefix %}{{ party.party__image }}" alt="{{ party.party__party_name }}"/>
+                <!-- {% if party.image %}
+                <a href="/zahteve/stranka/{{ party.id }}">
+                    <img src="{% get_media_prefix %}{{ party.image }}" alt="{{ party.party_name }}"/>
                 </a>
-                {% endif %}
+                {% endif %} -->
+                <a href="/zahteve/stranka/{{ answer.party.id }}">
+                    <img src="{{ answer.party.image_url }}" alt="{{ answer.party.party_name }}"/>
+                </a>
                 <span class="party-name">
-                    <a href="/zahteve/stranka/{{ party.party__id }}">{{ party.party__party_name }}</a>
+                    <a href="/zahteve/stranka/{{ answer.party.id }}">{{ answer.party.party_name }}</a>
                 </span>
             </div>
-            {% if party.comment %}
+            {% if answer.comment %}
             <div class="party-comment">
-                {{ party.comment }}
+                {{ answer.comment }}
             </div>
             {% endif %}
         </div>

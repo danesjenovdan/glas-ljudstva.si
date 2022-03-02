@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="party-header">
-    <img src="{% get_media_prefix %}{{ party.image }}" />
+    <img src="{{ party.image_url }}" />
     <div>
         <h1>{{ party.party_name }}</h1>
         <p><a href="{{ party.url }}" target="_blank">{{ party.url }}</a></p>
