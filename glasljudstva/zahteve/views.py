@@ -412,7 +412,7 @@ class Volitvomat(APIView):
                 "demand_title": question.title,
                 "demand_description": question.description,
                 "party_answers": {
-                    party.user.id:DemandAnswer.objects.get(party=party, demand=question).agree_with_demand for party in parties
+                    party.id:DemandAnswer.objects.get(party=party, demand=question).agree_with_demand for party in parties
                 }
             } for question in demands
         }

@@ -102,6 +102,7 @@ class Party(models.Model):
     image = models.ImageField(null=True, blank=True)
     url = models.URLField(blank=True)
 
+    @property
     def image_url(self):
         return f"https://djnd.s3.fr-par.scw.cloud/glas-ljudstva/img/{filepath_to_uri(self.party_name)}.jpg"
 
