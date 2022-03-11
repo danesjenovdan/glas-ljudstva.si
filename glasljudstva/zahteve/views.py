@@ -413,7 +413,8 @@ class Volitvomat(APIView):
                 "demand_description": question.description,
                 "party_answers": {
                     party.id:DemandAnswer.objects.get(party=party, demand=question).agree_with_demand for party in parties
-                }
+                },
+                "category": question.workgroup.id
             } for question in demands
         }
         serializer = PartySerializer(parties, many=True)
