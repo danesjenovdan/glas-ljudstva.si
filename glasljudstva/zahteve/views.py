@@ -9,10 +9,14 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .models import DemandAnswer
 from .forms import DemandAnswerForm
 from .serializers import PartySerializer
+
+from zahteve.math import calculate_most_controversial_demands
 
 from zahteve.models import (
     WorkGroup,
@@ -400,22 +404,66 @@ class RestorePasswordView(View):
             email = request.POST.get("email")
             user = get_object_or_404(User, email=email)
             ResetPassword(user=user).save()
-            return redirect('/')
+            return redirect("/")
 
 
 class Volitvomat(APIView):
+    @staticmethod
+    def twist_answers(answers):
+        return {key: not answers[key] for key in answers.keys()}
+
+    @method_decorator(cache_page(60 * 60 * 24 * 40))
     def get(self, request, format=None):
         parties = Party.objects.filter(finished_quiz=True)
-        demands = Demand.objects.filter(workgroup=11) # TODO: change filter
+
+        demands = Demand.objects.filter(
+            id__in=list(calculate_most_controversial_demands(40).keys()) + [128]
+        ).order_by("?")
         questions = {
-            question.id:{
+            question.id: {
                 "demand_title": question.title,
                 "demand_description": question.description,
                 "party_answers": {
-                    party.id:DemandAnswer.objects.get(party=party, demand=question).agree_with_demand for party in parties
+                    party.id: DemandAnswer.objects.get(
+                        party=party, demand=question
+                    ).agree_with_demand
+                    for party in parties
                 },
-                "category": question.workgroup.id
-            } for question in demands
+                "party_comments": {
+                    party.id: DemandAnswer.objects.get(
+                        party=party, demand=question
+                    ).comment
+                    for party in parties
+                },
+                "category": question.workgroup.id,
+            }
+            for question in demands
         }
+        # # palestina twist
+        # questions[112]["twisted"] = {
+        #     "demand_title": "SLOVENIJA NAJ NE PRIZNA SAMOSTOJNE PALESTINE.",
+        #     "demand_description": "Slovenija ne sme priznati samostojnosti Palestine in naj ne obsoja okupacijskih praks Izraela.",
+        #     "party_answers": self.twist_answers(questions[112]["party_answers"]),
+        #     "party_comments": questions[112]["party_comments"],
+        #     "category": questions[112]["category"],
+        # }
+
+        # # oploditev twist
+        # questions[173]["twisted"] = {
+        #     "demand_title": "SAMSKIM OSEBAM IN OSEBAM V ISTOSPOLNIH PARTNERSKIH ZVEZAH SE NE SME OMOGOČITI ENAKEGA DOSTOPA DO OPLODITVE Z BIOMEDICINSKO POMOČJO IN POSVOJITEV.",
+        #     "demand_description": "Na podlagi ustavno varovane pravice do svobodnega odločanja o rojstvu otrok so z zakonom opredeljeni zdravstveni ukrepi, s katerimi se ženski in moškemu pomaga pri spočetju otroka. Te pravice se ne sme priznati samskim ženskam in ženskam v istospolnih partnerskih zvezah. Prav tako se pravice do posvojitve ne sme priznati samskim osebam in osebam v istospolnih partnerskih zvezah.",
+        #     "party_answers": self.twist_answers(questions[112]["party_answers"]),
+        #     "party_comments": questions[112]["party_comments"],
+        #     "category": questions[112]["category"],
+        # }
+
+        # # javne finance twist
+        # questions[238]["twisted"] = {
+        #     "demand_title": "JAVNE FINANCE JE TREBA URAVNOTEŽITI Z VARČEVALNIMI UKREPI.",
+        #     "demand_description": "Uravnoteženje javnih financ je treba dosegati z varčevalnimi ukrepi, čeprav varčevanje, ki ga spodbuja fiskalna konsolidacija, povečuje revščino in neenakost ter spodkopava doseganje ekonomskih in socialnih pravic. Varčevalni ukrepi so nujni, četudi gre za degradacijo javnih storitev in se ob tem ne spoštuje trajnostnega, vključujočega in pravičnega okrevanja.",
+        #     "party_answers": self.twist_answers(questions[112]["party_answers"]),
+        #     "party_comments": questions[112]["party_comments"],
+        #     "category": questions[112]["category"],
+        # }
         serializer = PartySerializer(parties, many=True)
         return Response({"questions": questions, "parties": serializer.data})
