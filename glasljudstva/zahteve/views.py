@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.contrib import messages
 
 from zahteve.models import (
     WorkGroup,
@@ -47,7 +48,10 @@ def landing(request):
             question_form_thankyou = True
             voter_question_form.save()
             voter_question_form = VoterQuestionForm()
+            messages.success(request, 'Hvala za oddano vprašanje!')
             return redirect("/")
+        else:
+            messages.error(request, 'Prišlo je do napake.')
     else:
         voter_question_form = VoterQuestionForm()
     

@@ -43,11 +43,11 @@
 <div class="row">
     <div class="col">
         <div class="voter-question-form">
-            {% if question_form_thankyou %}
-            <div class="voter-question-form-thankyou">
-                Hvala za oddano vprašanje!
+            {% for message in messages %}
+            <div class="voter-question-form-message {{ message.tags }}">
+                {{ message }}
             </div>
-            {% endif %}
+            {% endfor %}
             <h2>Imaš vprašanje, ki ga želiš zastaviti stranki?</h2>
             <p class="instruction-text">Vabimo te, da oddaš vprašanje, ki bi ga želel_a zastaviti določeni politični stranki ali pa vsem prisotnim strankam na velikem predvolilnem soočenju z ljudstvom.</p>
             <p class="instruction-text">Žaljivih, nespoštljivih in neprimernih komentarjev ter vprašanj ne bomo upoštevali. Prejeta vprašanja bomo na dogodku izbirali z žrebom.</p>

@@ -973,7 +973,7 @@ button:hover {
 }
 
 .voter-question-form form input[type="submit"] {
-    border: 3px solid red;
+    border: 3px solid #ed1c24;
     width: 100%;
 }
 
@@ -982,10 +982,14 @@ button:hover {
     cursor: pointer;
 }
 
-.voter-question-form-thankyou {
-    border: 3px solid red;
+.voter-question-form-message {
+    border: 3px solid #ed1c24;
     background-color: #f3f3f3;
     padding: 20px;
     text-align: center;
     margin-bottom: 50px;
+}
+
+.voter-question-form-message.error {
+    color: #ed1c24;
 }
