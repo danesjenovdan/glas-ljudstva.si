@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import widgets
 from django.contrib.auth.models import User
-from .models import DemandAnswer
+from .models import DemandAnswer, VoterQuestion
 
 
 class RegisterForm(forms.ModelForm):
@@ -43,3 +43,18 @@ class DemandAnswerForm(forms.ModelForm):
         model = DemandAnswer
         fields = ['agree_with_demand', 'comment', 'demand', 'party']
         widgets = {'agree_with_demand': forms.RadioSelect(choices=[(True, 'da'), (False, 'ne')]), 'demand': forms.HiddenInput(), 'party': forms.HiddenInput()}
+
+
+class VoterQuestionForm(forms.ModelForm):
+    class Meta:
+        model = VoterQuestion
+        fields = "__all__"
+        labels = {
+            "name": "Ime:",
+            "hometown": "Kraj, iz katerega prihajaš: *",
+            "receiver": "Komu želiš zastaviti vprašanje (kateri stranki oz. strankam, ali vsem)? *",
+            "question": "Tvoje vprašanje: *"
+        }
+        widgets = {
+            "question": forms.Textarea(attrs={"rows" : 6})
+        }

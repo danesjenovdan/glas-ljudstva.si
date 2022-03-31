@@ -127,4 +127,14 @@ class DemandAnswer(models.Model):
         ]
 
 
+class VoterQuestion(models.Model):
+    name = models.CharField(blank=True, max_length=50)
+    hometown = models.CharField(max_length=50)
+    receiver = models.CharField(max_length=120)
+    question = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.question
+
+
 moderator.register(Demand, DemandModerator)

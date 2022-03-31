@@ -942,3 +942,50 @@ button:hover {
     margin-top: 0;
     margin-bottom: 30px;
 }
+
+.voter-question-form {
+    max-width: 700px;
+    margin: auto;
+}
+
+.voter-question-form h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.voter-question-form .instruction-text {
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.voter-question-form form input[type="text"],
+.voter-question-form form textarea {
+    height: unset;
+    line-height: 32px;
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.voter-question-form form textarea {
+    line-height: 24px;
+    padding: 10px;
+}
+
+.voter-question-form form input[type="submit"] {
+    border: 3px solid red;
+    width: 100%;
+}
+
+.voter-question-form form input[type="submit"]:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+
+.voter-question-form-thankyou {
+    border: 3px solid red;
+    background-color: #f3f3f3;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 50px;
+}

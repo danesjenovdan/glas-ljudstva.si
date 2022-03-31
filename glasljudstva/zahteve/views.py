@@ -12,12 +12,6 @@ from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
-from .models import DemandAnswer
-from .forms import DemandAnswerForm
-from .serializers import PartySerializer
-
-from zahteve.math import calculate_most_controversial_demands
-
 from zahteve.models import (
     WorkGroup,
     Demand,
@@ -25,8 +19,17 @@ from zahteve.models import (
     ResetPassword,
     Newsletter,
     Party,
+    DemandAnswer,
 )
-from zahteve.forms import RegisterForm, RestorePasswordForm, RequestRestorePasswordForm
+from zahteve.forms import (
+    RegisterForm, 
+    RestorePasswordForm, 
+    RequestRestorePasswordForm, 
+    DemandAnswerForm, 
+    VoterQuestionForm,
+)
+from zahteve.serializers import PartySerializer
+from zahteve.math import calculate_most_controversial_demands
 
 # Create your views here.
 def after_registration(request):
@@ -34,12 +37,29 @@ def after_registration(request):
 
 
 def landing(request):
+    question_form_thankyou = False
     work_groups = WorkGroup.objects.all().order_by("?")
     parties = Party.objects.filter(finished_quiz=True).order_by("?")
+
+    if request.method == 'POST':
+        voter_question_form = VoterQuestionForm(request.POST)
+        if voter_question_form.is_valid():
+            question_form_thankyou = True
+            voter_question_form.save()
+            voter_question_form = VoterQuestionForm()
+            return redirect("/")
+    else:
+        voter_question_form = VoterQuestionForm()
+    
     return render(
         request,
         "zahteve/landing.html",
-        context={"work_groups": work_groups, "parties": parties},
+        context={
+            "work_groups": work_groups, 
+            "parties": parties, 
+            "voter_question_form": voter_question_form,
+            "question_form_thankyou": question_form_thankyou
+        },
     )
 
 
