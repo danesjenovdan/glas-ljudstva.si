@@ -46,6 +46,10 @@ class DemandAnswerForm(forms.ModelForm):
 
 
 class VoterQuestionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs["label_suffix"] = ""
+        super().__init__(*args, **kwargs)
+
     class Meta:
         model = VoterQuestion
         fields = "__all__"
