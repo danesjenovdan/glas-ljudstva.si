@@ -258,6 +258,34 @@ a {
     text-decoration: none !important;
 }
 
+.social-media {
+    flex-direction: column; 
+    align-items: flex-end;
+}
+
+.social-media a:first-of-type {
+    color: #ed1c24;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.social-media a:not(:first-of-type) {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+@media (max-width: 992px) {
+    .social-media {
+        align-items: flex-start;
+        margin-bottom: 30px;
+    }
+    .social-media a:first-of-type {
+       font-size: 16px;
+       line-height: 20px;
+    }
+}
+
+
 .wordslogo {
     color: #000000;
     font-family: 'freesansbold';
@@ -713,6 +741,20 @@ button:hover {
 @media (max-width: 767px) {
     .container {
         padding: 20px;
+    }
+}
+
+.frame-header {
+    flex-wrap: nowrap;
+}
+
+.frame-header .col {
+    width: unset;
+}
+
+@media (max-width: 992px) {
+    .frame-header {
+        flex-direction: column-reverse;
     }
 }
 
