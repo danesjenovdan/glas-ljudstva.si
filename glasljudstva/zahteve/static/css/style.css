@@ -63,6 +63,10 @@ p {
     margin-top: 29px;
 }
 
+b {
+    font-family: 'linlibertine-bold', serif;
+}
+
 a {
     color: #000000;
 }
