@@ -289,6 +289,7 @@ a {
 .social-media a {
     text-transform: uppercase;
     font-size: 16px;
+    padding-left: 6px;
 }
 
 @media (max-width: 992px) {
@@ -1013,8 +1014,14 @@ button:hover {
 }
 
 .voter-question-form .instruction-text {
-    font-size: 20px;
+    font-size: 22px;
+    line-height: 1.25;
     margin-top: 0;
+}
+
+.voter-question-form .instruction-text-italic {
+    font-style: italic;
+    font-size: 18px;
 }
 
 .voter-question-form form input[type="text"],
@@ -1024,6 +1031,10 @@ button:hover {
     font-size: 16px;
     box-sizing: border-box;
     width: 100%;
+}
+
+.voter-question-form form label {
+    font-size: 18px;
 }
 
 .voter-question-form form textarea {
