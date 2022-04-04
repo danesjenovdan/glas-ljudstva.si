@@ -258,28 +258,45 @@ a {
     text-decoration: none !important;
 }
 
-.social-media {
+.menu {
     flex-direction: column; 
     align-items: flex-end;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-.social-media a:first-of-type {
+.menu:first-child {
+    display: flex;
+}
+
+.menu .faq,
+.menu .democracy-festival {
+    font-size: 20px;   
+}
+
+.menu .faq {
+    margin-right: 30px;
+}
+
+.menu .democracy-festival {
     color: #ed1c24;
-    font-size: 18px;
-    margin-bottom: 10px;
 }
 
-.social-media a:not(:first-of-type) {
+.social-media {
+    margin-top: 10px;
+}
+
+.social-media a {
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 @media (max-width: 992px) {
-    .social-media {
+    .menu {
         align-items: flex-start;
         margin-bottom: 30px;
     }
-    .social-media a:first-of-type {
+    .menu:first-child {
        font-size: 16px;
        line-height: 20px;
     }
@@ -1034,4 +1051,22 @@ button:hover {
 
 .voter-question-form-message.error {
     color: #ed1c24;
+}
+
+.faq-question {
+    margin-top: 50px;
+}
+
+.faq-question h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 28px;
+    line-height: 1.25;
+    color: #ed1c24;
+}
+
+.faq-question p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
 }

@@ -126,6 +126,9 @@ def demands_party(request, party_id):
         },
     )
 
+def faq(request):
+    return render(request, "zahteve/pogosta_vprasanja.html")
+
 
 @login_required
 def party(request):
