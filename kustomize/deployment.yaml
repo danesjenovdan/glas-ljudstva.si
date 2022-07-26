@@ -80,8 +80,8 @@ spec:
               value: glasljudstva.k8s_settings
           resources:
             requests:
-              memory: 100Mi
-              cpu: 100m
+              memory: 200Mi
+              cpu: 500m
             limits:
-              memory: 100Mi
-              cpu: 100m
+              memory: 200Mi
+              cpu: 500m

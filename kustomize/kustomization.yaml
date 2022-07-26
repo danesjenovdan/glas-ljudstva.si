@@ -5,7 +5,11 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - staging.yaml
 images:
 - name: glas-ljudstva
   newName: rg.fr-par.scw.cloud/djnd/glas-ljudstva
+  newTag: 'latest'
+- name: glas-ljudstva-staging
+  newName: rg.fr-par.scw.cloud/djnd/glas-ljudstva-staging
   newTag: 'latest'
