@@ -23,11 +23,13 @@ from zahteve.views import (
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', landing),
+    
     path('<int:delovna_skupina_id>/', delovna_skupina),
     path('zahteve/<int:demand_id>/', demand),
     path('zahteve/stranka/<int:party_id>/', demands_party),
     path('zahteve/', landing),
     path('pogosta-vprasanja/', faq),
+    
     path('', include('django.contrib.auth.urls')),
     path('comments/', include('django_comments.urls')),
     path('registracija/', Registracija.as_view()),
@@ -35,11 +37,17 @@ urlpatterns = [
     path('ponastavi-geslo/<str:parameter>/', RestorePasswordView.as_view()),
     path('ponastavi-geslo/', RestorePasswordView.as_view()),
     path('hvala/', after_registration),
-    path('stranke/', party),
-    path('stranke/<int:category_id>/', PartyDemand.as_view()),
-    path('stranke/navodila/', party_instructions),
-    path('stranke/oddaja/', party_finish),
-    path('stranke/oddaj/', party_save),
-    path('stranke/povzetek/', party_summary),
-    path('api/volitvomat/', Volitvomat.as_view())
+
+    path('<slug:election_slug>/', landing),
+    path('<slug:election_slug>/zahteve/', landing),
+    
+    path('<slug:election_slug>/stranke/', party),
+    path('<slug:election_slug>/stranke/<int:category_id>/', PartyDemand.as_view()),
+    path('<slug:election_slug>/stranke/navodila/', party_instructions),
+    path('<slug:election_slug>/stranke/oddaja/', party_finish),
+    path('<slug:election_slug>/stranke/oddaj/', party_save),
+    path('<slug:election_slug>/stranke/povzetek/', party_summary),
+
+    path('<int:election_id>/api/volitvomat/', Volitvomat.as_view()),
+    path('api/volitvomat/', Volitvomat.as_view()),
 ]

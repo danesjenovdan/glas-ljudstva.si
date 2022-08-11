@@ -21,6 +21,7 @@ from zahteve.models import (
     Newsletter,
     Party,
     DemandAnswer,
+    Election,
 )
 from zahteve.forms import (
     RegisterForm, 
@@ -37,11 +38,21 @@ def after_registration(request):
     return render(request, "registration/thank_you.html")
 
 
-def landing(request):
+def landing(request, election_slug=None):
     question_form_thankyou = False
-    work_groups = WorkGroup.objects.all().order_by("?")
-    parties = Party.objects.filter(finished_quiz=True).order_by("?")
 
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
+
+    # TODO: treba je urediti prikaz zahtev, da bodo na strani tudi tiste, ki ne pašejo pod noben work group
+    work_groups = WorkGroup.objects.filter(election=election).order_by("?")
+
+    parties = Party.objects.filter(election=election, finished_quiz=True).order_by("?")
+    
+    # TODO: če se bo to uporabljajo tudi za predsedniške in lokalne volitve,
+    # je treba dodat election še v ta model (VoterQuestion)
     if request.method == 'POST':
         voter_question_form = VoterQuestionForm(request.POST)
         if voter_question_form.is_valid():
@@ -114,6 +125,7 @@ def demands_party(request, party_id):
     except Party.DoesNotExist:
         return HttpResponseNotFound()
 
+    # TODO: primer, ko ni work groupov
     work_groups = WorkGroup.objects.all().order_by("?")
 
     return render(
@@ -131,7 +143,7 @@ def faq(request):
 
 
 @login_required
-def party(request):
+def party(request, election_slug=None):
     # if user is not a party, restrict access
     try:
         party = Party.objects.get(user=request.user)
@@ -139,10 +151,15 @@ def party(request):
         raise PermissionDenied
     # ---------------------------------------
 
-    if party.finished_quiz:
-        return redirect("/stranke/povzetek")
+    if election_slug is None:
+        election = Election.objects.first()
     else:
-        return redirect("/stranke/navodila")
+        election = Election.objects.get(slug=election_slug)
+    
+    if party.finished_quiz:
+        return redirect(f"/{election.slug}/stranke/povzetek")
+    else:
+        return redirect(f"/{election.slug}/stranke/navodila")
 
 
 class PartyDemand(View):
@@ -150,7 +167,7 @@ class PartyDemand(View):
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
-    def get(self, request, category_id):
+    def get(self, request, category_id, election_slug=None):
         # if user is not a party, restrict access
         try:
             party = Party.objects.get(user=request.user)
@@ -158,8 +175,13 @@ class PartyDemand(View):
             raise PermissionDenied
         # ---------------------------------------
 
+        if election_slug is None:
+            election = Election.objects.first()
+        else:
+            election = Election.objects.get(slug=election_slug)
+        
         if party.finished_quiz:
-            return redirect("/stranke/povzetek")
+            return redirect(f"/{election.slug}/stranke/povzetek")
 
         # for sidebar menu
         categories = WorkGroup.objects.all().order_by("id")
@@ -170,6 +192,7 @@ class PartyDemand(View):
                 )
             ) == len(Demand.objects.filter(workgroup=cat))
 
+        # TODO: treba prilagodit za non-existend work groupe
         category = WorkGroup.objects.get(pk=category_id)
         demands = Demand.objects.filter(workgroup=category).order_by("id")
 
@@ -212,10 +235,11 @@ class PartyDemand(View):
                 "category_id": category_id,
                 "forms": f,
                 "formset": demands_formset,
+                "election_slug": election_slug,
             },
         )
 
-    def post(self, request, category_id):
+    def post(self, request, category_id, election_slug=None):
 
         # if user is not a party, restrict access
         try:
@@ -224,6 +248,11 @@ class PartyDemand(View):
             raise PermissionDenied
         # ---------------------------------------
 
+        if election_slug is None:
+            election = Election.objects.first()
+        else:
+            election = Election.objects.get(slug=election_slug)
+        
         if party.finished_quiz:
             raise BadRequest
 
@@ -249,13 +278,13 @@ class PartyDemand(View):
 
         next = WorkGroup.objects.filter(id__gt=category_id).order_by("id").first()
         if next:
-            return redirect(f"/stranke/{next.id}")
+            return redirect(f"/{election.slug}/stranke/{next.id}")
         else:
-            return redirect("/stranke/oddaja")
+            return redirect(f"/{election.slug}/stranke/oddaja")
 
 
 @login_required
-def party_instructions(request):
+def party_instructions(request, election_slug=None):
 
     # if user is not a party, restrict access
     try:
@@ -264,8 +293,13 @@ def party_instructions(request):
         raise PermissionDenied
     # ---------------------------------------
 
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
+
     if party.finished_quiz:
-        return redirect("/stranke/povzetek")
+        return redirect(f"/{election_slug}/stranke/povzetek")
 
     categories = WorkGroup.objects.all().order_by("id")
     for cat in categories:
@@ -273,19 +307,24 @@ def party_instructions(request):
             DemandAnswer.objects.filter(
                 party=party, agree_with_demand__isnull=False, demand__workgroup=cat
             )
-        ) == len(Demand.objects.filter(workgroup=cat))
+        ) == len(Demand.objects.filter(workgroup=cat, election=election))
 
-    next = WorkGroup.objects.all().order_by("id").first().id
+    next = WorkGroup.objects.filter(election=election).order_by("id").first().id
 
     return render(
         request,
         "stranke/navodila.html",
-        context={"categories": categories, "category_id": "navodila", "next": next},
+        context={
+            "categories": categories,
+            "category_id": "navodila",
+            "election_slug": election_slug,
+            "next": next
+        },
     )
 
 
 @login_required
-def party_finish(request):
+def party_finish(request, election_slug=None):
 
     # if user is not a party, restrict access
     try:
@@ -294,20 +333,25 @@ def party_finish(request):
         raise PermissionDenied
     # ---------------------------------------
 
-    if party.finished_quiz:
-        return redirect("/stranke/povzetek")
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
 
-    categories = WorkGroup.objects.all().order_by("id")
+    if party.finished_quiz:
+        return redirect(f"/{election.slug}/stranke/povzetek")
+
+    categories = WorkGroup.objects.filter(election=election).order_by("id")
     for cat in categories:
         cat.check = len(
             DemandAnswer.objects.filter(
                 party=party, agree_with_demand__isnull=False, demand__workgroup=cat
             )
-        ) == len(Demand.objects.filter(workgroup=cat))
+        ) == len(Demand.objects.filter(workgroup=cat, election=election))
 
     allow_submit = len(
         DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False)
-    ) == len(Demand.objects.all())
+    ) == len(Demand.objects.filter(election=election))
     finished_quiz = party.finished_quiz
 
     return render(
@@ -318,12 +362,13 @@ def party_finish(request):
             "category_id": "zakljucek",
             "allow_submit": allow_submit,
             "finished_quiz": finished_quiz,
+            "election_slug": election_slug,
         },
     )
 
 
 @login_required
-def party_save(request):
+def party_save(request, election_slug=None):
 
     # if user is not a party, restrict access
     try:
@@ -332,10 +377,15 @@ def party_save(request):
         raise PermissionDenied
     # ---------------------------------------
 
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
+
     party.finished_quiz = True
     party.save()
 
-    return redirect("/stranke/povzetek")
+    return redirect(f"/{election.slug}/stranke/povzetek")
 
 
 @login_required
@@ -440,12 +490,20 @@ class Volitvomat(APIView):
         return {key: not answers[key] for key in answers.keys()}
 
     @method_decorator(cache_page(60 * 60 * 24 * 40))
-    def get(self, request, format=None):
-        parties = Party.objects.filter(finished_quiz=True)
+    def get(self, request, format=None, election_id=None):
 
+        if election_id is None:
+            election = Election.objects.first()
+        else:
+            election = Election.objects.get(id=election_id)
+        
+        parties = Party.objects.filter(election=election, finished_quiz=True)
+
+        # TODO treba je odmaknit ta + [128], ker ne pride v poštev pri ostalih volitvah, plus ni nujno 40 vprašanj
         demands = Demand.objects.filter(
-            id__in=list(calculate_most_controversial_demands(40).keys()) + [128]
+            id__in=list(calculate_most_controversial_demands(election.id, 40).keys()) + [128]
         ).order_by("?")
+
         questions = {
             question.id: {
                 "demand_title": question.title,
@@ -462,7 +520,7 @@ class Volitvomat(APIView):
                     ).comment
                     for party in parties
                 },
-                "category": question.workgroup.id,
+                "category": question.workgroup.id if question.workgroup else None,
             }
             for question in demands
         }

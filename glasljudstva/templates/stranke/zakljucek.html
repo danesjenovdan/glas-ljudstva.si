@@ -6,7 +6,7 @@
     {% if allow_submit and not finished_quiz %}
     <p>Če ste zaključili z odgovarjanjem, lahko oddate vprašalnik. Po tem vas prosimo, da ga natisnete, podpišete ter dodate datum in uro, nato pa po pošti pošljete na X.</p>
     <div class="button-wrapper">
-        <a href="/stranke/oddaj" class="button">Oddaj</a>
+        <a href="/{{ election_slug }}/stranke/oddaj" class="button">Oddaj</a>
     </div>
     {% else %}
     <p>Ko boste odgovorili na vse zahteve, se bo tukaj prikazal gumb za oddajo vprašalnika.</p>
@@ -14,7 +14,7 @@
 
     {% if finished_quiz %}
     <div class="button-wrapper">
-        <a href="/stranke/povzetek" target="_blank" class="button">Povzetek</a>
+        <a href="/{{ election_slug }}/stranke/povzetek" target="_blank" class="button">Povzetek</a>
     </div>
     {% endif %}
 </div>

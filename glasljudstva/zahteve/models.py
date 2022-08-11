@@ -10,11 +10,20 @@ from zahteve.behaviors.models import Timestampable, Versionable
 from zahteve.utils import id_generator
 
 
+class Election(models.Model):
+    name = models.TextField()
+    slug = models.SlugField()
+
+    def __str__(self):
+        return self.name
+
+
 class WorkGroup(Timestampable, Versionable):
     name = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     og_title = models.TextField(null=False, blank=False)
     og_description = models.TextField(null=False, blank=False)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -31,6 +40,7 @@ class Demand(Timestampable, Versionable):
         "WorkGroup", null=True, blank=True, on_delete=models.SET_NULL
     )
     priority_demand = models.BooleanField(default=False)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -101,6 +111,7 @@ class Party(models.Model):
     finished_quiz = models.BooleanField(default=False)
     image = models.ImageField(null=True, blank=True)
     url = models.URLField(blank=True)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
     @property
     def image_url(self):
