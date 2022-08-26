@@ -35,7 +35,7 @@ class WorkGroup(Timestampable, Versionable):
 
 class Demand(Timestampable, Versionable):
     title = models.TextField(null=False, blank=False)
-    description = models.TextField(null=False, blank=False)
+    description = models.TextField(null=True, blank=True)
     workgroup = models.ForeignKey(
         "WorkGroup", null=True, blank=True, on_delete=models.SET_NULL
     )
