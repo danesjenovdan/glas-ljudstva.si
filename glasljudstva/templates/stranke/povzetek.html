@@ -4,8 +4,7 @@
 {% block content %}
 <div>
     <div class="summary">
-        <h3>NAŠA ZAVEZA ZAHTEVAM INICIATIVE GLAS LJUDSTVA</h3>
-        <p>Izjavljamo, da smo si podrobno in odgovorno prebrali vse spodaj navedene zahteve ter da se s podpisom pričujočega dokumenta uradno zavezujemo po naših najboljših močeh implementirati vse tiste zahteve, ki smo jih v dokumentu označili z DA. Z uresničevanjem potrjenih zahtev bomo začeli takoj po morebitnem nastopu mandata in si odločno prizadevali, da jih uresničimo  v navedenih rokih oziroma v najkrajšem možnem času.</p>
+        <h3>POVZETEK ODGOVOROV</h3>
     </div>
     {% for wg in answers_by_workgroup %}
         <div class="working-group-header">
@@ -15,7 +14,9 @@
         {% for answer in wg.answers %}
             <div class="summary">
                 <h3>{{ forloop.counter }}. {{ answer.demand.title }}</h3>
-                <p>{{ answer.demand.description }}</p>
+                {% if answer.demand.description %}
+                    <p>{{ answer.demand.description }}</p>
+                {% endif %}
                 <p>{% if answer.agree_with_demand %}DA{% else %}NE{% endif %}</p>
                 {% if answer.comment %}
                     <h5>Komentar:</h6>
@@ -24,8 +25,5 @@
             </div>
         {% endfor %}
     {% endfor %}
-
-    <p>Podpis stranke:</p>
-    <p>___________________________</p>
 </div>
 {% endblock %}

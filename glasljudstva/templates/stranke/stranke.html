@@ -15,7 +15,9 @@
             <p><strong>Ta zahteva mora biti izpolnjena v roku enega leta od nastopa mandata.</strong></p>
             {% endif %}
 
+            {% if form.description %}
             <p>{{ form.description }}</p>
+            {% endif %}
             
             <div class="form-agree-radio">
                 <label for="id_form-{{ forloop.counter0 }}-agree_with_demand_0">

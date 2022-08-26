@@ -4,9 +4,9 @@
 
 <div class="quiz-body">    
     {% if allow_submit and not finished_quiz %}
-    <p>Če ste zaključili z odgovarjanjem, lahko oddate vprašalnik. Po tem vas prosimo, da ga natisnete, podpišete ter dodate datum in uro, nato pa po pošti pošljete na X.</p>
+    <p>Po oddaji vaših odgovorov ne bo več mogoče spreminjati. Če ste prepričani, da oddani odgovori v celoti predstavljajo vaša stališča, ki jih bodo spremljali tudi volivci in volivke, lahko vprašalnik oddate.</p>
     <div class="button-wrapper">
-        <a href="/{{ election_slug }}/stranke/oddaj" class="button">Oddaj</a>
+        <a href="/{{ election_slug }}/kandidati_ke/oddaj" class="button">Oddaj</a>
     </div>
     {% else %}
     <p>Ko boste odgovorili na vse zahteve, se bo tukaj prikazal gumb za oddajo vprašalnika.</p>
@@ -14,7 +14,7 @@
 
     {% if finished_quiz %}
     <div class="button-wrapper">
-        <a href="/{{ election_slug }}/stranke/povzetek" target="_blank" class="button">Povzetek</a>
+        <a href="/{{ election_slug }}/kandidati_ke/povzetek" target="_blank" class="button">Povzetek</a>
     </div>
     {% endif %}
 </div>

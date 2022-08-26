@@ -24,10 +24,10 @@ from zahteve.models import (
     Election,
 )
 from zahteve.forms import (
-    RegisterForm, 
-    RestorePasswordForm, 
-    RequestRestorePasswordForm, 
-    DemandAnswerForm, 
+    RegisterForm,
+    RestorePasswordForm,
+    RequestRestorePasswordForm,
+    DemandAnswerForm,
     VoterQuestionForm,
 )
 from zahteve.serializers import PartySerializer
@@ -50,30 +50,30 @@ def landing(request, election_slug=None):
     work_groups = WorkGroup.objects.filter(election=election).order_by("?")
 
     parties = Party.objects.filter(election=election, finished_quiz=True).order_by("?")
-    
+
     # TODO: če se bo to uporabljajo tudi za predsedniške in lokalne volitve,
     # je treba dodat election še v ta model (VoterQuestion)
-    if request.method == 'POST':
+    if request.method == "POST":
         voter_question_form = VoterQuestionForm(request.POST)
         if voter_question_form.is_valid():
             question_form_thankyou = True
             voter_question_form.save()
             voter_question_form = VoterQuestionForm()
-            messages.success(request, 'Hvala za oddano vprašanje!')
+            messages.success(request, "Hvala za oddano vprašanje!")
             return redirect("/")
         else:
-            messages.error(request, 'Prišlo je do napake.')
+            messages.error(request, "Prišlo je do napake.")
     else:
         voter_question_form = VoterQuestionForm()
-    
+
     return render(
         request,
         "zahteve/landing.html",
         context={
-            "work_groups": work_groups, 
-            "parties": parties, 
+            "work_groups": work_groups,
+            "parties": parties,
             "voter_question_form": voter_question_form,
-            "question_form_thankyou": question_form_thankyou
+            "question_form_thankyou": question_form_thankyou,
         },
     )
 
@@ -138,6 +138,7 @@ def demands_party(request, party_id):
         },
     )
 
+
 def faq(request):
     return render(request, "zahteve/pogosta_vprasanja.html")
 
@@ -155,11 +156,11 @@ def party(request, election_slug=None):
         election = Election.objects.first()
     else:
         election = Election.objects.get(slug=election_slug)
-    
+
     if party.finished_quiz:
-        return redirect(f"/{election.slug}/stranke/povzetek")
+        return redirect(f"/{election.slug}/kandidati_ke/povzetek")
     else:
-        return redirect(f"/{election.slug}/stranke/navodila")
+        return redirect(f"/{election.slug}/kandidati_ke/navodila")
 
 
 class PartyDemand(View):
@@ -179,12 +180,12 @@ class PartyDemand(View):
             election = Election.objects.first()
         else:
             election = Election.objects.get(slug=election_slug)
-        
+
         if party.finished_quiz:
-            return redirect(f"/{election.slug}/stranke/povzetek")
+            return redirect(f"/{election.slug}/kandidati_ke/povzetek")
 
         # for sidebar menu
-        categories = WorkGroup.objects.all().order_by("id")
+        categories = WorkGroup.objects.filter(election=election).order_by("id")
         for cat in categories:
             cat.check = len(
                 DemandAnswer.objects.filter(
@@ -252,7 +253,7 @@ class PartyDemand(View):
             election = Election.objects.first()
         else:
             election = Election.objects.get(slug=election_slug)
-        
+
         if party.finished_quiz:
             raise BadRequest
 
@@ -278,9 +279,9 @@ class PartyDemand(View):
 
         next = WorkGroup.objects.filter(id__gt=category_id).order_by("id").first()
         if next:
-            return redirect(f"/{election.slug}/stranke/{next.id}")
+            return redirect(f"/{election.slug}/kandidati_ke/{next.id}")
         else:
-            return redirect(f"/{election.slug}/stranke/oddaja")
+            return redirect(f"/{election.slug}/kandidati_ke/oddaja")
 
 
 @login_required
@@ -299,9 +300,9 @@ def party_instructions(request, election_slug=None):
         election = Election.objects.get(slug=election_slug)
 
     if party.finished_quiz:
-        return redirect(f"/{election_slug}/stranke/povzetek")
+        return redirect(f"/{election_slug}/kandidati_ke/povzetek")
 
-    categories = WorkGroup.objects.all().order_by("id")
+    categories = WorkGroup.objects.filter(election=election).order_by("id")
     for cat in categories:
         cat.check = len(
             DemandAnswer.objects.filter(
@@ -318,7 +319,7 @@ def party_instructions(request, election_slug=None):
             "categories": categories,
             "category_id": "navodila",
             "election_slug": election_slug,
-            "next": next
+            "next": next,
         },
     )
 
@@ -339,7 +340,7 @@ def party_finish(request, election_slug=None):
         election = Election.objects.get(slug=election_slug)
 
     if party.finished_quiz:
-        return redirect(f"/{election.slug}/stranke/povzetek")
+        return redirect(f"/{election.slug}/kandidati_ke/povzetek")
 
     categories = WorkGroup.objects.filter(election=election).order_by("id")
     for cat in categories:
@@ -385,11 +386,11 @@ def party_save(request, election_slug=None):
     party.finished_quiz = True
     party.save()
 
-    return redirect(f"/{election.slug}/stranke/povzetek")
+    return redirect(f"/{election.slug}/kandidati_ke/povzetek")
 
 
 @login_required
-def party_summary(request):
+def party_summary(request, election_slug=None):
 
     # if user is not a party, restrict access
     try:
@@ -398,9 +399,14 @@ def party_summary(request):
         raise PermissionDenied
     # ---------------------------------------
 
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
+
     party = Party.objects.get(user=request.user)
 
-    categories = WorkGroup.objects.all().order_by("id")
+    categories = WorkGroup.objects.filter(election=election).order_by("id")
 
     answers_by_workgroup = []
 
@@ -496,12 +502,13 @@ class Volitvomat(APIView):
             election = Election.objects.first()
         else:
             election = Election.objects.get(id=election_id)
-        
+
         parties = Party.objects.filter(election=election, finished_quiz=True)
 
         # TODO treba je odmaknit ta + [128], ker ne pride v poštev pri ostalih volitvah, plus ni nujno 40 vprašanj
         demands = Demand.objects.filter(
-            id__in=list(calculate_most_controversial_demands(election.id, 40).keys()) + [128]
+            id__in=list(calculate_most_controversial_demands(election.id, 40).keys())
+            + [128]
         ).order_by("?")
 
         questions = {
