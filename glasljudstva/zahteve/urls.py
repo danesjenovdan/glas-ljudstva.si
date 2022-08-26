@@ -41,12 +41,21 @@ urlpatterns = [
     path('<slug:election_slug>/', landing),
     path('<slug:election_slug>/zahteve/', landing),
     
+    # URLS for candidates, twice. this is just cosmetics
+    # first for parties
     path('<slug:election_slug>/stranke/', party),
     path('<slug:election_slug>/stranke/<int:category_id>/', PartyDemand.as_view()),
     path('<slug:election_slug>/stranke/navodila/', party_instructions),
     path('<slug:election_slug>/stranke/oddaja/', party_finish),
     path('<slug:election_slug>/stranke/oddaj/', party_save),
     path('<slug:election_slug>/stranke/povzetek/', party_summary),
+    # then for individual candidates
+    path('<slug:election_slug>/kandidati_ke/', party),
+    path('<slug:election_slug>/kandidati_ke/<int:category_id>/', PartyDemand.as_view()),
+    path('<slug:election_slug>/kandidati_ke/navodila/', party_instructions),
+    path('<slug:election_slug>/kandidati_ke/oddaja/', party_finish),
+    path('<slug:election_slug>/kandidati_ke/oddaj/', party_save),
+    path('<slug:election_slug>/kandidati_ke/povzetek/', party_summary),
 
     path('<int:election_id>/api/volitvomat/', Volitvomat.as_view()),
     path('api/volitvomat/', Volitvomat.as_view()),
