@@ -42,7 +42,8 @@ def landing(request, election_slug=None):
     question_form_thankyou = False
 
     if election_slug is None:
-        election = Election.objects.first()
+        # election = Election.objects.first()
+        election = Election.objects.get(slug='predsedniske-2022')
     else:
         election = Election.objects.get(slug=election_slug)
 
@@ -126,7 +127,7 @@ def demands_party(request, party_id):
         return HttpResponseNotFound()
 
     # TODO: primer, ko ni work groupov
-    work_groups = WorkGroup.objects.all().order_by("?")
+    work_groups = WorkGroup.objects.filter(election=party.election).order_by("?")
 
     return render(
         request,
@@ -423,6 +424,39 @@ def party_summary(request, election_slug=None):
         context={"answers_by_workgroup": answers_by_workgroup},
     )
 
+def open_party_summary(request, election_slug=None, party_id=None):
+
+    # if user is not a party, restrict access
+    try:
+        party = Party.objects.get(id=party_id)
+    except:
+        raise PermissionDenied
+    # ---------------------------------------
+
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
+
+    # party = Party.objects.get(user=request.user)
+
+    categories = WorkGroup.objects.filter(election=election).order_by("id")
+
+    answers_by_workgroup = []
+
+    party_answers = DemandAnswer.objects.filter(party=party)
+
+    for category in categories:
+        demands = Demand.objects.filter(workgroup=category)
+        answers = party_answers.filter(demand__in=demands)
+        answers_by_workgroup.append({"workgroup": category.name, "answers": answers})
+
+    return render(
+        request,
+        "stranke/open_povzetek.html",
+        context={"answers_by_workgroup": answers_by_workgroup, "party": party},
+    )
+
 
 def verify_email(request, token):
     verification = get_object_or_404(EmailVerification, verification_key=token)
@@ -506,10 +540,17 @@ class Volitvomat(APIView):
         parties = Party.objects.filter(election=election, finished_quiz=True)
 
         # TODO treba je odmaknit ta + [128], ker ne pride v poštev pri ostalih volitvah, plus ni nujno 40 vprašanj
+        # to spodaj zakomentirano je koda, ki priskrbi najbolj
+        # kontroverzne zahteve in se ne uporablja več
+        # uporabljala se je za državnozborske volitve 2022
+        # demands = Demand.objects.filter(
+        #     id__in=list(calculate_most_controversial_demands(election.id, 40).keys())
+        #     + [128]
+        # ).order_by("?")
+        # spodnji nadomešča zgornji snipper
         demands = Demand.objects.filter(
-            id__in=list(calculate_most_controversial_demands(election.id, 40).keys())
-            + [128]
-        ).order_by("?")
+            election=election
+        )
 
         questions = {
             question.id: {

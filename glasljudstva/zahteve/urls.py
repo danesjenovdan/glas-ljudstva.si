@@ -15,6 +15,7 @@ from zahteve.views import (
     party_finish,
     party_save,
     party_summary,
+    open_party_summary,
     Volitvomat
 )
 
@@ -49,6 +50,7 @@ urlpatterns = [
     path('<slug:election_slug>/stranke/oddaja/', party_finish),
     path('<slug:election_slug>/stranke/oddaj/', party_save),
     path('<slug:election_slug>/stranke/povzetek/', party_summary),
+    path('<slug:election_slug>/stranke/povzetek/<int:party_id>/', open_party_summary),
     # then for individual candidates
     path('<slug:election_slug>/kandidati_ke/', party),
     path('<slug:election_slug>/kandidati_ke/<int:category_id>/', PartyDemand.as_view()),

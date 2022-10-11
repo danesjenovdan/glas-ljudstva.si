@@ -4,7 +4,7 @@
 DATABASE_NAME="glasljudstva"
 
 echo "DROPPING THE DB VOLUME"
-sudo docker-compose down -v db
+sudo docker-compose down -v
 sudo docker-compose up -d
 
 sleep 5

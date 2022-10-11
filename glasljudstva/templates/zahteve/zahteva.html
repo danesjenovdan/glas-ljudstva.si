@@ -11,9 +11,11 @@
     </div>
     <div class="row">
         <div class="col">
+            {% if demand.description %}
             <p class="demand-description">
                 {{ demand.description }}
             </p>
+            {% endif %}
             {% if demand.priority_demand %}
             <p class="demand-description"><strong>Ta zahteva mora biti izpolnjena v roku enega leta od nastopa mandata.</strong></p>
             {% endif %}
@@ -29,7 +31,7 @@
     {% if demand.partys_which_agree %}
     <div class="support-header">
         <img src="{% static 'svg/podpira.svg' %}">
-        <h2>OBLJUBLJAJO:</h2>
+        <h2>SE STRINJAJO:</h2>
     </div>
     <div class="demand-agree">
         {% for party in demand.partys_which_agree %}
@@ -55,7 +57,7 @@
     {% if demand.partys_which_dont_agree %}
         <div class="support-header">
             <img src="{% static 'svg/ne-podpira.svg' %}">
-            <h2>NE OBLJUBLJAJO:</h2>
+            <h2>SE NE STRINJAJO:</h2>
         </div>
         {% for answer in demand.answers_which_dont_agree %}
         <div class="demand-dont-agree">

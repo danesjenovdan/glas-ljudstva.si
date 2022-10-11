@@ -8,7 +8,7 @@ DATABASE_PASSWORD=$(kubectl get secret postgresql -n shared -o jsonpath="{.data.
 
 echo
 echo "PORT FORWARDING"
-nohup kubectl port-forward pod/postgresql-0 54321:5432 --namespace=shared &>/dev/null &
+nohup kubectl port-forward pod/postgresql-11-postgresql-0 54321:5432 --namespace=shared &>/dev/null &
 
 # store the kubectl pid for later
 KUBECTL_PID=$!
@@ -27,7 +27,7 @@ PGPASSWORD=$DATABASE_PASSWORD \
 
 echo
 echo "DROPPING THE DB VOLUME"
-sudo docker-compose down -v db
+sudo docker-compose down -v
 sudo docker-compose up -d
 
 sleep 5
