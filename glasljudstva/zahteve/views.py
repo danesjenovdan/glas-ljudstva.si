@@ -42,10 +42,9 @@ def landing(request, election_slug=None):
     question_form_thankyou = False
 
     if election_slug is None:
-        # election = Election.objects.first()
-        election = Election.objects.get(slug='predsedniske-2022')
-    else:
-        election = Election.objects.get(slug=election_slug)
+        election_slug = "predsedniske-2022"
+
+    election = Election.objects.get(slug=election_slug)
 
     # TODO: treba je urediti prikaz zahtev, da bodo na strani tudi tiste, ki ne pašejo pod noben work group
     work_groups = WorkGroup.objects.filter(election=election).order_by("?")
@@ -75,6 +74,7 @@ def landing(request, election_slug=None):
             "parties": parties,
             "voter_question_form": voter_question_form,
             "question_form_thankyou": question_form_thankyou,
+            "election_slug": election_slug,
         },
     )
 
@@ -424,6 +424,7 @@ def party_summary(request, election_slug=None):
         context={"answers_by_workgroup": answers_by_workgroup},
     )
 
+
 def open_party_summary(request, election_slug=None, party_id=None):
 
     # if user is not a party, restrict access
@@ -548,9 +549,7 @@ class Volitvomat(APIView):
         #     + [128]
         # ).order_by("?")
         # spodnji nadomešča zgornji snipper
-        demands = Demand.objects.filter(
-            election=election
-        )
+        demands = Demand.objects.filter(election=election)
 
         questions = {
             question.id: {
