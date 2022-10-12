@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col">
+        <div class="voter-question-form">
+            {% for message in messages %}
+            <div class="voter-question-form-message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <h2>Imaš vprašanje, ki ga želiš zastaviti stranki?</h2>
+            <p class="instruction-text">Vabimo te, da oddaš vprašanje, ki bi ga želel_a zastaviti določeni politični stranki ali pa vsem prisotnim strankam na velikem predvolilnem soočenju z ljudstvom, <b>15.4. ob 18:00 na Trgu republike</b>. Vprašanja zbiramo do ponedeljka, 11. 4., zvečer.</p>
+            <p class="instruction-text-italic">Žaljivih, nespoštljivih in neprimernih komentarjev ter vprašanj ne bomo upoštevali. Prejeta vprašanja bomo na dogodku izbirali z žrebom.</p>
+            <form method="post">
+                {% csrf_token %}
+                {{ voter_question_form.as_p }}
+                <input type="submit" value="Oddaj vprašanje">
+            </form>
+        </div>
+    </div>
+</div>
