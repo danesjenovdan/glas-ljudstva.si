@@ -6,11 +6,11 @@ from zahteve.models import WorkGroup, Demand, EmailVerification, Newsletter, Par
 
 # Register your models here.
 admin.site.register(WorkGroup)
-admin.site.register(Demand)
+# admin.site.register(Demand)
 admin.site.register(EmailVerification)
 admin.site.register(Newsletter)
-admin.site.register(Party)
-admin.site.register(DemandAnswer)
+# admin.site.register(Party)
+# admin.site.register(DemandAnswer)
 admin.site.register(VoterQuestion)
 
 
@@ -35,10 +35,39 @@ class DemandInline(admin.StackedInline):
     extra = 1
 
 
+class PartyAdmin(admin.ModelAdmin):
+    list_display = ('party_name', 'election', 'finished_quiz')
+    list_filter = ('election', )
+
+
+class DemandAdmin(admin.ModelAdmin):
+    list_display = ('title', 'election')
+    list_filter = ('election', )
+
+
+class DemandAnswerAdmin(admin.ModelAdmin):
+    list_display = ('get_demand_title', 'get_election', 'party')
+    list_filter = ('demand__election', )
+
+    def get_election(self, obj):
+        return obj.demand.election
+    get_election.admin_order_field  = 'demand'  # Allows column order sorting
+    get_election.short_description = 'Election'  # Renames column head
+
+    def get_demand_title(self, obj):
+        return str(obj.demand.title)[:60] + '...' if len(str(obj.demand.title)) > 60 else str(obj.demand.title)
+    get_demand_title.admin_order_field  = 'demand'
+    get_demand_title.short_description = 'Demand'
+
+
 class ElectionAdmin(admin.ModelAdmin):
     inlines = [
         PartyInline,
         DemandInline,
     ]
 
+
 admin.site.register(Election, ElectionAdmin)
+admin.site.register(Demand, DemandAdmin)
+admin.site.register(Party, PartyAdmin)
+admin.site.register(DemandAnswer, DemandAnswerAdmin)
