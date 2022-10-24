@@ -16,7 +16,8 @@ from zahteve.views import (
     party_save,
     party_summary,
     open_party_summary,
-    Volitvomat
+    Volitvomat,
+    QuestionsByMunicipalities
 )
 
 
@@ -61,4 +62,6 @@ urlpatterns = [
 
     path('<int:election_id>/api/volitvomat/', Volitvomat.as_view()),
     path('api/volitvomat/', Volitvomat.as_view()),
+
+    path('api/municipalities/', QuestionsByMunicipalities.as_view()),
 ]

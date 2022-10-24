@@ -7,6 +7,7 @@ from django import forms
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -22,6 +23,7 @@ from zahteve.models import (
     Party,
     DemandAnswer,
     Election,
+    Municipality,
 )
 from zahteve.forms import (
     RegisterForm,
@@ -610,5 +612,62 @@ class Volitvomat(APIView):
         #     "party_comments": questions[112]["party_comments"],
         #     "category": questions[112]["category"],
         # }
+        serializer = PartySerializer(parties, many=True)
+        return Response({"questions": questions, "parties": serializer.data})
+
+
+class QuestionsByMunicipalities(APIView):
+    def get(self, request):
+
+        election_id = request.query_params.get("election_id", None)
+        municipality_id = request.query_params.get("municipality_id", None)
+        question_ids = request.query_params.get("question_ids", None)
+        
+        try:
+            # print("id", election_id)
+            election = Election.objects.get(id=election_id)
+            # print("election", election)
+        except Election.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            # print("id", municipality_id)
+            municipality = Municipality.objects.get(id=municipality_id)
+            # print("municipality", municipality)
+        except Municipality.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            demand_ids = question_ids.split(',') if question_ids else []
+            demands = Demand.objects.filter(id__in=demand_ids)
+            # print(demands)
+        except Demand.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+            
+        parties = Party.objects.filter(municipality=municipality, election=election, finished_quiz=True)
+        # print(parties)
+        # demands = Demand.objects.filter(election=election, municipality=municipality)
+
+        questions = {
+            question.id: {
+                "demand_title": question.title,
+                "demand_description": question.description,
+                "party_answers": {
+                    party.id: DemandAnswer.objects.get(
+                        party=party, demand=question
+                    ).agree_with_demand
+                    for party in parties
+                },
+                "party_comments": {
+                    party.id: DemandAnswer.objects.get(
+                        party=party, demand=question
+                    ).comment
+                    for party in parties
+                },
+                "category": question.workgroup.id if question.workgroup else None,
+            }
+            for question in demands
+        }
+
         serializer = PartySerializer(parties, many=True)
         return Response({"questions": questions, "parties": serializer.data})

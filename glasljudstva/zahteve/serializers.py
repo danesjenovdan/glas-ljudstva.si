@@ -5,4 +5,4 @@ class PartySerializer(serializers.ModelSerializer):
     image_url = serializers.URLField()
     class Meta:
         model = Party
-        fields = ['id', 'party_name', 'image_url', 'url']
+        fields = ['id', 'party_name', 'image_url', 'url', 'proposer', 'sex', 'is_winner']
