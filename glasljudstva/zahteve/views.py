@@ -620,7 +620,7 @@ class QuestionsByMunicipalities(APIView):
     def get(self, request):
 
         election_id = request.query_params.get("election_id", None)
-        municipality_id = request.query_params.get("municipality_id", None)
+        # municipality_id = request.query_params.get("municipality_id", None)
         question_ids = request.query_params.get("question_ids", None)
         
         try:
@@ -630,12 +630,12 @@ class QuestionsByMunicipalities(APIView):
         except Election.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
-        try:
-            # print("id", municipality_id)
-            municipality = Municipality.objects.get(id=municipality_id)
-            # print("municipality", municipality)
-        except Municipality.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        # try:
+        #     # print("id", municipality_id)
+        #     municipality = Municipality.objects.get(id=municipality_id)
+        #     # print("municipality", municipality)
+        # except Municipality.DoesNotExist:
+        #     return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
             demand_ids = question_ids.split(',') if question_ids else []
@@ -644,7 +644,7 @@ class QuestionsByMunicipalities(APIView):
         except Demand.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
             
-        parties = Party.objects.filter(municipality=municipality, election=election, finished_quiz=True)
+        parties = Party.objects.filter(election=election, finished_quiz=True)
         # print(parties)
         # demands = Demand.objects.filter(election=election, municipality=municipality)
 
