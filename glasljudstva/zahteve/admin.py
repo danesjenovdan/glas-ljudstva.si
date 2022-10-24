@@ -2,15 +2,12 @@ from django.contrib import admin
 
 from django.contrib.auth.models import User
 
-from zahteve.models import WorkGroup, Demand, EmailVerification, Newsletter, Party, DemandAnswer, VoterQuestion, Election
+from zahteve.models import WorkGroup, Demand, EmailVerification, Newsletter, Party, DemandAnswer, VoterQuestion, Election, Municipality
 
 # Register your models here.
 admin.site.register(WorkGroup)
-# admin.site.register(Demand)
 admin.site.register(EmailVerification)
 admin.site.register(Newsletter)
-# admin.site.register(Party)
-# admin.site.register(DemandAnswer)
 admin.site.register(VoterQuestion)
 
 
@@ -67,7 +64,15 @@ class ElectionAdmin(admin.ModelAdmin):
     ]
 
 
+class MunicipalityAdmin(admin.ModelAdmin):
+    inlines = [
+        PartyInline,
+        DemandInline,
+    ]
+
+
 admin.site.register(Election, ElectionAdmin)
 admin.site.register(Demand, DemandAdmin)
 admin.site.register(Party, PartyAdmin)
 admin.site.register(DemandAnswer, DemandAnswerAdmin)
+admin.site.register(Municipality, MunicipalityAdmin)

@@ -18,12 +18,21 @@ class Election(models.Model):
         return self.name
 
 
+class Municipality(models.Model):
+    name = models.TextField()
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name
+
+
 class WorkGroup(Timestampable, Versionable):
     name = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     og_title = models.TextField(null=False, blank=False)
     og_description = models.TextField(null=False, blank=False)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
@@ -41,6 +50,7 @@ class Demand(Timestampable, Versionable):
     )
     priority_demand = models.BooleanField(default=False)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.title
@@ -112,6 +122,7 @@ class Party(models.Model):
     image = models.ImageField(null=True, blank=True)
     url = models.URLField(blank=True)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL)
 
     @property
     def image_url(self):

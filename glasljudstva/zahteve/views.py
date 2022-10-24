@@ -146,6 +146,12 @@ def faq(request):
 
 @login_required
 def party(request, election_slug=None):
+    # Vstopna stran do vprašalnika za stranke.
+    # Če uporabnik ni vpisan, ga preusmeri na login.
+    # Če je vpisan, pa ni party, onemogoči dostop.
+    # Če stranka še ni zaključila vprašalnika, jo preusmeri na navodila.
+    # Če je stranka že zaključila vprašalnik, jo preusmeri na povzetek.
+ 
     # if user is not a party, restrict access
     try:
         party = Party.objects.get(user=request.user)
@@ -304,6 +310,7 @@ def party_instructions(request, election_slug=None):
         return redirect(f"/{election_slug}/kandidati_ke/povzetek")
 
     categories = WorkGroup.objects.filter(election=election).order_by("id")
+    
     for cat in categories:
         cat.check = len(
             DemandAnswer.objects.filter(
@@ -531,14 +538,17 @@ class Volitvomat(APIView):
         return {key: not answers[key] for key in answers.keys()}
 
     @method_decorator(cache_page(60 * 60 * 24 * 40))
-    def get(self, request, format=None, election_id=None):
+    def get(self, request, format=None, election_id=None, municipality_id=None):
 
-        if election_id is None:
+        if election_id is None: # po defaultu se uporabi državnozborske
             election = Election.objects.first()
         else:
             election = Election.objects.get(id=election_id)
 
-        parties = Party.objects.filter(election=election, finished_quiz=True)
+        if municipality_id is None:
+            parties = Party.objects.filter(election=election, finished_quiz=True)
+        else: # filter po občini, če ta obstaja
+            parties = Party.objects.filter(election=election, finished_quiz=True, municipality=municipality_id)
 
         # TODO treba je odmaknit ta + [128], ker ne pride v poštev pri ostalih volitvah, plus ni nujno 40 vprašanj
         # to spodaj zakomentirano je koda, ki priskrbi najbolj
@@ -548,8 +558,11 @@ class Volitvomat(APIView):
         #     id__in=list(calculate_most_controversial_demands(election.id, 40).keys())
         #     + [128]
         # ).order_by("?")
-        # spodnji nadomešča zgornji snipper
-        demands = Demand.objects.filter(election=election)
+        # spodnji nadomešča zgornji snippet, dodan je še filter po municipality_id
+        if municipality_id is None:
+            demands = Demand.objects.filter(election=election)
+        else:
+            demands = Demand.objects.filter(election=election, municipality=municipality_id)
 
         questions = {
             question.id: {
