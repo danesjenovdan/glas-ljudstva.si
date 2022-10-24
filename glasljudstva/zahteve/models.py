@@ -118,6 +118,9 @@ class Party(models.Model):
         on_delete=models.CASCADE,
     )
     party_name = models.TextField(blank=True)
+    proposer = models.TextField(blank=True)
+    sex = models.CharField(blank=True, max_length=1)
+    is_winner = models.BooleanField(default=False)
     finished_quiz = models.BooleanField(default=False)
     image = models.ImageField(null=True, blank=True)
     url = models.URLField(blank=True)
