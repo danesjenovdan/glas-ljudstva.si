@@ -65,10 +65,20 @@ class ElectionAdmin(admin.ModelAdmin):
 
 
 class MunicipalityAdmin(admin.ModelAdmin):
+    filter_horizontal = ('demands',)
+
     inlines = [
         PartyInline,
-        DemandInline,
     ]
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "demands":
+            try:
+                election = Election.objects.get(slug='lokalne-volitve-2022')
+                kwargs["queryset"] = Demand.objects.filter(election=election)
+            except:
+                kwargs["queryset"] = Demand.objects.all()
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 
 admin.site.register(Election, ElectionAdmin)
