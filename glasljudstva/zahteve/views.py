@@ -32,7 +32,7 @@ from zahteve.forms import (
     DemandAnswerForm,
     VoterQuestionForm,
 )
-from zahteve.serializers import PartySerializer
+from zahteve.serializers import PartySerializer, MunicipalitySerializer
 from zahteve.math import calculate_most_controversial_demands
 
 # Create your views here.
@@ -618,10 +618,9 @@ class Volitvomat(APIView):
 
 class QuestionsByMunicipalities(APIView):
     def get(self, request):
-
         election_id = request.query_params.get("election_id", None)
-        # municipality_id = request.query_params.get("municipality_id", None)
         question_ids = request.query_params.get("question_ids", None)
+        winners_only = request.query_params.get("winners_only", False)
         
         try:
             # print("id", election_id)
@@ -629,45 +628,55 @@ class QuestionsByMunicipalities(APIView):
             # print("election", election)
         except Election.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
-        # try:
-        #     # print("id", municipality_id)
-        #     municipality = Municipality.objects.get(id=municipality_id)
-        #     # print("municipality", municipality)
-        # except Municipality.DoesNotExist:
-        #     return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
             demand_ids = question_ids.split(',') if question_ids else []
-            demands = Demand.objects.filter(id__in=demand_ids)
+            demands = Demand.objects.filter(id__in=demand_ids, election=election)
             # print(demands)
         except Demand.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
             
-        parties = Party.objects.filter(election=election, finished_quiz=True)
+        if winners_only:
+            parties = Party.objects.filter(election=election, finished_quiz=True, is_winner=True)
+        else:
+            parties = Party.objects.filter(election=election, finished_quiz=True)
         # print(parties)
         # demands = Demand.objects.filter(election=election, municipality=municipality)
 
-        questions = {
-            question.id: {
-                "demand_title": question.title,
-                "demand_description": question.description,
-                "party_answers": {
-                    party.id: DemandAnswer.objects.get(
-                        party=party, demand=question
-                    ).agree_with_demand
-                    for party in parties
-                },
-                "party_comments": {
-                    party.id: DemandAnswer.objects.get(
-                        party=party, demand=question
-                    ).comment
-                    for party in parties
-                },
-                "category": question.workgroup.id if question.workgroup else None,
-            }
-            for question in demands
-        }
+        questions = {}
 
-        serializer = PartySerializer(parties, many=True)
-        return Response({"questions": questions, "parties": serializer.data})
+        for question in demands:
+            demand_title = question.title
+            demand_description = question.description
+            party_answers = {}
+            # party_comments = {}
+            for party in parties:
+                print(party)
+                print(question)
+                try:
+                    answer = DemandAnswer.objects.get(party=party, demand=question)
+                    party_answers[party.id] = answer.agree_with_demand
+                    # party_comments[party.id] = DemandAnswer.objects.get(party=party, demand=question).comment
+                except:
+                    party_answers[party.id] = None
+
+            category = question.workgroup.id if question.workgroup else None
+
+            questions[question.id] = {
+                "demand_title": demand_title,
+                "demand_description": demand_description,
+                "party_answers": party_answers,
+                # "party_comments": party_comments,
+                "category": category
+            }
+
+        municipalities = Municipality.objects.all()
+
+        party_serializer = PartySerializer(parties, many=True)
+        municipality_serializer = MunicipalitySerializer(municipalities, many=True)
+        
+        return Response({
+            "questions": questions, 
+            "parties": party_serializer.data, 
+            "municipalities": municipality_serializer.data
+        })
