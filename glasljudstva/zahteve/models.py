@@ -11,11 +11,15 @@ from zahteve.utils import id_generator
 
 
 class Election(models.Model):
-    name = models.TextField()
+    name = models.TextField(verbose_name = "Ime volitev")
     slug = models.SlugField()
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Volitve'
+        verbose_name_plural = 'Volitve'
 
 
 class WorkGroup(Timestampable, Versionable):
@@ -33,15 +37,19 @@ class WorkGroup(Timestampable, Versionable):
     def demands(self):
         return Demand.objects.filter(workgroup=self).order_by("?")
 
+    class Meta:
+        verbose_name = 'Kategorija vprašanj za kandidate'
+        verbose_name_plural = 'Kategorije vprašanj za kandidate'
+
 
 class Demand(Timestampable, Versionable):
-    title = models.TextField(null=False, blank=False)
-    description = models.TextField(null=True, blank=True)
+    title = models.TextField(null=False, blank=False, verbose_name = "Vprašanje")
+    description = models.TextField(null=True, blank=True, verbose_name = "Dodaten opis")
     workgroup = models.ForeignKey(
-        "WorkGroup", null=True, blank=True, on_delete=models.SET_NULL
+        "WorkGroup", null=True, blank=True, on_delete=models.SET_NULL, verbose_name = "Kategorija"
     )
-    priority_demand = models.BooleanField(default=False)
-    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    priority_demand = models.BooleanField(default=False, verbose_name = "Gre za prioritetno zahtevo? (samo za parlamentarne volitve)")
+    election = models.ForeignKey(Election, on_delete=models.CASCADE, verbose_name = "Volitve")
 
     def __str__(self):
         return self.title
@@ -74,6 +82,10 @@ class Demand(Timestampable, Versionable):
             demand=self, agree_with_demand=False, party__finished_quiz=True
         )
 
+    class Meta:
+        verbose_name = 'Vprašanje za kandidate'
+        verbose_name_plural = 'Vprašanja za kandidate'
+
 
 class DemandModerator(CommentModerator):
     email_notification = False
@@ -104,31 +116,36 @@ class Newsletter(Timestampable):
 
 
 class Municipality(models.Model):
-    name = models.TextField()
+    name = models.TextField(verbose_name = "Ime občine")
     email = models.EmailField()
-    image = models.ImageField(null=True, blank=True)
-    demands = models.ManyToManyField(Demand)
+    image = models.ImageField(null=True, blank=True, verbose_name = "Grb")
+    demands = models.ManyToManyField(Demand, verbose_name = "Vprašanja")
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Občina'
+        verbose_name_plural = 'Občine'
 
 
 class Party(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
+        verbose_name = "Uporabnik"
     )
-    party_name = models.TextField(blank=True)
-    proposer = models.TextField(blank=True)
-    sex = models.CharField(blank=True, max_length=1)
+    party_name = models.TextField(blank=True, verbose_name = "Ime kandidata_ke (ali stranke)")
+    proposer = models.TextField(blank=True, verbose_name = "Predlagatelj kandidata_ke")
+    sex = models.CharField(blank=True, max_length=1, verbose_name = "spol (m/f)")
     email = models.EmailField(null=True, blank=True)
-    is_winner = models.BooleanField(default=False)
-    finished_quiz = models.BooleanField(default=False)
-    image = models.ImageField(null=True, blank=True)
+    is_winner = models.BooleanField(default=False, verbose_name = "Je zmagal_a na volitvah?")
+    finished_quiz = models.BooleanField(default=False, verbose_name = "Je oddal_a vprašalnik? (se izpolni avtomatsko)")
+    image = models.ImageField(null=True, blank=True, verbose_name = "Slika")
     url = models.URLField(blank=True)
-    election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL)
-    already_has_pp = models.BooleanField(default=False)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE, verbose_name = "Volitve")
+    municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL, verbose_name = "Občina")
+    already_has_pp = models.BooleanField(default=False, verbose_name = "Je že izvajal_a PP v prejšnjem mandatu?")
 
     @property
     def image_url(self):
@@ -138,12 +155,16 @@ class Party(models.Model):
         return self.party_name
 
 
+    class Meta:
+        verbose_name = 'Kandidat_ka (ali stranka)'
+        verbose_name_plural = 'Kandidati_ke (ali stranke)'
+
 
 class DemandAnswer(models.Model):
-    agree_with_demand = models.BooleanField(null=True, blank=True)
-    comment = models.CharField(blank=True, default="", max_length=1024)
-    party = models.ForeignKey("Party", on_delete=models.CASCADE)
-    demand = models.ForeignKey("Demand", on_delete=models.CASCADE)
+    agree_with_demand = models.BooleanField(null=True, blank=True, verbose_name = "Odgovor")
+    comment = models.CharField(blank=True, default="", max_length=1024, verbose_name = "Komentar")
+    party = models.ForeignKey("Party", on_delete=models.CASCADE, verbose_name = "Kandidat_ka (ali stranka)")
+    demand = models.ForeignKey("Demand", on_delete=models.CASCADE, verbose_name = "Vprašanje")
 
     def __str__(self):
         return self.demand.title + ", " + self.party.party_name
@@ -154,6 +175,8 @@ class DemandAnswer(models.Model):
                 fields=["party", "demand"], name="unique_party_demand"
             ),
         ]
+        verbose_name = 'Odgovor kandidata_ke'
+        verbose_name_plural = 'Odgovori kandidatov'
 
 
 class VoterQuestion(models.Model):
@@ -165,5 +188,8 @@ class VoterQuestion(models.Model):
     def __str__(self):
         return self.question
 
+    class Meta:
+        verbose_name = 'Vprašanje volilca_ke'
+        verbose_name_plural = 'Vprašanja volilcev'
 
 moderator.register(Demand, DemandModerator)

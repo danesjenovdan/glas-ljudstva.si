@@ -651,8 +651,8 @@ class QuestionsByMunicipalities(APIView):
             party_answers = {}
             # party_comments = {}
             for party in parties:
-                print(party)
-                print(question)
+                # print(party)
+                # print(question)
                 try:
                     answer = DemandAnswer.objects.get(party=party, demand=question)
                     party_answers[party.id] = answer.agree_with_demand
@@ -674,7 +674,7 @@ class QuestionsByMunicipalities(APIView):
 
         party_serializer = PartySerializer(parties, many=True)
         municipality_serializer = MunicipalitySerializer(municipalities, many=True)
-        
+
         return Response({
             "questions": questions, 
             "parties": party_serializer.data, 
