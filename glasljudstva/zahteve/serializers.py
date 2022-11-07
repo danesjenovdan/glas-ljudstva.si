@@ -15,5 +15,5 @@ class MunicipalitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Municipality
-        fields = ['id', 'name', 'email', 'image']
+        fields = ['id', 'name', 'email', 'image', 'slug']
 
