@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.utils.text import slugify
 from zahteve.models import Municipality
 
 MUNICIPALITIES = [
@@ -222,5 +223,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(f'Creating {len(MUNICIPALITIES)} municipalities...')
         for municipality in MUNICIPALITIES:
-            Municipality.objects.create(name=municipality)
+            m, created = Municipality.objects.get_or_create(name=municipality)
+            m.slug = slugify(municipality)
+            m.save()
         self.stdout.write('DONE')
