@@ -11,6 +11,9 @@ services:
       DJANGO_SETTINGS_MODULE: glasljudstva.k8s_settings
       DJANGO_SECRET_KEY: make-me-secret
       DJANGO_DATABASE_HOST: db
+      MAUTIC_URL: http://mautic.hostname/api/
+      MAUTIC_USER: change_mautic_user
+      MAUTIC_PASS: change_mautic_password
     volumes:
       - ./glasljudstva:/app
     depends_on:
