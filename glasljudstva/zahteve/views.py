@@ -40,6 +40,10 @@ def after_registration(request):
     return render(request, "registration/thank_you.html")
 
 
+def omnia(request):
+    return redirect("https://vodici.djnd.si/zemljevid/omnia/predsedniske/1/")
+
+
 def landing(request, election_slug=None):
     question_form_thankyou = False
 

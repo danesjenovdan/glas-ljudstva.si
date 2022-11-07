@@ -4,6 +4,28 @@
 
 {% block content %}
 
+<div class="sub-header">
+    <h2 style="text-align: center;"><a class="pdf"
+            href="https://volitvomat.si/" target="_blank">Volitvomat</a> / <a class="pdf"
+            href="/omnia" target="_blank">Glasovanje na volišču OMNIA</a></h2>
+</div>
+
+<div class="divider"></div>
+
+<div class="sub-header">
+    <h2 style="text-align: center;"></h2>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/Lb1yb73-158?rel=0&modestbranding=1&autoplay=true"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen="allowfullscreen"></iframe>
+        </div>
+    </div>
+</div>
+
 <!-- include the right introduction component -->
 {% if election_slug == 'predsedniske-2022' %}
 {% include './landing_partials/intro-predsedniske.html' %}
@@ -216,6 +238,14 @@
     }
 
     #pdf:hover {
+        text-decoration: underline;
+    }
+
+    .pdf {
+        text-decoration: none;
+    }
+
+    .pdf:hover {
         text-decoration: underline;
     }
 </style>

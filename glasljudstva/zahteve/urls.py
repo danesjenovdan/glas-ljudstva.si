@@ -17,7 +17,8 @@ from zahteve.views import (
     party_summary,
     open_party_summary,
     Volitvomat,
-    QuestionsByMunicipalities
+    QuestionsByMunicipalities,
+    omnia,
 )
 
 
@@ -25,13 +26,13 @@ from zahteve.views import (
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', landing),
-    
+    path('omnia/', omnia),
     path('<int:delovna_skupina_id>/', delovna_skupina),
     path('zahteve/<int:demand_id>/', demand),
     path('zahteve/stranka/<int:party_id>/', demands_party),
     path('zahteve/', landing),
     path('pogosta-vprasanja/', faq),
-    
+
     path('', include('django.contrib.auth.urls')),
     path('comments/', include('django_comments.urls')),
     path('registracija/', Registracija.as_view()),
@@ -42,7 +43,7 @@ urlpatterns = [
 
     path('<slug:election_slug>/', landing),
     path('<slug:election_slug>/zahteve/', landing),
-    
+
     # URLS for candidates, twice. this is just cosmetics
     # first for parties
     path('<slug:election_slug>/stranke/', party),
