@@ -538,86 +538,72 @@ class RestorePasswordView(View):
             return redirect("/")
 
 
+class MunicipalitiesList(APIView):
+    def get(self, request, format=None):
+        municipalities = Municipality.objects.all()
+        municipality_serializer = MunicipalitySerializer(municipalities, many=True)
+        return Response({
+            "municipalities": municipality_serializer.data
+        })
+
 class Volitvomat(APIView):
     @staticmethod
     def twist_answers(answers):
         return {key: not answers[key] for key in answers.keys()}
 
     @method_decorator(cache_page(60 * 60 * 24 * 40))
-    def get(self, request, format=None, election_id=None, municipality_id=None):
+    def get(self, request, format=None, election_id=None, municipality=''):
 
         if election_id is None: # po defaultu se uporabi državnozborske
             election = Election.objects.first()
         else:
             election = Election.objects.get(id=election_id)
 
-        if municipality_id is None:
+        try:
+            municipality = Municipality.objects.get(slug=municipality)
+            parties = Party.objects.filter(election=election, municipality=municipality, finished_quiz=True)
+            demands = municipality.demands.all()
+        except Municipality.DoesNotExist:
             parties = Party.objects.filter(election=election, finished_quiz=True)
-        else: # filter po občini, če ta obstaja
-            parties = Party.objects.filter(election=election, finished_quiz=True, municipality=municipality_id)
-
-        # TODO treba je odmaknit ta + [128], ker ne pride v poštev pri ostalih volitvah, plus ni nujno 40 vprašanj
-        # to spodaj zakomentirano je koda, ki priskrbi najbolj
-        # kontroverzne zahteve in se ne uporablja več
-        # uporabljala se je za državnozborske volitve 2022
-        # demands = Demand.objects.filter(
-        #     id__in=list(calculate_most_controversial_demands(election.id, 40).keys())
-        #     + [128]
-        # ).order_by("?")
-        # spodnji nadomešča zgornji snippet, dodan je še filter po municipality_id
-        if municipality_id is None:
             demands = Demand.objects.filter(election=election)
-        else:
-            demands = Demand.objects.filter(election=election, municipality=municipality_id)
 
-        questions = {
-            question.id: {
-                "demand_title": question.title,
-                "demand_description": question.description,
-                "party_answers": {
-                    party.id: DemandAnswer.objects.get(
-                        party=party, demand=question
-                    ).agree_with_demand
-                    for party in parties
-                },
-                "party_comments": {
-                    party.id: DemandAnswer.objects.get(
-                        party=party, demand=question
-                    ).comment
-                    for party in parties
-                },
-                "category": question.workgroup.id if question.workgroup else None,
+        questions = {}
+
+        for question in demands:
+            demand_title = question.title
+            demand_description = question.description
+            party_answers = {}
+            party_comments = {}
+            for party in parties:
+                # print(party)
+                # print(question)
+                try:
+                    answer = DemandAnswer.objects.get(party=party, demand=question)
+                    party_answers[party.id] = answer.agree_with_demand
+                    party_comments[party.id] = DemandAnswer.objects.get(party=party, demand=question).comment
+                except:
+                    party_answers[party.id] = None
+
+            category = question.workgroup.id if question.workgroup else None
+
+            questions[question.id] = {
+                "demand_title": demand_title,
+                "demand_description": demand_description,
+                "party_answers": party_answers,
+                "party_comments": party_comments,
+                "category": category
             }
-            for question in demands
-        }
-        # # palestina twist
-        # questions[112]["twisted"] = {
-        #     "demand_title": "SLOVENIJA NAJ NE PRIZNA SAMOSTOJNE PALESTINE.",
-        #     "demand_description": "Slovenija ne sme priznati samostojnosti Palestine in naj ne obsoja okupacijskih praks Izraela.",
-        #     "party_answers": self.twist_answers(questions[112]["party_answers"]),
-        #     "party_comments": questions[112]["party_comments"],
-        #     "category": questions[112]["category"],
-        # }
 
-        # # oploditev twist
-        # questions[173]["twisted"] = {
-        #     "demand_title": "SAMSKIM OSEBAM IN OSEBAM V ISTOSPOLNIH PARTNERSKIH ZVEZAH SE NE SME OMOGOČITI ENAKEGA DOSTOPA DO OPLODITVE Z BIOMEDICINSKO POMOČJO IN POSVOJITEV.",
-        #     "demand_description": "Na podlagi ustavno varovane pravice do svobodnega odločanja o rojstvu otrok so z zakonom opredeljeni zdravstveni ukrepi, s katerimi se ženski in moškemu pomaga pri spočetju otroka. Te pravice se ne sme priznati samskim ženskam in ženskam v istospolnih partnerskih zvezah. Prav tako se pravice do posvojitve ne sme priznati samskim osebam in osebam v istospolnih partnerskih zvezah.",
-        #     "party_answers": self.twist_answers(questions[112]["party_answers"]),
-        #     "party_comments": questions[112]["party_comments"],
-        #     "category": questions[112]["category"],
-        # }
+        # municipalities = Municipality.objects.all()
 
-        # # javne finance twist
-        # questions[238]["twisted"] = {
-        #     "demand_title": "JAVNE FINANCE JE TREBA URAVNOTEŽITI Z VARČEVALNIMI UKREPI.",
-        #     "demand_description": "Uravnoteženje javnih financ je treba dosegati z varčevalnimi ukrepi, čeprav varčevanje, ki ga spodbuja fiskalna konsolidacija, povečuje revščino in neenakost ter spodkopava doseganje ekonomskih in socialnih pravic. Varčevalni ukrepi so nujni, četudi gre za degradacijo javnih storitev in se ob tem ne spoštuje trajnostnega, vključujočega in pravičnega okrevanja.",
-        #     "party_answers": self.twist_answers(questions[112]["party_answers"]),
-        #     "party_comments": questions[112]["party_comments"],
-        #     "category": questions[112]["category"],
-        # }
-        serializer = PartySerializer(parties, many=True)
-        return Response({"questions": questions, "parties": serializer.data})
+        party_serializer = PartySerializer(parties, many=True)
+        # municipality_serializer = MunicipalitySerializer(municipalities, many=True)
+
+        return Response({
+            "questions": questions, 
+            "parties": party_serializer.data, 
+            # "municipalities": municipality_serializer.data
+        })
 
 
 class QuestionsByMunicipalities(APIView):

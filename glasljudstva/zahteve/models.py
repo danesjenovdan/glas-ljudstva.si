@@ -118,6 +118,7 @@ class Newsletter(Timestampable):
 class Municipality(models.Model):
     name = models.TextField(verbose_name = "Ime občine")
     email = models.EmailField(null=True, blank=True, verbose_name = "E-naslov")
+    slug = models.SlugField(blank=True)
     image = models.ImageField(null=True, blank=True, verbose_name = "Grb")
     demands = models.ManyToManyField(Demand, verbose_name = "Vprašanja")
 
