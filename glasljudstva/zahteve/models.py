@@ -147,6 +147,7 @@ class Party(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE, verbose_name = "Volitve")
     municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL, verbose_name = "Občina")
     already_has_pp = models.BooleanField(default=False, verbose_name = "Je že izvajal_a PP v prejšnjem mandatu?")
+    mautic_id = models.IntegerField(blank=True, null=True)
 
     @property
     def image_url(self):

@@ -153,3 +153,5 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/django
 
 .idea/
+
+zahteve/management/commands/users_to_import.json

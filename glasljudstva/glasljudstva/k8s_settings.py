@@ -205,3 +205,7 @@ else:
 FRONT_URL = os.getenv("FRONT_URL", "http://localhost:8000/")
 
 LOGIN_URL = "/login/"
+
+MAUTIC_USER = os.getenv("MAUTIC_USER", "")
+MAUTIC_PASS = os.getenv("MAUTIC_PASS", "")
+MAUTIC_URL = os.getenv("MAUTIC_URL", "")
