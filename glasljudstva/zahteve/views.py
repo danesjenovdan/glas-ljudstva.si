@@ -157,7 +157,7 @@ def party(request, election_slug=None):
     # Če je vpisan, pa ni party, onemogoči dostop.
     # Če stranka še ni zaključila vprašalnika, jo preusmeri na navodila.
     # Če je stranka že zaključila vprašalnik, jo preusmeri na povzetek.
- 
+
     # if user is not a party, restrict access
     try:
         party = Party.objects.get(user=request.user)
@@ -200,15 +200,20 @@ class PartyDemand(View):
         # for sidebar menu
         categories = WorkGroup.objects.filter(election=election).order_by("id")
         for cat in categories:
+            demands = Demand.objects.filter(workgroup=cat)
+            if party.municipality:
+                demands = demands.filter(municipality=party.municipality)
             cat.check = len(
                 DemandAnswer.objects.filter(
                     party=party, agree_with_demand__isnull=False, demand__workgroup=cat
                 )
-            ) == len(Demand.objects.filter(workgroup=cat))
+            ) == len(demands)
 
         # TODO: treba prilagodit za non-existend work groupe
         category = WorkGroup.objects.get(pk=category_id)
         demands = Demand.objects.filter(workgroup=category).order_by("id")
+        if party.municipality:
+            demands = demands.filter(municipality=party.municipality)
 
         DemandAnswersFormSet = forms.formset_factory(
             DemandAnswerForm, extra=len(demands)
@@ -316,13 +321,16 @@ def party_instructions(request, election_slug=None):
         return redirect(f"/{election_slug}/kandidati_ke/povzetek")
 
     categories = WorkGroup.objects.filter(election=election).order_by("id")
-    
+
     for cat in categories:
+        demands = Demand.objects.filter(workgroup=cat, election=election)
+        if party.municipality:
+            demands = demands.filter(municipality=party.municipality)
         cat.check = len(
             DemandAnswer.objects.filter(
                 party=party, agree_with_demand__isnull=False, demand__workgroup=cat
             )
-        ) == len(Demand.objects.filter(workgroup=cat, election=election))
+        ) == len(demands)
 
     next = WorkGroup.objects.filter(election=election).order_by("id").first().id
 
@@ -358,15 +366,21 @@ def party_finish(request, election_slug=None):
 
     categories = WorkGroup.objects.filter(election=election).order_by("id")
     for cat in categories:
+        demands = Demand.objects.filter(workgroup=cat, election=election)
+        if party.municipality:
+            demands = demands.filter(municipality=party.municipality)
         cat.check = len(
             DemandAnswer.objects.filter(
                 party=party, agree_with_demand__isnull=False, demand__workgroup=cat
             )
-        ) == len(Demand.objects.filter(workgroup=cat, election=election))
+        ) == len(demands)
 
+    demands = Demand.objects.filter(election=election)
+    if party.municipality:
+        demands = demands.filter(municipality=party.municipality)
     allow_submit = len(
         DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False)
-    ) == len(Demand.objects.filter(election=election))
+    ) == len(demands)
     finished_quiz = party.finished_quiz
 
     return render(
@@ -428,6 +442,8 @@ def party_summary(request, election_slug=None):
 
     for category in categories:
         demands = Demand.objects.filter(workgroup=category)
+        if party.municipality:
+            demands = demands.filter(municipality=party.municipality)
         answers = party_answers.filter(demand__in=demands)
         answers_by_workgroup.append({"workgroup": category.name, "answers": answers})
 
@@ -462,6 +478,8 @@ def open_party_summary(request, election_slug=None, party_id=None):
 
     for category in categories:
         demands = Demand.objects.filter(workgroup=category)
+        if party.municipality:
+            demands = demands.filter(municipality=party.municipality)
         answers = party_answers.filter(demand__in=demands)
         answers_by_workgroup.append({"workgroup": category.name, "answers": answers})
 
@@ -600,8 +618,8 @@ class Volitvomat(APIView):
         # municipality_serializer = MunicipalitySerializer(municipalities, many=True)
 
         return Response({
-            "questions": questions, 
-            "parties": party_serializer.data, 
+            "questions": questions,
+            "parties": party_serializer.data,
             # "municipalities": municipality_serializer.data
         })
 
@@ -611,7 +629,7 @@ class QuestionsByMunicipalities(APIView):
         election_id = request.query_params.get("election_id", None)
         question_ids = request.query_params.get("question_ids", None)
         winners_only = request.query_params.get("winners_only", False)
-        
+
         try:
             # print("id", election_id)
             election = Election.objects.get(id=election_id)
@@ -625,7 +643,7 @@ class QuestionsByMunicipalities(APIView):
             # print(demands)
         except Demand.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-            
+
         if winners_only:
             parties = Party.objects.filter(election=election, finished_quiz=True, is_winner=True)
         else:
@@ -666,7 +684,7 @@ class QuestionsByMunicipalities(APIView):
         municipality_serializer = MunicipalitySerializer(municipalities, many=True)
 
         return Response({
-            "questions": questions, 
-            "parties": party_serializer.data, 
+            "questions": questions,
+            "parties": party_serializer.data,
             "municipalities": municipality_serializer.data
         })
