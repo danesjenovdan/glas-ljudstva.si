@@ -564,13 +564,30 @@ class MunicipalitiesList(APIView):
             "municipalities": municipality_serializer.data
         })
 
+
+class MissingPartiesList(APIView):
+    @method_decorator(cache_page(60 * 60 * 24 * 40))
+    def get(self, request, format=None, election_id=None, municipality_slug=''):
+        try:
+            municipality = Municipality.objects.get(slug=municipality_slug)
+            parties = Party.objects.filter(election=election_id, municipality=municipality, finished_quiz=False)
+        except Municipality.DoesNotExist:
+            parties = Party.objects.filter(election=election_id, finished_quiz=False)
+        
+        party_serializer = PartySerializer(parties, many=True)
+
+        return Response({
+            "missing-parties": party_serializer.data
+        })
+
+
 class Volitvomat(APIView):
     @staticmethod
     def twist_answers(answers):
         return {key: not answers[key] for key in answers.keys()}
 
     @method_decorator(cache_page(60 * 60 * 24 * 40))
-    def get(self, request, format=None, election_id=None, municipality=''):
+    def get(self, request, format=None, election_id=None, municipality_id=''):
 
         if election_id is None: # po defaultu se uporabi državnozborske
             election = Election.objects.first()
@@ -578,10 +595,13 @@ class Volitvomat(APIView):
             election = Election.objects.get(id=election_id)
 
         try:
-            municipality = Municipality.objects.get(slug=municipality)
-            parties = Party.objects.filter(election=election, municipality=municipality, finished_quiz=True)
-            demands = municipality.demands.all()
-        except Municipality.DoesNotExist:
+            if municipality_id:
+                municipality = Municipality.objects.get(slug=municipality_id)
+                parties = Party.objects.filter(election=election, municipality=municipality, finished_quiz=True)
+                demands = municipality.demands.all()
+            else:
+                raise Exception('Municipality id missing.')
+        except:
             parties = Party.objects.filter(election=election, finished_quiz=True)
             demands = Demand.objects.filter(election=election)
 
