@@ -3,7 +3,7 @@ from requests.auth import HTTPBasicAuth
 
 from django.conf import settings
 class MauticApi(object):
-    def __init__(self, username=settings.MAUTIC_USER, password=settings.MAUTIC_PASS, url=settings.MAUTIC_URL):
+    def __init__(self, username=settings.MAUTIC_USER, password=settings.MAUTIC_PASSWORD, url=settings.MAUTIC_URL):
         self.username = username
         self.password = password
         self.url = url
