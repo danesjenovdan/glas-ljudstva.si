@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         election = Election.objects.get(slug='lokalne-volitve-2022')
-        parties = Party.objects.filter(election=election, mautic_id__isnull=False)
+        parties = Party.objects.filter(election=election, mautic_id__isnull=False).exclude(email="")
 
         count = parties.count()
         self.stdout.write(f'Found {count} parties')
