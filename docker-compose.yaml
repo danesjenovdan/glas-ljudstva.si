@@ -13,7 +13,7 @@ services:
       DJANGO_DATABASE_HOST: db
       MAUTIC_URL: http://mautic.hostname/api/
       MAUTIC_USER: change_mautic_user
-      MAUTIC_PASS: change_mautic_password
+      MAUTIC_PASSWORD: change_mautic_password
     volumes:
       - ./glasljudstva:/app
     depends_on:

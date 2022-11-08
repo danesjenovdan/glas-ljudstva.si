@@ -12,7 +12,7 @@ import json
 # TODO: segment prod = 4
 SEGMENT_ID = 5
 EMAIL_TEMPLATE_ID = 10
-mautic_api = MauticApi(username=settings.MAUTIC_USER, password=settings.MAUTIC_PASS, url=settings.MAUTIC_URL)
+mautic_api = MauticApi(username=settings.MAUTIC_USER, password=settings.MAUTIC_PASSWORD, url=settings.MAUTIC_URL)
 
 def add_user_to_mautic(email, name, password, segment_id):
     """
