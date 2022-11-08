@@ -6,12 +6,7 @@ from zahteve.mautic_api import MauticApi
 import os
 import json
 
-# TODO: dodaj wait med pošiljanjem mejlov v loopu
-# TODO: send_email(email_id=EMAIL_TEMPLATE_ID, contact_id=151, municipality='Test123', username="Testniuser123")
-
-# TODO: segment prod = 4
-SEGMENT_ID = 5
-EMAIL_TEMPLATE_ID = 10
+SEGMENT_ID = 4
 mautic_api = MauticApi(username=settings.MAUTIC_USER, password=settings.MAUTIC_PASSWORD, url=settings.MAUTIC_URL)
 
 def add_user_to_mautic(email, name, password, segment_id):
@@ -38,25 +33,6 @@ def add_user_to_mautic(email, name, password, segment_id):
         return mautic_id
     else:
         return None
-
-def send_email(email_id, contact_id, municipality, username):
-    """
-    send_email to contact
-    arguments:
-        email_id: mautic email id
-        contact_id: mautic contact id
-        municipality: municipality name
-    """
-    response, response_status = mautic_api.sendEmail(
-        email_id=email_id,
-        contact_id=contact_id,
-        data={
-            'tokens': {
-                'municipality': municipality,
-                'username': username
-            }
-        })
-    return response_status
 
 
 class Command(BaseCommand):
