@@ -18,6 +18,7 @@ from zahteve.views import (
     open_party_summary,
     Volitvomat,
     MunicipalitiesList,
+    MissingPartiesList,
     QuestionsByMunicipalities,
     omnia,
 )
@@ -62,7 +63,8 @@ urlpatterns = [
     path('<slug:election_slug>/kandidati_ke/oddaj/', party_save),
     path('<slug:election_slug>/kandidati_ke/povzetek/', party_summary),
 
-    path('<int:election_id>/api/volitvomat/<slug:municipality>', Volitvomat.as_view()),
+    path('<int:election_id>/api/volitvomat/missing-parties/<slug:municipality_slug>', MissingPartiesList.as_view()),
+    path('<int:election_id>/api/volitvomat/<slug:municipality_id>', Volitvomat.as_view()),
     path('<int:election_id>/api/volitvomat/', Volitvomat.as_view()),
     path('api/volitvomat/municipalities', MunicipalitiesList.as_view()),
     path('api/volitvomat/', Volitvomat.as_view()),

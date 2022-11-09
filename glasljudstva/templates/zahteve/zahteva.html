@@ -36,13 +36,12 @@
     <div class="demand-agree">
         {% for party in demand.partys_which_agree %}
             <div class="party">
-                <!-- {% if party.image %}
                 <a href="/zahteve/stranka/{{ party.id }}">
-                    <img src="{% get_media_prefix %}{{ party.image }}" alt="{{ party.party_name }}"/>
-                </a>
-                {% endif %} -->
-                <a href="/zahteve/stranka/{{ party.id }}">
-                    <img src="{{ party.image_url }}" alt="{{ party.party_name }}"/>
+                    {% if party.image_url %}
+                        <img src="{{ party.image_url }}" alt="{{ party.party_name }}" />
+                    {% else %}
+                        <img src="{% static 'svg/oseba.svg' %}" alt="{{ party.party_name }}" />
+                    {% endif %}
                 </a>
                 <span class="party-name">
                     <a href="/zahteve/stranka/{{ party.id }}">
@@ -62,13 +61,12 @@
         {% for answer in demand.answers_which_dont_agree %}
         <div class="demand-dont-agree">
             <div class="party">
-                <!-- {% if party.image %}
-                <a href="/zahteve/stranka/{{ party.id }}">
-                    <img src="{% get_media_prefix %}{{ party.image }}" alt="{{ party.party_name }}"/>
-                </a>
-                {% endif %} -->
                 <a href="/zahteve/stranka/{{ answer.party.id }}">
-                    <img src="{{ answer.party.image_url }}" alt="{{ answer.party.party_name }}"/>
+                    {% if answer.party.image_url %}
+                        <img src="{{ answer.party.image_url }}" alt="{{ answer.party.party_name }}" />
+                    {% else %}
+                        <img src="{% static 'svg/oseba.svg' %}" alt="{{ answer.party.party_name }}" />
+                    {% endif %}
                 </a>
                 <span class="party-name">
                     <a href="/zahteve/stranka/{{ answer.party.id }}">{{ answer.party.party_name }}</a>
