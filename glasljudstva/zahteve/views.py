@@ -132,8 +132,14 @@ def demands_party(request, party_id):
     except Party.DoesNotExist:
         return HttpResponseNotFound()
 
-    # TODO: primer, ko ni work groupov
-    work_groups = WorkGroup.objects.filter(election=party.election).order_by("?")
+    if (party.municipality):
+        work_groups = [{
+            "id": wg.id,
+            "name": wg.name,
+            "demands": Demand.objects.filter(election=party.election, municipality=party.municipality),
+        } for wg in WorkGroup.objects.filter(election=party.election).order_by("?")]
+    else:
+        work_groups = WorkGroup.objects.filter(election=party.election).order_by("?")
 
     return render(
         request,
