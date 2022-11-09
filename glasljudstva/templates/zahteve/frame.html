@@ -59,6 +59,14 @@
     <script defer data-domain="glas-ljudstva.si" src="https://plausible.lb.djnd.si/js/plausible.js"></script>
 </head>
 
+<script type="text/javascript">
+    function nofind() {
+        var img = event.srcElement
+        img.src="{% static 'svg/oseba.svg' %}";
+        img.onerror = null; 
+    }
+</script>
+
 <body>
     <div class="container">
             <div class="row frame-header">
@@ -139,4 +147,5 @@
         </div>
     </div>
     <script src="{% static 'js/script.js' %}?v=2"></script>
+    
 </body>

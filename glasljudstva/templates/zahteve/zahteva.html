@@ -37,11 +37,7 @@
         {% for party in demand.partys_which_agree %}
             <div class="party">
                 <a href="/zahteve/stranka/{{ party.id }}">
-                    {% if party.image_url %}
-                        <img src="{{ party.image_url }}" alt="{{ party.party_name }}" />
-                    {% else %}
-                        <img src="{% static 'svg/oseba.svg' %}" alt="{{ party.party_name }}" />
-                    {% endif %}
+                    <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
                 </a>
                 <span class="party-name">
                     <a href="/zahteve/stranka/{{ party.id }}">
@@ -62,11 +58,7 @@
         <div class="demand-dont-agree">
             <div class="party">
                 <a href="/zahteve/stranka/{{ answer.party.id }}">
-                    {% if answer.party.image_url %}
-                        <img src="{{ answer.party.image_url }}" alt="{{ answer.party.party_name }}" />
-                    {% else %}
-                        <img src="{% static 'svg/oseba.svg' %}" alt="{{ answer.party.party_name }}" />
-                    {% endif %}
+                    <img src="{{ answer.party.image_url }}" alt="{{ answer.party.party_name }}" onerror="nofind()" />
                 </a>
                 <span class="party-name">
                     <a href="/zahteve/stranka/{{ answer.party.id }}">{{ answer.party.party_name }}</a>

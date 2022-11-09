@@ -50,11 +50,7 @@
             </a>
             {% endif %} -->
         <a href="/zahteve/stranka/{{ party.id }}" style="width: 64px; height: 64px;">
-            {% if party.image_url %}
-                <img src="{{ party.image_url }}" alt="{{ party.party_name }}" />
-            {% else %}
-                <img src="{% static 'svg/oseba.svg' %}" alt="{{ party.party_name }}" />
-            {% endif %}
+            <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
         </a>
         <span class="party-name">
             <a href="/zahteve/stranka/{{ party.id }}">
@@ -139,11 +135,7 @@
                 {% for party in demand.partys_which_agree %}
                 <a href="/zahteve/stranka/{{ party.id }}" class="partylink">
                     <div class="party-image" title="{{ party.party_name }}">
-                        {% if party.image_url %}
-                            <img src="{{ party.image_url }}" alt="{{ party.party_name }}" />
-                        {% else %}
-                            <img src="{% static 'svg/oseba.svg' %}" alt="{{ party.party_name }}" />
-                        {% endif %}
+                        <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
                     </div>
                 </a>
                 {% endfor %}
@@ -151,11 +143,7 @@
                 {% for party in demand.partys_which_dont_agree %}
                 <a href="/zahteve/stranka/{{ party.id }}" class="partylink disagrees">
                     <div class="party-image" title="{{ party.party_name }}">
-                        {% if party.image_url %}
-                            <img src="{{ party.image_url }}" alt="{{ party.party_name }}" />
-                        {% else %}
-                            <img src="{% static 'svg/oseba.svg' %}" alt="{{ party.party_name }}" />
-                        {% endif %}
+                        <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
                     </div>
                 </a>
                 {% endfor %}

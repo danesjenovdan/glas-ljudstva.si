@@ -151,10 +151,7 @@ class Party(models.Model):
 
     @property
     def image_url(self):
-        if self.municipality:
-            return ""
-        else:
-            return f"https://djnd.s3.fr-par.scw.cloud/glas-ljudstva/img/{filepath_to_uri(self.party_name)}.jpg"
+        return f"https://djnd.s3.fr-par.scw.cloud/glas-ljudstva/img/{filepath_to_uri(self.party_name)}.jpg"
             
     def __str__(self):
         return self.party_name
