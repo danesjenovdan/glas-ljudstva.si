@@ -4,7 +4,11 @@
 {% block content %}
 
 <div class="party-header">
-    <img src="{{ party.image_url }}" />
+    {% if party.image_url %}
+        <img src="{{ party.image_url }}" />
+    {% else %}
+        <img src="{% static 'svg/oseba.svg' %}" />
+    {% endif %}
     <div>
         <h1>{{ party.party_name }}</h1>
         <p><a href="{{ party.url }}" target="_blank">{{ party.url }}</a></p>
