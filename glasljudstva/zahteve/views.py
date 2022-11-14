@@ -10,7 +10,6 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.contrib import messages
 
@@ -572,7 +571,7 @@ class MunicipalitiesList(APIView):
 
 
 class MissingPartiesList(APIView):
-    @method_decorator(cache_page(60 * 60 * 24 * 40))
+    # @method_decorator(cache_page(60 * 60 * 24 * 40))
     def get(self, request, format=None, election_id=None, municipality_slug=''):
         try:
             municipality = Municipality.objects.get(slug=municipality_slug)
@@ -592,7 +591,7 @@ class Volitvomat(APIView):
     def twist_answers(answers):
         return {key: not answers[key] for key in answers.keys()}
 
-    @method_decorator(cache_page(60 * 60 * 24 * 40))
+    # @method_decorator(cache_page(60 * 60 * 24 * 40))
     def get(self, request, format=None, election_id=None, municipality_id=''):
 
         if election_id is None: # po defaultu se uporabi državnozborske
