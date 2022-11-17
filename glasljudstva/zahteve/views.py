@@ -578,7 +578,7 @@ class MissingPartiesList(APIView):
             parties = Party.objects.filter(election=election_id, municipality=municipality, finished_quiz=False)
         except Municipality.DoesNotExist:
             parties = Party.objects.filter(election=election_id, finished_quiz=False)
-        
+
         party_serializer = PartySerializer(parties, many=True)
 
         return Response({
@@ -670,11 +670,12 @@ class QuestionsByMunicipalities(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         if winners_only:
-            parties = Party.objects.filter(election=election, finished_quiz=True, is_winner=True)
+            parties = Party.objects.filter(election=election, is_winner=True)
         else:
-            parties = Party.objects.filter(election=election, finished_quiz=True)
+            parties = Party.objects.filter(election=election)
         # print(parties)
         # demands = Demand.objects.filter(election=election, municipality=municipality)
+        answered_parties = []
 
         questions = {}
 
@@ -689,9 +690,11 @@ class QuestionsByMunicipalities(APIView):
                 try:
                     answer = DemandAnswer.objects.get(party=party, demand=question)
                     party_answers[party.id] = answer.agree_with_demand
+                    answered_parties.append(party)
                     # party_comments[party.id] = DemandAnswer.objects.get(party=party, demand=question).comment
                 except:
-                    party_answers[party.id] = None
+                    pass
+                    # party_answers[party.id] = None
 
             category = question.workgroup.id if question.workgroup else None
 
@@ -705,7 +708,7 @@ class QuestionsByMunicipalities(APIView):
 
         municipalities = Municipality.objects.all()
 
-        party_serializer = PartySerializer(parties, many=True)
+        party_serializer = PartySerializer(answered_parties, many=True)
         municipality_serializer = MunicipalitySerializer(municipalities, many=True)
 
         return Response({
