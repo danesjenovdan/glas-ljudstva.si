@@ -46,30 +46,41 @@ def omnia(request):
 def landing(request, election_slug=None):
     question_form_thankyou = False
 
-    if election_slug is None:
-        election_slug = "predsedniske-2022"
+    # if election_slug is None:
+    #     election_slug = "predsedniske-2022"
 
-    election = Election.objects.get(slug=election_slug)
+    if election_slug:
 
-    # TODO: treba je urediti prikaz zahtev, da bodo na strani tudi tiste, ki ne pašejo pod noben work group
-    work_groups = WorkGroup.objects.filter(election=election).order_by("?")
+        election = Election.objects.get(slug=election_slug)
 
-    parties = Party.objects.filter(election=election, finished_quiz=True).order_by("?")
+        # TODO: treba je urediti prikaz zahtev, da bodo na strani tudi tiste, ki ne pašejo pod noben work group
+        work_groups = WorkGroup.objects.filter(election=election).order_by("?")
 
-    # TODO: če se bo to uporabljajo tudi za predsedniške in lokalne volitve,
-    # je treba dodat election še v ta model (VoterQuestion)
-    if request.method == "POST":
-        voter_question_form = VoterQuestionForm(request.POST)
-        if voter_question_form.is_valid():
-            question_form_thankyou = True
-            voter_question_form.save()
-            voter_question_form = VoterQuestionForm()
-            messages.success(request, "Hvala za oddano vprašanje!")
-            return redirect("/")
+        parties = Party.objects.filter(election=election, finished_quiz=True).order_by(
+            "?"
+        )
+
+        # TODO: če se bo to uporabljajo tudi za predsedniške in lokalne volitve,
+        # je treba dodat election še v ta model (VoterQuestion)
+        if request.method == "POST":
+            voter_question_form = VoterQuestionForm(request.POST)
+            if voter_question_form.is_valid():
+                question_form_thankyou = True
+                voter_question_form.save()
+                voter_question_form = VoterQuestionForm()
+                messages.success(request, "Hvala za oddano vprašanje!")
+                return redirect("/")
+            else:
+                messages.error(request, "Prišlo je do napake.")
         else:
-            messages.error(request, "Prišlo je do napake.")
+            voter_question_form = VoterQuestionForm()
+
     else:
+        work_groups = []
+        parties = []
         voter_question_form = VoterQuestionForm()
+        question_form_thankyou = True
+        election_slug = "zdravstvo"
 
     return render(
         request,
@@ -131,12 +142,17 @@ def demands_party(request, party_id):
     except Party.DoesNotExist:
         return HttpResponseNotFound()
 
-    if (party.municipality):
-        work_groups = [{
-            "id": wg.id,
-            "name": wg.name,
-            "demands": Demand.objects.filter(election=party.election, municipality=party.municipality),
-        } for wg in WorkGroup.objects.filter(election=party.election).order_by("?")]
+    if party.municipality:
+        work_groups = [
+            {
+                "id": wg.id,
+                "name": wg.name,
+                "demands": Demand.objects.filter(
+                    election=party.election, municipality=party.municipality
+                ),
+            }
+            for wg in WorkGroup.objects.filter(election=party.election).order_by("?")
+        ]
     else:
         work_groups = WorkGroup.objects.filter(election=party.election).order_by("?")
 
@@ -565,25 +581,23 @@ class MunicipalitiesList(APIView):
     def get(self, request, format=None):
         municipalities = Municipality.objects.all()
         municipality_serializer = MunicipalitySerializer(municipalities, many=True)
-        return Response({
-            "municipalities": municipality_serializer.data
-        })
+        return Response({"municipalities": municipality_serializer.data})
 
 
 class MissingPartiesList(APIView):
     # @method_decorator(cache_page(60 * 60 * 24 * 40))
-    def get(self, request, format=None, election_id=None, municipality_slug=''):
+    def get(self, request, format=None, election_id=None, municipality_slug=""):
         try:
             municipality = Municipality.objects.get(slug=municipality_slug)
-            parties = Party.objects.filter(election=election_id, municipality=municipality, finished_quiz=False)
+            parties = Party.objects.filter(
+                election=election_id, municipality=municipality, finished_quiz=False
+            )
         except Municipality.DoesNotExist:
             parties = Party.objects.filter(election=election_id, finished_quiz=False)
 
         party_serializer = PartySerializer(parties, many=True)
 
-        return Response({
-            "missing-parties": party_serializer.data
-        })
+        return Response({"missing-parties": party_serializer.data})
 
 
 class Volitvomat(APIView):
@@ -592,9 +606,9 @@ class Volitvomat(APIView):
         return {key: not answers[key] for key in answers.keys()}
 
     # @method_decorator(cache_page(60 * 60 * 24 * 40))
-    def get(self, request, format=None, election_id=None, municipality_id=''):
+    def get(self, request, format=None, election_id=None, municipality_id=""):
 
-        if election_id is None: # po defaultu se uporabi državnozborske
+        if election_id is None:  # po defaultu se uporabi državnozborske
             election = Election.objects.first()
         else:
             election = Election.objects.get(id=election_id)
@@ -602,10 +616,12 @@ class Volitvomat(APIView):
         try:
             if municipality_id:
                 municipality = Municipality.objects.get(slug=municipality_id)
-                parties = Party.objects.filter(election=election, municipality=municipality, finished_quiz=True)
+                parties = Party.objects.filter(
+                    election=election, municipality=municipality, finished_quiz=True
+                )
                 demands = municipality.demands.all()
             else:
-                raise Exception('Municipality id missing.')
+                raise Exception("Municipality id missing.")
         except:
             parties = Party.objects.filter(election=election, finished_quiz=True)
             demands = Demand.objects.filter(election=election)
@@ -623,7 +639,9 @@ class Volitvomat(APIView):
                 try:
                     answer = DemandAnswer.objects.get(party=party, demand=question)
                     party_answers[party.id] = answer.agree_with_demand
-                    party_comments[party.id] = DemandAnswer.objects.get(party=party, demand=question).comment
+                    party_comments[party.id] = DemandAnswer.objects.get(
+                        party=party, demand=question
+                    ).comment
                 except:
                     party_answers[party.id] = None
 
@@ -634,7 +652,7 @@ class Volitvomat(APIView):
                 "demand_description": demand_description,
                 "party_answers": party_answers,
                 "party_comments": party_comments,
-                "category": category
+                "category": category,
             }
 
         # municipalities = Municipality.objects.all()
@@ -642,11 +660,13 @@ class Volitvomat(APIView):
         party_serializer = PartySerializer(parties, many=True)
         # municipality_serializer = MunicipalitySerializer(municipalities, many=True)
 
-        return Response({
-            "questions": questions,
-            "parties": party_serializer.data,
-            # "municipalities": municipality_serializer.data
-        })
+        return Response(
+            {
+                "questions": questions,
+                "parties": party_serializer.data,
+                # "municipalities": municipality_serializer.data
+            }
+        )
 
 
 class QuestionsByMunicipalities(APIView):
@@ -663,7 +683,7 @@ class QuestionsByMunicipalities(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
-            demand_ids = question_ids.split(',') if question_ids else []
+            demand_ids = question_ids.split(",") if question_ids else []
             demands = Demand.objects.filter(id__in=demand_ids, election=election)
             # print(demands)
         except Demand.DoesNotExist:
@@ -703,7 +723,7 @@ class QuestionsByMunicipalities(APIView):
                 "demand_description": demand_description,
                 "party_answers": party_answers,
                 # "party_comments": party_comments,
-                "category": category
+                "category": category,
             }
 
         municipalities = Municipality.objects.all()
@@ -711,8 +731,10 @@ class QuestionsByMunicipalities(APIView):
         party_serializer = PartySerializer(answered_parties, many=True)
         municipality_serializer = MunicipalitySerializer(municipalities, many=True)
 
-        return Response({
-            "questions": questions,
-            "parties": party_serializer.data,
-            "municipalities": municipality_serializer.data
-        })
+        return Response(
+            {
+                "questions": questions,
+                "parties": party_serializer.data,
+                "municipalities": municipality_serializer.data,
+            }
+        )

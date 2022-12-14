@@ -3,6 +3,25 @@
 {% load comments %}
 
 {% block content %}
+
+<style>
+    #pdf {
+        text-decoration: none;
+    }
+
+    #pdf:hover {
+        text-decoration: underline;
+    }
+
+    .pdf {
+        text-decoration: none;
+    }
+
+    .pdf:hover {
+        text-decoration: underline;
+    }
+</style>
+
 <!-- 
 <div class="sub-header">
     <h2 style="text-align: center;"><a class="pdf"
@@ -29,6 +48,8 @@
 <!-- include the right introduction component -->
 {% if election_slug == 'predsedniske-2022' %}
 {% include './landing_partials/intro-predsedniske.html' %}
+{% elif election_slug == 'zdravstvo' %}
+{% include './landing_partials/intro-zdravstvo.html' %}
 {% else %}
 {% include './landing_partials/intro.html' %}
 {% endif %}
@@ -40,6 +61,7 @@
         <h1>Povezave do obljub individualnih strank</h1>
 </div> -->
 
+{% if election_slug == 'predsedniske-2022' %}
 <h2 style="text-align: center; margin-bottom: 40px;">Povezave do stališč posameznih kandidatk in kandidatov.</h2>
 <div class="demand-agree">
     {% for party in parties %}
@@ -203,7 +225,7 @@
 {% endfor %}
 
 <div class="divider"></div>
-
+{% endif %}
 <div class="row">
     <div class="col">
         <div class="video-container">
@@ -226,23 +248,6 @@
     </div>
 </div>
 <!-- <div class="divider"></div> -->
-<style>
-    #pdf {
-        text-decoration: none;
-    }
-
-    #pdf:hover {
-        text-decoration: underline;
-    }
-
-    .pdf {
-        text-decoration: none;
-    }
-
-    .pdf:hover {
-        text-decoration: underline;
-    }
-</style>
 <!-- <div class="sub-header">
     <h2 style="text-align: center;">Odzive strank SAB, LMŠ in LDS pričakujemo v kratkem. Objavljeni bodo takoj,
         ko jih oddajo.</h2>
