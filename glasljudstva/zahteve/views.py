@@ -12,6 +12,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.views.decorators.cache import cache_page
 from django.contrib import messages
+from django.core.serializers import serialize
+import json
 
 from zahteve.models import (
     WorkGroup,
@@ -23,6 +25,7 @@ from zahteve.models import (
     DemandAnswer,
     Election,
     Municipality,
+    MonitoringReport,
 )
 from zahteve.forms import (
     RegisterForm,
@@ -30,6 +33,7 @@ from zahteve.forms import (
     RequestRestorePasswordForm,
     DemandAnswerForm,
     VoterQuestionForm,
+    MonitoringReportForm,
 )
 from zahteve.serializers import PartySerializer, MunicipalitySerializer
 from zahteve.math import calculate_most_controversial_demands
@@ -169,6 +173,107 @@ def demands_party(request, party_id):
 
 def faq(request):
     return render(request, "zahteve/pogosta_vprasanja.html")
+
+
+def monitoring(request, election_slug=None):
+
+    if election_slug is None:
+        election = Election.objects.first()
+    else:
+        election = Election.objects.get(slug=election_slug)
+
+    # demands for this election
+    demands = Demand.objects.filter(election=election)
+    # get the latest updated report for each demand
+    reports = []
+    for d in demands:
+        related_reports = MonitoringReport.objects.filter(demand=d)
+        if related_reports:
+            latest_related_report = related_reports.latest('created_at')
+            reports.append(latest_related_report.id)
+    
+    mrs = MonitoringReport.objects.filter(id__in=reports)
+
+    filtersForm = MonitoringReportForm(request.GET, election_id=election.id)
+
+    if filtersForm.is_valid():
+        data = filtersForm.cleaned_data
+
+        state = data['state']
+        if state:
+            mrs = mrs.filter(state=state)
+
+        is_priority_demand = data['is_priority_demand']
+        if is_priority_demand:
+            mrs = mrs.filter(demand__priority_demand=is_priority_demand)
+        
+        present_in_coalition_treaty = data['present_in_coalition_treaty']
+        if present_in_coalition_treaty:
+            mrs = mrs.filter(present_in_coalition_treaty=present_in_coalition_treaty)
+        
+        cooperative = data['cooperative']
+        if cooperative:
+            mrs = mrs.filter(cooperative=cooperative)
+        
+        responsible_state_bodies = data['responsible_state_bodies']
+        if responsible_state_bodies:
+            mrs = mrs.filter(responsible_state_bodies__in=responsible_state_bodies)
+
+        working_body = data['working_body']
+        if working_body:
+            mrs = mrs.filter(demand__workgroup=working_body)
+
+        sort_by = data['sort_by']
+        sort_dir = data['sort_dir']
+        if sort_by == "present_in_coalition_treaty":
+            if sort_dir == "asc":
+                mrs = mrs.order_by('present_in_coalition_treaty')
+            elif sort_dir == "desc":
+                mrs = mrs.order_by('-present_in_coalition_treaty')
+        if sort_by == "priority_demand":
+            if sort_dir == "asc":
+                mrs = mrs.order_by('demand__priority_demand')
+            elif sort_dir == "desc":
+                mrs = mrs.order_by('-demand__priority_demand')
+        if sort_by == "state":
+            if sort_dir == "asc":
+                mrs = mrs.order_by('state__order')
+            elif sort_dir == "desc":
+                mrs = mrs.order_by('-state__order')
+
+    else:
+        print("Form is not valid")
+        print(filtersForm.errors)
+        filtersForm = MonitoringReportForm(election_id=election.id)
+
+    # serialized_data = serialize("json", mrs)
+    # serialized_data = json.loads(serialized_data)
+    
+    return render(
+        request,
+        "monitoring/index.html",
+        context={
+            "mrs": mrs,
+            "form": filtersForm,
+            "election_slug": election.slug,
+            "options": {
+                "yes": "DA",
+                "no": "NE",
+                "partially": "DELNO",
+            },
+        },
+    )
+
+
+def monitoring_report(request, monitoring_report_id):
+    monitoringReport = get_object_or_404(MonitoringReport, id=monitoring_report_id)
+    return render(
+        request,
+        "monitoring/zaveza.html",
+        context={
+            "monitoringReport": monitoringReport
+        },
+    )
 
 
 @login_required

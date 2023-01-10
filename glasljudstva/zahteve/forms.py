@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import widgets
 from django.contrib.auth.models import User
-from .models import DemandAnswer, VoterQuestion
+from .models import DemandAnswer, VoterQuestion, MonitoringReport, StateBody, WorkGroup, DemandState
 
 
 class RegisterForm(forms.ModelForm):
@@ -62,3 +62,40 @@ class VoterQuestionForm(forms.ModelForm):
         widgets = {
             "question": forms.Textarea(attrs={"rows" : 6})
         }
+
+
+class MonitoringReportForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        election_id = kwargs.pop('election_id')
+        super(MonitoringReportForm, self).__init__(*args, **kwargs)
+        self.fields['working_body'] = forms.ModelChoiceField(queryset=WorkGroup.objects.filter(election=election_id), required=False)
+
+    # working_body = forms.ModelChoiceField(queryset=WorkGroup.objects.filter(election=election_id), required=False)
+    
+    is_priority_demand = forms.BooleanField(label="Prioritetna zaveza", required=False)
+    
+    sort_by = forms.ChoiceField(required=False, choices=(
+        ('', '---------'),
+        ('state', 'Napredek'),
+        ('priority_demand', 'Prioritetna zaveza'),
+        ('present_in_coalition_treaty', 'V koalicijski pogodbi')
+    ))
+
+    sort_dir = forms.ChoiceField(required=False, choices=(
+        ('asc', 'Naraščujoče'),
+        ('desc', 'Padajoče'),
+    ))
+    
+    responsible_state_bodies = forms.ModelMultipleChoiceField(
+        queryset=StateBody.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    state = forms.ModelChoiceField(queryset=DemandState.objects.all(), required=False)
+
+    class Meta:
+        model = MonitoringReport
+        fields = ['present_in_coalition_treaty', 'responsible_state_bodies', 'cooperative', 'state', 'is_priority_demand']
+
+    

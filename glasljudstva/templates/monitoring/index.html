@@ -1,0 +1,463 @@
+{% extends 'zahteve/frame.html' %}
+{% load static %}
+{% load dictionary %}
+
+{% block content %}
+
+<style>
+
+    .filters {
+        padding: 20px 30px;
+        background-color: #f3f3f3;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .filters-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    .filters-header h3 {
+        margin-top: 0;
+    }
+
+    .filters-header button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        height: unset;
+        min-width: unset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'freesansbold', sans-serif;
+        font-size: 16px;
+    }
+
+    .filters-button-icon {
+        width: 16px;
+        height: auto;
+        margin-left: 5px;
+        margin-bottom: 2px;
+        /* transform: rotate(180deg); */
+    }
+
+    .filters .refresh-filters {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .filters .refresh-filters {
+            margin-top: 0;
+        }
+    }
+
+    /* .filters .refresh-filters img {
+        margin-left: 5px;
+        margin-bottom: 2px;
+    } */
+
+    .filters form {
+        margin-top: 30px;
+        display: none;
+    }
+
+    .filters form label {
+        /* font-family: 'freesansbold', sans-serif; */
+        font-family: 'linlibertine';
+        font-weight: normal;
+    }
+
+    .filters form label.filters-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .filters form label.filters-label.empty {
+        height: 17px;
+    }
+
+    .filters form input {
+        width: unset;
+        height: unset;
+    }
+
+    .filters form .filters-submit {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .filters form input[type=submit] {
+        font-size: 16px;
+        line-height: 32px;
+        padding: 0 20px;
+        cursor: pointer;
+    }
+
+    .monitoring-header {
+        text-align: center;
+        /* margin-bottom: 40px; */
+        font-size: 36px; 
+        line-height: 1.25; 
+        color: black; 
+        margin-top: 60px;
+    }
+
+    .filters hr {
+        margin: 10px 0;
+        border-bottom: 0;
+        border-top: 0;
+    }
+
+    .filters-row .filters-col:first-of-type {
+        margin-bottom: 20px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .filters-row {
+            display: flex;
+        }
+
+        .filters-row .filters-col:first-of-type {
+            width: 50%;
+            max-width: 50%;
+            padding-right: 10px;
+            display: inline-block;
+            margin-bottom: 0;
+        }
+
+        .filters-row .filters-col:last-of-type {
+            width: 50%;
+            max-width: 50%;
+            padding-left: 10px;
+            display: inline-block;
+        }
+
+        #id_responsible_state_bodies {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #id_responsible_state_bodies > div {
+            flex: 50%;
+        }
+    }
+
+    .reports-list {
+        margin: 40px 0;
+    }
+
+    .list-row,
+    .list-row-header {
+        display: flex;
+        justify-content: space-between;
+        text-decoration: none;
+    }
+
+    .list-row-header {
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ed1c24;
+        font-family: 'linlibertine';
+        font-size: 18px;
+    }
+
+    .list-row {
+        padding: 10px 0;
+        font-weight: normal;
+    }
+
+    .list-row:hover {
+        background-color: #f3f3f3;
+    }
+
+    .list-row .col-1,
+    .list-row-header .col-1 {
+        overflow-wrap: break-word;
+        line-height: 1.25;
+        padding: 0 10px;
+    }
+
+    .list-row .col-2,
+    .list-row-header .col-2 {
+        width: 20%;
+        overflow-wrap: break-word;
+        line-height: 1.25;
+        padding: 0 10px;
+        display: none;
+        text-align: center;
+    }
+
+    .list-row-header .col-1 {
+        display: flex;
+        align-items: end;
+    }
+
+    .list-row-header .col-2 {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        height: unset;
+        min-width: unset;
+        text-decoration: none;
+        font-family: 'linlibertine';
+        font-size: 18px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .list-row-header .col-2 {
+            display: flex;
+        }
+
+        .list-row .col-2 {
+            display: block;
+        }
+
+        .list-row .col-1,
+        .list-row-header .col-1 {
+            width: 40%;
+        }
+    }
+
+    .priority-icon {
+        width: 20px;
+        height: auto;
+    }
+
+    .sort-icon {
+        width: 12px;
+        height: auto;
+        margin-left: 5px;
+        transform: rotate(180deg);
+    }
+
+    .filters select {
+        border: 1px solid black;
+        padding: 5px 10px;
+        width: 100%;
+    }
+
+    .no-reports-found {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 50px 0;
+    }
+
+    .no-reports-found h3 {
+        padding: 0 10px;
+        font-size: 24px;
+    }
+
+    .no-reports-found img {
+        width: 40px;
+        height: auto;
+    }
+
+</style>
+
+<h1 class="monitoring-header">MONITORING ZAVEZ</h1>
+
+<div class="row">
+    <div class="col">
+        <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</div>
+
+<div class="sub-header">
+  <h2 style="text-align: center">
+    <a id="pdf" href="/drzavnozborske-volitve-2022/" target="_blank"
+      >Pregled vseh zahtev iniciative Glas ljudstva.</a
+    >
+  </h2>
+</div>
+
+<div class="divider"></div>
+
+<div class="filters">
+
+    <div class="filters-header">
+        <button type="button" id="toggle-filters-button">
+            <span id="toggle-filters-button-text">POKAŽI FILTRE</span>
+            <img src="/static/svg/down.svg" id="filters-button-icon" class="filters-button-icon">
+        </button>
+        {% if election_slug %}
+        <a href="/monitoring/{{ election_slug }}" class="refresh-filters">PONASTAVI FILTRE<img src="/static/svg/refresh.svg" class="filters-button-icon"></a>
+        {% else %}
+        <a href="/monitoring" class="refresh-filters">PONASTAVI FILTRE<img src="/static/svg/refresh.svg" class="filters-button-icon"></a>
+        {% endif %}
+    </div>
+
+    <form method="get" id="filters-form">
+
+        <div class="filters-row">
+            <div class="filters-col">
+                <label for="{{ form.state.id_for_label }}" class="filters-label">Napredek pri uresničevanju zaveze:</label>
+                {{ form.state }}
+            </div>
+        
+            <div class="filters-col">
+                <label for="{{ form.present_in_coalition_treaty.id_for_label }}" class="filters-label">Je predvolilna zaveza vključena v koalicijsko pogodbo?</label>
+                {{ form.present_in_coalition_treaty }}
+            </div>
+        </div>
+
+        <hr />
+        
+        <div>
+            <label for="{{ form.is_priority_demand.id_for_label }}" class="filters-label">
+                {{ form.is_priority_demand }}
+                Prioritetna zaveza
+            </label>
+        </div>
+
+        <div>
+            <label for="{{ form.cooperative.id_for_label }}" class="filters-label">
+                {{ form.cooperative }}
+                Državni organ(i) sodeluje(jo) z Glasom ljudstva pri spremljanju uresničevanja zaveze
+            </label>
+        </div>
+
+        <hr />
+
+        <div class="filters-row">
+            <div class="filters-col">
+                <label for="{{ form.working_body.id_for_label }}" class="filters-label">Delovna skupina, ki spremlja zavezo:</label>
+                {{ form.working_body }}
+            </div>
+            <div class="filters-col"></div>
+        </div>
+
+        <hr />
+
+        <div>
+            <label for="{{ form.responsible_state_bodies.id_for_label }}" class="filters-label">Državni organ(i), pristojni za uresničevanje zaveze:</label>
+            {{ form.responsible_state_bodies }}
+        </div>
+
+        <hr />
+
+        <div class="filters-row">
+            <div class="filters-col">
+                <label class="filters-label">Razvrsti po:</label>
+                {{ form.sort_by }}
+            </div>
+
+            <div class="filters-col">
+                <label class="filters-label empty"></label>
+                {{ form.sort_dir }}
+            </div>
+        </div>
+
+        <hr />
+        
+        <div class="filters-submit">
+            <input type="submit" value="Filtriraj">
+        </div>
+        
+    </form>
+
+</div>
+
+{% if mrs %}
+
+<div class="reports-list">
+
+    <div class="list-row-header">
+        <div class="col-1">
+            Zaveza
+        </div>
+        <!-- <button class="col-2" value="state" onclick="sort(this.value)"> -->
+        <button class="col-2" value="state">
+            Napredek
+            <!-- <img src="/static/svg/sort.svg" id="sort-state" class="sort-icon"> -->
+        </button>
+        <!-- <button class="col-2" value="priority_demand" onclick="sort(this.value)"> -->
+        <button class="col-2" value="priority_demand" onclick="sort(this.value)">
+            Prioritetna zaveza
+            <!-- <img src="/static/svg/sort.svg" id="sort-priority" class="sort-icon"> -->
+        </button>
+        <!-- <button class="col-2" value="present_in_coalition_treaty" onclick="sort(this.value)"> -->
+        <button class="col-2" value="present_in_coalition_treaty" onclick="sort(this.value)">
+            V koalicijski pogodbi
+            <!-- <img src="/static/svg/sort.svg" id="sort-coalition" class="sort-icon"> -->
+        </button>
+    </div>
+
+    {% for monitoring_report in mrs %}
+
+    <a href="/monitoring-zaveze/{{ monitoring_report.id }}" class="list-row">
+        <div class="col-1">
+            {{ monitoring_report.demand.title }}
+        </div>
+        <div class="col-2">
+            {{ monitoring_report.state.name }}
+        </div>
+        <div class="col-2">
+            {% if monitoring_report.demand.priority_demand %}
+            <img src="/static/svg/podpira.svg" class="priority-icon">
+            {% else %}
+            <img src="/static/svg/ne-podpira.svg" class="priority-icon">
+            {% endif %}
+        </div>
+        <div class="col-2">
+            {{ options|dictionary:monitoring_report.present_in_coalition_treaty }}
+        </div>
+    </a>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="no-reports-found">
+    <img src="/static/svg/not-found.svg" />
+    <h3>Nobena zaveza ne ustreza danim filtrom. </h3>
+</div>
+
+{% endif %}
+
+<div class="divider"></div>
+
+<script type="text/javascript">
+    function sort(val) {
+        // const oldSort = document.getElementById("id_sort_by")
+        // const newSort = val
+        // let sortingAsc = false
+        // sortingAsc = newSort == oldSort ? !sortingAsc : sortingAsc
+        document.getElementById("id_sort_by").value = val
+        document.getElementById("filters-form").submit()
+    }
+
+    document.getElementById("toggle-filters-button").addEventListener("click", function(event) {
+        const textElement = document.getElementById("toggle-filters-button-text")
+        const currentText = textElement.innerText
+        const newText = currentText === "POKAŽI FILTRE" ? "SKRIJ FILTRE" : "POKAŽI FILTRE"
+        textElement.innerText = newText
+
+        const formElement = document.getElementById("filters-form")
+        formElement.style.display = currentText === "POKAŽI FILTRE" ? "block" : "none"
+
+        const iconElement = document.getElementById("filters-button-icon")
+        iconElement.style.transform = currentText === "POKAŽI FILTRE" ? "rotate(180deg)" : "rotate(0)"
+    })
+
+    if (window.location.search) {
+        document.getElementById("filters-form").style.display = "block"
+        document.getElementById("filters-button-icon").style.transform = "rotate(180deg)"
+        document.getElementById("toggle-filters-button-text").innerText = "SKRIJ FILTRE"
+    }
+
+    // document.getElementById("id_sort_by")
+</script>
+
+{% endblock %}

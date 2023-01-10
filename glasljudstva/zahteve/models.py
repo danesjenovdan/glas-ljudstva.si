@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.http import urlencode
 from django.utils.encoding import filepath_to_uri
+from django.core.validators import MinValueValidator
 
 from django_comments.moderation import CommentModerator, moderator
+
+from martor.models import MartorField
 
 from zahteve.behaviors.models import Timestampable, Versionable
 
@@ -195,3 +198,51 @@ class VoterQuestion(models.Model):
         verbose_name_plural = 'Vprašanja volilcev'
 
 moderator.register(Demand, DemandModerator)
+
+
+YES_NO_PARTIALLY_OPTIONS = [
+    ('yes', 'Da'),
+    ('no', 'Ne'),
+    ('partially', 'Delno'),
+]
+
+class DemandState(models.Model):
+    name = models.TextField(verbose_name="Ime")
+    description = models.TextField(verbose_name="Opis")
+    order = models.IntegerField(verbose_name="Vrstni red", validators=[MinValueValidator(1)], default=1)
+
+    def __str__(self):
+        return f"{self.name} ({self.description})"
+
+    class Meta:
+        verbose_name = 'Stanje zaveze'
+        verbose_name_plural = 'Stanja zaveze'
+
+class StateBody(models.Model):
+    name = models.TextField(verbose_name="Državni organ")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Državni organ'
+        verbose_name_plural = 'Državni organi'
+
+
+class MonitoringReport(Timestampable):
+    # created_at
+    # updated_at
+    demand = models.ForeignKey("Demand", on_delete=models.CASCADE, verbose_name="Predvolilna zaveza")
+    responsible_state_bodies = models.ManyToManyField(StateBody, verbose_name="Državni organ(i), pristojni za uresničevanje zaveze")
+    present_in_coalition_treaty = models.TextField(blank=True, verbose_name="Je predvolilna zaveza vključena v koalicijsko pogodbo?", choices=YES_NO_PARTIALLY_OPTIONS)
+    cooperative = models.BooleanField(default=False, verbose_name="Državni organ(i) sodeluje(jo) z Glasom ljudstva pri spremljanju uresničevanja zaveze")
+    state = models.ForeignKey("DemandState", null=True, verbose_name="Napredek pri uresničevanju zaveze:", on_delete=models.SET_NULL)
+    summary = MartorField(blank=True, null=True, verbose_name="Kratek povzetek ugotovitev o  uresničevanju zaveze (max 1100 znakov)", max_length=1100)
+    notes = MartorField(blank=True, null=True, verbose_name="Opombe (max 300 znakov)", max_length=300)
+
+    def __str__(self):
+        return self.demand.title
+
+    class Meta:
+        verbose_name = 'Monitoring zaveze'
+        verbose_name_plural = 'Monitoring zavez'
