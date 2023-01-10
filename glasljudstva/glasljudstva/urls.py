@@ -22,6 +22,7 @@ from zahteve import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('martor/', include('martor.urls')),
     path('', include(urls)),
 ]
 

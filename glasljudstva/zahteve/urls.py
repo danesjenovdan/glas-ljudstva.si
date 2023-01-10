@@ -21,6 +21,8 @@ from zahteve.views import (
     MissingPartiesList,
     QuestionsByMunicipalities,
     omnia,
+    monitoring,
+    monitoring_report,
 )
 
 
@@ -42,6 +44,10 @@ urlpatterns = [
     path('ponastavi-geslo/<str:parameter>/', RestorePasswordView.as_view()),
     path('ponastavi-geslo/', RestorePasswordView.as_view()),
     path('hvala/', after_registration),
+
+    path('monitoring/', monitoring),
+    path('monitoring/<slug:election_slug>/', monitoring),
+    path('monitoring-zaveze/<int:monitoring_report_id>/', monitoring_report),
 
     path('<slug:election_slug>/', landing),
     path('<slug:election_slug>/zahteve/', landing),

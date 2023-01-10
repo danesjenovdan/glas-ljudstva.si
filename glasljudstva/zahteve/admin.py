@@ -1,14 +1,19 @@
+from django import forms
+from django.db import models
 from django.contrib import admin
-
 from django.contrib.auth.models import User
 
-from zahteve.models import WorkGroup, Demand, EmailVerification, Newsletter, Party, DemandAnswer, VoterQuestion, Election, Municipality
+from martor.fields import MartorFormField
+
+from zahteve.models import WorkGroup, Demand, EmailVerification, Newsletter, Party, DemandAnswer, VoterQuestion, Election, Municipality, MonitoringReport, StateBody, DemandState
 
 # Register your models here.
 admin.site.register(WorkGroup)
 admin.site.register(EmailVerification)
 admin.site.register(Newsletter)
 admin.site.register(VoterQuestion)
+admin.site.register(StateBody)
+admin.site.register(DemandState)
 
 
 # normalen inline ne dela, ker bi User moral imet foreign key na Party
@@ -40,6 +45,7 @@ class PartyAdmin(admin.ModelAdmin):
 class DemandAdmin(admin.ModelAdmin):
     list_display = ('title', 'election')
     list_filter = ('election', )
+    search_fields = ['title']
 
 
 class DemandAnswerAdmin(admin.ModelAdmin):
@@ -81,8 +87,26 @@ class MunicipalityAdmin(admin.ModelAdmin):
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 
+
+class MonitoringReportForm(forms.ModelForm):
+    summary = MartorFormField(required=False)
+    notes = MartorFormField(required=False)
+
+    class Meta:
+        model = MonitoringReport
+        fields = ('__all__')
+
+
+class MonitoringReportAdmin(admin.ModelAdmin):
+    readonly_fields = ['created_at', 'updated_at']
+    autocomplete_fields = ['demand']
+
+    form = MonitoringReportForm
+
+
 admin.site.register(Election, ElectionAdmin)
 admin.site.register(Demand, DemandAdmin)
 admin.site.register(Party, PartyAdmin)
 admin.site.register(DemandAnswer, DemandAnswerAdmin)
 admin.site.register(Municipality, MunicipalityAdmin)
+admin.site.register(MonitoringReport, MonitoringReportAdmin)

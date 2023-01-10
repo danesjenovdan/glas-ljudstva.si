@@ -1,0 +1,107 @@
+{% extends 'zahteve/frame.html' %}
+{% load static %}
+{% load martortags %}
+
+{% block content %}
+
+<style>
+
+    .markdown-header {
+        font-family: 'linlibertine-bold', sans-serif;
+        font-size: 28px;
+    }
+
+    .markdown h1 {
+        font-size: 28px;
+    }
+
+    .markdown h2 {
+        font-size: 24px;
+    }
+
+    .markdown h3 {
+        font-size: 20px;
+    }
+
+    .markdown p, li {
+        font-family: 'linlibertine', serif;
+        font-size: 20px;
+        line-height: 1.25;
+        margin-top: 0;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .markdown-header {
+            font-family: 'linlibertine-bold', sans-serif;
+            font-size: 32px;
+        }
+
+        .markdown h1 {
+            font-size: 32px;
+        }
+
+        .markdown h2 {
+            font-size: 28px;
+        }
+
+        .markdown h3 {
+            font-size: 24px;
+        }
+
+        .markdown p, li {
+            font-family: 'linlibertine', serif;
+            font-size: 24px;
+            line-height: 1.25;
+            margin-top: 0;
+        }
+    }
+
+</style>
+    
+    <div class="divider divider-left working-group"></div>
+    <div class="demand-header">
+        <h2 class="markdown-header">Monitoring zaveze</h2>
+        <h1>
+            {{ monitoringReport.demand.title }}
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% if monitoringReport.demand.description %}
+            <p class="demand-description">
+                {{ monitoringReport.demand.description }}
+            </p>
+            {% endif %}
+            {% if monitoringReport.demand.priority_demand %}
+            <p class="demand-description"><strong>Ta zahteva mora biti izpolnjena v roku enega leta od nastopa mandata.</strong></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="grey-box-text demand-grey-box">
+        <span>
+            Zahtevo ureja delovna skupina: <a href="/{{monitoringReport.demand.workgroup.id}}">{{ monitoringReport.demand.workgroup.name }}</a>
+        </span>
+    </div>
+    <div class="divider divider-left"></div>
+    
+    <h2 class="markdown-header">Ugotovitve o  uresničevanju zaveze</h2>
+
+    <div class="markdown">
+        {{ monitoringReport.summary|safe_markdown }}
+    </div>
+
+    {% if monitoringReport.notes %}
+
+    <div class="divider divider-left"></div>
+
+    <h2 class="markdown-header">Opombe</h2>
+
+    <div class="markdown">
+        {{ monitoringReport.notes|safe_markdown }}
+    </div>
+
+    {% endif %}
+    
+    <div class="divider divider-left"></div>
+
+{% endblock %}

@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "django_comments",
+    "martor",
     "zahteve",
 ]
 
@@ -209,3 +210,23 @@ LOGIN_URL = "/login/"
 MAUTIC_USER = os.getenv("MAUTIC_USER", "")
 MAUTIC_PASSWORD = os.getenv("MAUTIC_PASSWORD", "")
 MAUTIC_URL = os.getenv("MAUTIC_URL", "")
+
+MARTOR_THEME = 'bootstrap'
+
+# Global martor settings
+# Input: string boolean, `true/false`
+MARTOR_ENABLE_CONFIGS = {
+    'emoji': 'false',        # to enable/disable emoji icons.
+    'imgur': 'false',        # to enable/disable imgur/custom uploader.
+    'mention': 'false',     # to enable/disable mention
+    'jquery': 'true',       # to include/revoke jquery (require for admin default django)
+    'living': 'true',      # to enable/disable live updates in preview
+    'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
+    'hljs': 'false',         # to enable/disable hljs highlighting in preview
+}
+
+
+MARTOR_TOOLBAR_BUTTONS = [
+    'bold', 'italic', 'heading', 'unordered-list', 'ordered-list',
+    'link', 'toggle-maximize', 'help'
+]
