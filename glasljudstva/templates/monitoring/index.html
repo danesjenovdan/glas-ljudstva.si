@@ -287,12 +287,12 @@
     <div class="filters-header">
         <button type="button" id="toggle-filters-button">
             <span id="toggle-filters-button-text">POKAŽI FILTRE</span>
-            <img src="/static/svg/down.svg" id="filters-button-icon" class="filters-button-icon">
+            <img src="{% static 'svg/down.svg' %}" id="filters-button-icon" class="filters-button-icon">
         </button>
         {% if election_slug %}
-        <a href="/monitoring/{{ election_slug }}" class="refresh-filters">PONASTAVI FILTRE<img src="/static/svg/refresh.svg" class="filters-button-icon"></a>
+        <a href="/monitoring/{{ election_slug }}" class="refresh-filters">PONASTAVI FILTRE<img src="{% static 'svg/refresh.svg' %}" class="filters-button-icon"></a>
         {% else %}
-        <a href="/monitoring" class="refresh-filters">PONASTAVI FILTRE<img src="/static/svg/refresh.svg" class="filters-button-icon"></a>
+        <a href="/monitoring" class="refresh-filters">PONASTAVI FILTRE<img src="{% static 'svg/refresh.svg' %}" class="filters-button-icon"></a>
         {% endif %}
     </div>
 
@@ -403,9 +403,9 @@
         </div>
         <div class="col-2">
             {% if monitoring_report.demand.priority_demand %}
-            <img src="/static/svg/podpira.svg" class="priority-icon">
+            <img src="{% static 'svg/podpira.svg' %}" class="priority-icon">
             {% else %}
-            <img src="/static/svg/ne-podpira.svg" class="priority-icon">
+            <img src="{% static 'svg/ne-podpira.svg' %}" class="priority-icon">
             {% endif %}
         </div>
         <div class="col-2">
@@ -420,7 +420,7 @@
 {% else %}
 
 <div class="no-reports-found">
-    <img src="/static/svg/not-found.svg" />
+    <img src="{% static 'svg/not-found.svg' %}" />
     <h3>Nobena zaveza ne ustreza danim filtrom. </h3>
 </div>
 
