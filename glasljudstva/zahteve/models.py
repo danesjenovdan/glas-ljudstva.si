@@ -31,7 +31,7 @@ class WorkGroup(Timestampable, Versionable):
     og_title = models.TextField(null=False, blank=False)
     og_description = models.TextField(null=False, blank=False)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    # municipality = models.ForeignKey(Municipality, null=True, on_delete=models.SET_NULL)
+    order = models.IntegerField(verbose_name = "Vrstni red za sortiranje na seznamu", validators=[MinValueValidator(1)], default=1)
 
     def __str__(self):
         return self.name
@@ -41,8 +41,8 @@ class WorkGroup(Timestampable, Versionable):
         return Demand.objects.filter(workgroup=self).order_by("?")
 
     class Meta:
-        verbose_name = 'Kategorija vprašanj za kandidate'
-        verbose_name_plural = 'Kategorije vprašanj za kandidate'
+        verbose_name = 'Področje dela'
+        verbose_name_plural = 'Področja dela'
 
 
 class Demand(Timestampable, Versionable):
@@ -235,10 +235,10 @@ class MonitoringReport(Timestampable):
     demand = models.ForeignKey("Demand", on_delete=models.CASCADE, verbose_name="Predvolilna zaveza")
     responsible_state_bodies = models.ManyToManyField(StateBody, verbose_name="Državni organ(i), pristojni za uresničevanje zaveze")
     present_in_coalition_treaty = models.TextField(blank=True, verbose_name="Je predvolilna zaveza vključena v koalicijsko pogodbo?", choices=YES_NO_PARTIALLY_OPTIONS)
-    cooperative = models.BooleanField(default=False, verbose_name="Državni organ(i) sodeluje(jo) z Glasom ljudstva pri spremljanju uresničevanja zaveze")
+    cooperative = models.TextField(blank=True, verbose_name="Državni organ(i) sodeluje(jo) z Glasom ljudstva pri spremljanju uresničevanja zaveze", choices=YES_NO_PARTIALLY_OPTIONS[:-1])
     state = models.ForeignKey("DemandState", null=True, verbose_name="Napredek pri uresničevanju zaveze:", on_delete=models.SET_NULL)
-    summary = MartorField(blank=True, null=True, verbose_name="Kratek povzetek ugotovitev o  uresničevanju zaveze (max 1100 znakov)", max_length=1100)
-    notes = MartorField(blank=True, null=True, verbose_name="Opombe (max 300 znakov)", max_length=300)
+    summary = MartorField(blank=True, null=True, max_length=5000)
+    notes = MartorField(blank=True, null=True, max_length=1000)
 
     def __str__(self):
         return self.demand.title
