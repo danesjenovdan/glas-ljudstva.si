@@ -262,6 +262,103 @@
         height: auto;
     }
 
+    .infographics {
+        display: flex;
+        justify-content: center;
+        margin: 50px 0;
+    }
+
+    @media (min-width: 768px) {
+        .infographics > div {
+            min-width: 500px;
+        }
+    }
+
+    .infographics-row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+        .infographics-row {
+            flex-direction: row;
+        }
+    }
+
+    .report-dots {
+        display: flex;
+        justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+        .report-dots {
+            justify-content: start;
+        }
+    }
+
+    .infographics .status-name {
+        display: flex;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        /* color: #565656; */
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    @media (min-width: 768px) {
+        .infographics .status-name {
+            min-width: 200px;
+            justify-content: end;
+        }
+      }
+
+    .infographics a.status-name:hover {
+        color: green;
+    }
+
+    .infographics .option {
+        margin-right: 5px;
+    }
+
+    @media (min-width: 768px) {
+        .infographics .option {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+    }
+
+    .infographics .status-circle {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        border: 2px solid black;
+        margin: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .infographics .status-circle img {
+        width: 1rem;
+        height: 1rem;
+    }
+
+      @media (min-width: 768px) {
+        .infographics .status-circle {
+            width: 2rem;
+            height: 2rem;
+            margin: 5px;
+        }
+
+        .infographics .status-circle img {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+
 </style>
 
 <h1 class="monitoring-header">MONITORING ZAVEZ</h1>
@@ -272,6 +369,45 @@
     </div>
 </div>
 
+<div class="infographics">
+    <div>
+        {% for state in demand_states %}
+            <div class="infographics-row">
+                <div>
+                    {% if reports_by_states|dictionary:state.name|length > 0 %}
+                    <div class="status-name">
+                        <span>{{ state.name }} ({{ reports_by_states|dictionary:state.name|length }})</span>
+                    </div>
+                    {% else %}
+                    <div class="status-name">
+                        <span>{{ state.name }} ({{ reports_by_states|dictionary:state.name|length }})</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="option">
+                    <div>
+                        <div class="report-dots">
+                        {% for report in reports_by_states|dictionary:state.name %}
+                        <a title="{{ report.demand.title }}" href="/monitoring-zaveze/{{ report.id }}" class="status-circle">
+                            <img src="{% static 'svg/logo-glasljudstva.svg' %}">
+                        </a>
+
+                        {% if forloop.counter|divisibleby:10 %}
+                        </div>
+                        <div class="d-flex">
+                        {% endif %}
+
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!--
+
 <div class="sub-header">
   <h2 style="text-align: center">
     <a id="pdf" href="/drzavnozborske-volitve-2022/" target="_blank"
@@ -281,6 +417,8 @@
 </div>
 
 <div class="divider"></div>
+
+-->
 
 <div class="filters">
 
@@ -300,14 +438,23 @@
 
         <div class="filters-row">
             <div class="filters-col">
+                <label for="{{ form.working_body.id_for_label }}" class="filters-label">Področja dela:</label>
+                {{ form.working_body }}
+            </div>
+            <div class="filters-col">
                 <label for="{{ form.state.id_for_label }}" class="filters-label">Napredek pri uresničevanju zaveze:</label>
                 {{ form.state }}
             </div>
-        
+        </div>
+
+        <hr />
+
+        <div class="filters-row">
             <div class="filters-col">
                 <label for="{{ form.present_in_coalition_treaty.id_for_label }}" class="filters-label">Je predvolilna zaveza vključena v koalicijsko pogodbo?</label>
                 {{ form.present_in_coalition_treaty }}
             </div>
+            <div class="filters-col"></div>
         </div>
 
         <hr />
@@ -324,16 +471,6 @@
                 {{ form.cooperative }}
                 Državni organ(i) sodeluje(jo) z Glasom ljudstva pri spremljanju uresničevanja zaveze
             </label>
-        </div>
-
-        <hr />
-
-        <div class="filters-row">
-            <div class="filters-col">
-                <label for="{{ form.working_body.id_for_label }}" class="filters-label">Delovna skupina, ki spremlja zavezo:</label>
-                {{ form.working_body }}
-            </div>
-            <div class="filters-col"></div>
         </div>
 
         <hr />
@@ -375,20 +512,11 @@
         <div class="col-1">
             Zaveza
         </div>
-        <!-- <button class="col-2" value="state" onclick="sort(this.value)"> -->
         <button class="col-2" value="state">
             Napredek
-            <!-- <img src="/static/svg/sort.svg" id="sort-state" class="sort-icon"> -->
         </button>
-        <!-- <button class="col-2" value="priority_demand" onclick="sort(this.value)"> -->
-        <button class="col-2" value="priority_demand" onclick="sort(this.value)">
-            Prioritetna zaveza
-            <!-- <img src="/static/svg/sort.svg" id="sort-priority" class="sort-icon"> -->
-        </button>
-        <!-- <button class="col-2" value="present_in_coalition_treaty" onclick="sort(this.value)"> -->
-        <button class="col-2" value="present_in_coalition_treaty" onclick="sort(this.value)">
-            V koalicijski pogodbi
-            <!-- <img src="/static/svg/sort.svg" id="sort-coalition" class="sort-icon"> -->
+        <button class="col-2" value="workgroup">
+            Področje dela
         </button>
     </div>
 
@@ -402,14 +530,7 @@
             {{ monitoring_report.state.name }}
         </div>
         <div class="col-2">
-            {% if monitoring_report.demand.priority_demand %}
-            <img src="{% static 'svg/podpira.svg' %}" class="priority-icon">
-            {% else %}
-            <img src="{% static 'svg/ne-podpira.svg' %}" class="priority-icon">
-            {% endif %}
-        </div>
-        <div class="col-2">
-            {{ options|dictionary:monitoring_report.present_in_coalition_treaty }}
+            {{ monitoring_report.demand.workgroup }}
         </div>
     </a>
 
