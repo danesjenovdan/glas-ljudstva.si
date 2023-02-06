@@ -235,7 +235,7 @@ class MonitoringReport(Timestampable):
     demand = models.ForeignKey("Demand", on_delete=models.CASCADE, verbose_name="Predvolilna zaveza")
     responsible_state_bodies = models.ManyToManyField(StateBody, verbose_name="Državni organ(i), pristojni za uresničevanje zaveze")
     present_in_coalition_treaty = models.TextField(blank=True, verbose_name="Je predvolilna zaveza vključena v koalicijsko pogodbo?", choices=YES_NO_PARTIALLY_OPTIONS)
-    cooperative = models.TextField(blank=True, verbose_name="Državni organ(i) sodeluje(jo) z Glasom ljudstva pri spremljanju uresničevanja zaveze", choices=YES_NO_PARTIALLY_OPTIONS[:-1])
+    cooperative = models.TextField(blank=True, verbose_name="Državni organ(i) so iniciativi Glas ljudstva poslali pojasnila/odgovor o uresničevanju zaveze", choices=YES_NO_PARTIALLY_OPTIONS[:-1])
     state = models.ForeignKey("DemandState", null=True, verbose_name="Napredek pri uresničevanju zaveze:", on_delete=models.SET_NULL)
     summary = MartorField(blank=True, null=True, max_length=5000)
     notes = MartorField(blank=True, null=True, max_length=1000)
