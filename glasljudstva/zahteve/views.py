@@ -246,9 +246,9 @@ def monitoring(request, election_slug=None):
                 mrs = mrs.order_by('state__order')
         if sort_by == "workgroup":
             if sort_dir == "desc":
-                mrs = mrs.order_by('-demand__workgroup__name')
+                mrs = mrs.order_by('-demand__workgroup__order')
             else:
-                mrs = mrs.order_by('demand__workgroup__name')
+                mrs = mrs.order_by('demand__workgroup__order')
 
     else:
         print("Form is not valid")
