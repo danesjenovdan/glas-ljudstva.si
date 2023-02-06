@@ -89,8 +89,8 @@ class MunicipalityAdmin(admin.ModelAdmin):
 
 
 class MonitoringReportForm(forms.ModelForm):
-    summary = MartorFormField(required=False)
-    notes = MartorFormField(required=False)
+    summary = MartorFormField(required=False, label="Ugotovitve o uresničevanju zaveze")
+    notes = MartorFormField(required=False, label="Krajši komentar")
 
     class Meta:
         model = MonitoringReport
