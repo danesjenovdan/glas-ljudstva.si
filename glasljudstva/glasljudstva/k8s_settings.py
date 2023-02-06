@@ -212,6 +212,7 @@ MAUTIC_PASSWORD = os.getenv("MAUTIC_PASSWORD", "")
 MAUTIC_URL = os.getenv("MAUTIC_URL", "")
 
 MARTOR_THEME = 'bootstrap'
+MARTOR_ENABLE_LABEL = True
 
 # Global martor settings
 # Input: string boolean, `true/false`
@@ -224,7 +225,6 @@ MARTOR_ENABLE_CONFIGS = {
     'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
     'hljs': 'false',         # to enable/disable hljs highlighting in preview
 }
-
 
 MARTOR_TOOLBAR_BUTTONS = [
     'bold', 'italic', 'heading', 'unordered-list', 'ordered-list',

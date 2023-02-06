@@ -89,8 +89,8 @@ class MunicipalityAdmin(admin.ModelAdmin):
 
 
 class MonitoringReportForm(forms.ModelForm):
-    summary = MartorFormField(required=False)
-    notes = MartorFormField(required=False)
+    summary = MartorFormField(required=False, label="Kratek povzetek ugotovitev o  uresničevanju zaveze (max 5000 znakov)")
+    notes = MartorFormField(required=False, label="Opombe (max 1000 znakov)")
 
     class Meta:
         model = MonitoringReport
@@ -100,6 +100,8 @@ class MonitoringReportForm(forms.ModelForm):
 class MonitoringReportAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     autocomplete_fields = ['demand']
+    list_filter = ('demand__workgroup',)
+    search_fields = ['demand__title']
 
     form = MonitoringReportForm
 

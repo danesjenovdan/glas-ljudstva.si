@@ -26,6 +26,7 @@ from zahteve.models import (
     Election,
     Municipality,
     MonitoringReport,
+    DemandState,
 )
 from zahteve.forms import (
     RegisterForm,
@@ -192,7 +193,18 @@ def monitoring(request, election_slug=None):
             latest_related_report = related_reports.latest('created_at')
             reports.append(latest_related_report.id)
     
+    # all relevant monitoring objects
     mrs = MonitoringReport.objects.filter(id__in=reports)
+
+    # all possible napredki
+    all_demand_states = DemandState.objects.all().order_by('order')
+    # get number of filtered promises for each status
+    reports_by_states = {}
+    for report in mrs:
+        if (reports_by_states.get(report.state.name)):
+            reports_by_states[report.state.name].append(report)
+        else:
+            reports_by_states[report.state.name] = [report]
 
     filtersForm = MonitoringReportForm(request.GET, election_id=election.id)
 
@@ -225,21 +237,18 @@ def monitoring(request, election_slug=None):
 
         sort_by = data['sort_by']
         sort_dir = data['sort_dir']
-        if sort_by == "present_in_coalition_treaty":
-            if sort_dir == "asc":
-                mrs = mrs.order_by('present_in_coalition_treaty')
-            elif sort_dir == "desc":
-                mrs = mrs.order_by('-present_in_coalition_treaty')
-        if sort_by == "priority_demand":
-            if sort_dir == "asc":
-                mrs = mrs.order_by('demand__priority_demand')
-            elif sort_dir == "desc":
-                mrs = mrs.order_by('-demand__priority_demand')
+        if not sort_by:
+            sort_by = "workgroup"
         if sort_by == "state":
-            if sort_dir == "asc":
-                mrs = mrs.order_by('state__order')
-            elif sort_dir == "desc":
+            if sort_dir == "desc":
                 mrs = mrs.order_by('-state__order')
+            else:
+                mrs = mrs.order_by('state__order')
+        if sort_by == "workgroup":
+            if sort_dir == "desc":
+                mrs = mrs.order_by('-demand__workgroup__order')
+            else:
+                mrs = mrs.order_by('demand__workgroup__order')
 
     else:
         print("Form is not valid")
@@ -254,6 +263,8 @@ def monitoring(request, election_slug=None):
         "monitoring/index.html",
         context={
             "mrs": mrs,
+            "demand_states": all_demand_states,
+            "reports_by_states": reports_by_states,
             "form": filtersForm,
             "election_slug": election.slug,
             "options": {
