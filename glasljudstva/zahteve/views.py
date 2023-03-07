@@ -85,7 +85,7 @@ def landing(request, election_slug=None):
         parties = []
         voter_question_form = VoterQuestionForm()
         question_form_thankyou = True
-        election_slug = "zdravstvo"
+        election_slug = "monitoring"
 
     return render(
         request,

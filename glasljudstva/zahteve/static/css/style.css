@@ -1116,3 +1116,10 @@ button:hover {
     line-height: 1.25;
     font-size: 24px;
 }
+
+.monitoring-intro h1 {
+    text-align: center;
+    font-size: 36px;
+    line-height: 1.25;
+    color: black;
+}
