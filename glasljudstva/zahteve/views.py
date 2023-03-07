@@ -85,7 +85,7 @@ def landing(request, election_slug=None):
         parties = []
         voter_question_form = VoterQuestionForm()
         question_form_thankyou = True
-        election_slug = "zdravstvo"
+        election_slug = "monitoring"
 
     return render(
         request,
@@ -196,7 +196,7 @@ def monitoring(request, election_slug=None):
     # all relevant monitoring objects
     mrs = MonitoringReport.objects.filter(id__in=reports)
 
-    # all possible napredki
+    # all possible demand states
     all_demand_states = DemandState.objects.all().order_by('order')
     # get number of filtered promises for each status
     reports_by_states = {}
@@ -246,9 +246,9 @@ def monitoring(request, election_slug=None):
                 mrs = mrs.order_by('state__order')
         if sort_by == "workgroup":
             if sort_dir == "desc":
-                mrs = mrs.order_by('-demand__workgroup__order')
+                mrs = mrs.order_by('-demand__workgroup__order', '-demand__workgroup__name')
             else:
-                mrs = mrs.order_by('demand__workgroup__order')
+                mrs = mrs.order_by('demand__workgroup__order', 'demand__workgroup__name')
 
     else:
         print("Form is not valid")

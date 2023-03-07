@@ -1,4 +1,4 @@
-{% extends 'zahteve/frame.html' %}
+{% extends 'zahteve/base.html' %}
 {% load static %}
 {% load martortags %}
 
@@ -30,9 +30,36 @@
         margin-top: 0;
     }
 
+    .monitoring-grey-box {
+        background-color: #f3f3f3;
+        padding: 28px;
+        margin: 40px 0;
+    }
+
+    .monitoring-grey-box h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .monitoring-grey-box h3 {
+        font-size: 20px;
+    }
+
+    .monitoring-additional-info .demand-description {
+        margin-top: 30px;
+        margin-bottom: 0;
+    }
+
+    .monitoring-additional-info ul li {
+        font-size: 20px;
+    }
+
+    .demand-description.small {
+        font-size: 20px;
+    }
+
     @media only screen and (min-width: 768px) {
         .markdown-header {
-            font-family: 'linlibertine-bold', sans-serif;
             font-size: 32px;
         }
 
@@ -58,22 +85,77 @@
 
 </style>
     
-    <div class="divider divider-left working-group"></div>
+    {% comment %} <div class="divider divider-left working-group"></div> {% endcomment %}
     <div class="demand-header">
         <h2 class="markdown-header">Monitoring zaveze</h2>
         <h1>
             {{ monitoringReport.demand.title }}
         </h1>
     </div>
+
+    <div class="monitoring-grey-box">
+
+        <h2>Ugotovitve o  uresničevanju zaveze</h2>
+
+        <h3>
+            Napredek: {{ monitoringReport.state.name }}
+        </h3>
+
+        <div class="markdown">
+            {{ monitoringReport.summary|safe_markdown }}
+        </div>
+
+        {% if monitoringReport.notes %}
+
+        <div class="divider divider-left"></div>
+
+        <h2>Opombe</h2>
+
+        <div class="markdown">
+            {{ monitoringReport.notes|safe_markdown }}
+        </div>
+
+        {% endif %}
+    </div>
+
+    <div class="monitoring-additional-info">
+        <p class="demand-description"><strong>Pristojni državni organi:</strong></p>
+        <ul>
+        {% for el in monitoringReport.responsible_state_bodies.all %}
+            <li>{{ el }}</li>
+        {% endfor %}
+        </ul>
+
+        <p class="demand-description"><strong>Je predvolilna zaveza vključena v koalicijsko pogodbo?</strong>
+            <span>
+                {% if monitoringReport.present_in_coalition_treaty == "yes" %}
+                DA
+                {% elif monitoringReport.present_in_coalition_treaty == "no" %}
+                NE
+                {% else %}
+                DELNO
+                {% endif %}
+            </span>
+        </p>
+    </div>
+
+    {% comment %} <div>
+        <a href="/{{monitoringReport.demand.workgroup.id}}">Več zavez iz tega področja</a>
+    </div> {% endcomment %}
+
+    <div class="divider divider-left"></div>
+
+    <h2 class="markdown-header">Podrobno o zavezi</h2>
+
     <div class="row">
         <div class="col">
             {% if monitoringReport.demand.description %}
-            <p class="demand-description">
+            <p class="demand-description small">
                 {{ monitoringReport.demand.description }}
             </p>
             {% endif %}
             {% if monitoringReport.demand.priority_demand %}
-            <p class="demand-description"><strong>Ta zahteva mora biti izpolnjena v roku enega leta od nastopa mandata.</strong></p>
+            <p class="demand-description small"><strong>Ta zahteva mora biti izpolnjena v roku enega leta od nastopa mandata.</strong></p>
             {% endif %}
         </div>
     </div>
@@ -82,26 +164,7 @@
             Zahtevo ureja delovna skupina: <a href="/{{monitoringReport.demand.workgroup.id}}">{{ monitoringReport.demand.workgroup.name }}</a>
         </span>
     </div>
-    <div class="divider divider-left"></div>
     
-    <h2 class="markdown-header">Ugotovitve o  uresničevanju zaveze</h2>
-
-    <div class="markdown">
-        {{ monitoringReport.summary|safe_markdown }}
-    </div>
-
-    {% if monitoringReport.notes %}
-
-    <div class="divider divider-left"></div>
-
-    <h2 class="markdown-header">Opombe</h2>
-
-    <div class="markdown">
-        {{ monitoringReport.notes|safe_markdown }}
-    </div>
-
-    {% endif %}
-    
-    <div class="divider divider-left"></div>
+    {% comment %} <div class="divider divider-left"></div> {% endcomment %}
 
 {% endblock %}

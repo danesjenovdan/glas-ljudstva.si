@@ -75,12 +75,12 @@ class MonitoringReportForm(forms.ModelForm):
     is_priority_demand = forms.BooleanField(label="Prioritetna zaveza", required=False)
     
     sort_by = forms.ChoiceField(required=False, choices=(
-        ('workgroup', 'Področje dela'),
+        ('workgroup', 'Področje dela (po abecedi)'),
         ('state', 'Napredek'),
     ))
 
     sort_dir = forms.ChoiceField(required=False, choices=(
-        ('asc', 'Naraščujoče'),
+        ('asc', 'Naraščajoče'),
         ('desc', 'Padajoče'),
     ))
     
