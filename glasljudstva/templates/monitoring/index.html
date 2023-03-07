@@ -109,6 +109,12 @@
         margin-top: 60px;
     }
 
+    .monitoring-subheader {
+        max-width: 700px;
+        margin: auto;
+        margin-top: 10px;
+    }
+
     .filters hr {
         margin: 10px 0;
         border-bottom: 0;
@@ -157,10 +163,15 @@
         margin: 40px 0;
     }
 
-    .list-row,
     .list-row-header {
         display: flex;
         justify-content: space-between;
+        text-decoration: none;
+    }
+
+    .list-row {
+        display: flex;
+        flex-direction: column;
         text-decoration: none;
     }
 
@@ -189,12 +200,11 @@
 
     .list-row .col-2,
     .list-row-header .col-2 {
-        width: 20%;
         overflow-wrap: break-word;
         line-height: 1.25;
         padding: 0 10px;
-        display: none;
-        text-align: center;
+        margin-top: 5px;
+        font-size: 12px;
     }
 
     .list-row-header .col-1 {
@@ -203,6 +213,7 @@
     }
 
     .list-row-header .col-2 {
+        display: none;
         margin: 0;
         padding: 0;
         border: 0;
@@ -215,18 +226,33 @@
     }
 
     @media only screen and (min-width: 768px) {
+        .list-row {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
         .list-row-header .col-2 {
             display: flex;
             justify-content: center;
+            padding: 0 10px;
         }
 
-        .list-row .col-2 {
+        .list-row .col-2,
+        .list-row-header .col-2 {
+            width: 20%;
             display: block;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 0;
         }
 
         .list-row .col-1,
         .list-row-header .col-1 {
             width: 40%;
+        }
+
+        .list-row .mobile-label {
+            display: none;
         }
     }
 
@@ -349,7 +375,7 @@
         height: 1rem;
     }
 
-      @media (min-width: 768px) {
+    @media (min-width: 768px) {
         .infographics .status-circle {
             width: 2rem;
             height: 2rem;
@@ -362,13 +388,37 @@
         }
     }
 
+    .methodology {
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .methodology h3 {
+        margin-top: 40px;
+    }
+
+    .methodology p, li {
+        color: #000000;
+        font-family: 'linlibertine';
+        font-size: 20px;
+        line-height: 1.25;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .methodology li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
 </style>
 
 <h1 class="monitoring-header">MONITORING ZAVEZ</h1>
 
 <div class="row">
     <div class="col">
-        <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h2 class="monitoring-subheader">NOSILCE_KE OBLASTI DRŽIMO ZA BESEDO. ZAHTEVE CIVILNE DRUŽBE NAJ BODO UPOŠTEVANE!</h2>
+        <p class="intro-text">Pred državnozborskimi volitvami aprila 2022 je iniciativa Glas ljudstva pripravila nabor <a href="https://drive.google.com/file/d/1KsV7T2rDazcRKhnTEQoE8QcDzoGzO0vz/view" target="_blank">138 zahtev</a>, razdeljenih na enajst področij. Zaveze so bile oblikovane na podlagi večmesečnih posvetovanj z različnimi organizacijami, strokovnjaki_njami, prek posvetovanj na spletnih javnih tribunah ter na trgih in ulicah. Vse stranke, ki so kandidirale na volitvah, smo pozvali, naj se do zahtev opredelijo - tri stranke, ki so po volitvah sestavile vlado, so se skupno zavezale k uresničitvi 122 zahtev. Iniciativa Glas ljudstva bo redno in do konca mandata vlade, ki so jo oblikovale omenjene stranke, spremljala uresničevanje vseh 122 zavez. Vsakih šest mesecev bomo ocenili napredek pri implementaciji zavez teri raven je sodelovanje državnih organov s civilno družbo. Cilj monitoringa zavez je povečanje politične odgovornosti nosilk_cev oblasti z namenom krepitve demokracije in politik, usmerjenih v dolgoročno dobrobit ljudi in narave. Ne pristajamo na politične obljube, dejanja so tista, ki štejejo.</p>
     </div>
 </div>
 
@@ -526,10 +576,10 @@
             {{ monitoring_report.demand.title }}
         </div>
         <div class="col-2">
-            {{ monitoring_report.state.name }}
+            <span class="mobile-label">Napredek: </span>{{ monitoring_report.state.name }}
         </div>
         <div class="col-2">
-            {{ monitoring_report.demand.workgroup }}
+            <span class="mobile-label">Področje dela: </span>{{ monitoring_report.demand.workgroup }}
         </div>
     </a>
 
@@ -545,6 +595,57 @@
 </div>
 
 {% endif %}
+
+<div class="divider"></div>
+
+<div class="methodology">
+
+    <h2 class="monitoring-header">METODOLOGIJA MONITORINGA ZAVEZ</h2>
+
+    <p>Pred državnozborskimi volitvami leta 2022 je iniciativa Glas ljudstva pripravila nabor 138 zahtev, razdeljenih na 11 področij. Vse stranke, ki so kandidirale na volitvah, je pozvala, naj se do zahtev opredelijo. Stranke, ki so po volitvah sestavile vlado, so se zavezale k uresničitvi 122 zahtev.</p>
+    <p>Iniciativa Glas ljudstva bo redno in do konca mandata vlade, ki so jo oblikovale omenjene stranke, spremljala uresničevanje vseh 122 zavez.</p>
+    <p>Ugotovitve bomo podajali v periodičnih poročilih; prvo poročilo je bilo objavljeno v marcu  2023, nato pa si bodo sledila približno vsakih šest mesecev.</p>
+
+    <h3>Kdo spremlja uresničevanje zavez?</h3>
+    <p>Monitoring izvajajo posamezniki_ce iz različnih organizacij civilne družbe ter strokovnjaki_nje, ki sodelujejo v iniciativi Glas ljudstva. Delujejo v strokovnih skupinah, razdeljenih na enajst vsebinskih področij; vsaka skupina ima svojega koordinatorja_ko.</p>
+    <p>Strokovne skupine sodelujejo v okviru skupine za monitoring, ki se redno sestaja, spremlja delo vlade ter redno objavlja ugotovitve monitoringa. Z ozaveščanjem javnosti ter ugotovitvami monitoringa omogoča informiranje javnosti o delu vlade.</p>
+    <p>Ugotovitve podajamo v periodičnih poročilih; prvo poročilo je bilo objavljeno v marcu  2023 in zajema obdobje vse od imenovanja vlade. Nato pa si bodo poročila sledila približno vsakih šest mesecev.</p>
+    <p>Poleg tega se Glas ljudstva na delo vlade odziva še z drugimi akcijami, zagovorniškimi aktivnostmi in kampanjami, s katerimi prispeva k uresničevanju zavez.</p>
+    
+    <h3>Kako spremljamo uresničevanje posamezne zaveze?</h3>
+    <p>Postopek spremljanja implementacije zavez zajema naslednje korake:</p>
+    <ol>
+        <li>redno spremljanje dela vlade, državnega zbora, državnega sveta, ministrstev in drugih relevantnih institucij;</li>
+        <li>poziv pristojnim ministrstvom in institucijam, naj nam posredujejo podatke o izvedenih in sprejetih ukrepih ter drugih korakih za izpolnjevanje zavez oziroma o načrtih za izpolnitev zavez;</li>
+        <li>pregled posredovanih gradiv, primerjava ugotovitev in analiza stanja;</li>
+        <li>pridobivanje in pregledovanje informacij ter dokumentov drugih državnih organov, institucij, organizacij, podjetij, posameznic_kov;</li>
+        <li>priprava poročila o ugotovitvah uresničevanja zavez s strani koordinatork_jev skupin, strokovnjakov_inj in predstavnic_kov organizacij iniciative Glas ljudstva;</li>
+        <li>uredništvo in lektura;</li>
+        <li>predstavitev rezultatov monitoringa članom_icam, podpornikom_cam in javnosti.</li>
+    </ol>
+
+    <h3>Kaj vsebujejo periodična poročila o uresničevanju zavez?</h3>
+    <p>Poročila o monitoringu vsebujejo:</p>
+    <ul>
+        <li>pregled zavez na posameznih področjih in oceno napredka pri uresničevanju;</li>
+        <li>indikator sodelovanja državnih organov s civilno družbo;</li>
+        <li>krajši opis ugotovitev;</li>
+        <li>oceno napredka v primerjavi s prejšnjim poročilom (od drugega periodičnega poročila dalje);</li>
+        <li>seznam organov, pristojnih za implementacijo zaveze.</li>
+    </ul>
+
+    <h3>Kaj pomeni ocena napredka uresničevanja zavez?</h3>
+    <p>Tipologija za oceno napredka uresničevanja zavez zajema naslednjih šest kategorij:</p>
+    <ul>
+        <li><strong>izpolnjena</strong>: zaveza je v celoti uresničena;</li>
+        <li><strong>delno izpolnjena</strong>: nekateri elementi zaveze so uresničeni;</li>
+        <li><strong>v izvajanju</strong>: delo za uresničitev zaveze še poteka;</li>
+        <li><strong>zastala</strong>: poskusi uresničevanja zaveze so bili neuspešni;</li>
+        <li><strong>nedotaknjena</strong>: sploh ni prizadevanj ali poskusov, da bi zavezo uresničili;</li>
+        <li><strong>prelomljena</strong>: državni organi delujejo v nasprotju z zavezo.</li>
+    </ul>
+
+</div>
 
 <div class="divider"></div>
 
