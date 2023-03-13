@@ -411,6 +411,12 @@
         margin-bottom: 10px;
     }
 
+    .scroll-to-filters-button-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
 </style>
 
 <h1 class="monitoring-header">MONITORING ZAVEZ</h1>
@@ -473,7 +479,7 @@
 
 -->
 
-<div class="filters">
+<div class="filters" id="filters-id">
 
     <div class="filters-header">
         <button type="button" id="toggle-filters-button">
@@ -555,7 +561,7 @@
 
 {% if mrs %}
 
-<div class="reports-list">
+<div class="reports-list" id="reports-list-id">
 
     <div class="list-row-header">
         <div class="col-1">
@@ -584,6 +590,10 @@
     </a>
 
     {% endfor %}
+
+    <div class="scroll-to-filters-button-wrapper">
+        <button onclick="scrollToFilters()">Nazaj na filtre</button>
+    </div>
 
 </div>
 
@@ -650,13 +660,8 @@
 <div class="divider"></div>
 
 <script type="text/javascript">
-    function sort(val) {
-        // const oldSort = document.getElementById("id_sort_by")
-        // const newSort = val
-        // let sortingAsc = false
-        // sortingAsc = newSort == oldSort ? !sortingAsc : sortingAsc
-        document.getElementById("id_sort_by").value = val
-        document.getElementById("filters-form").submit()
+    function scrollToFilters(val) {
+        document.getElementById("filters-id").scrollIntoView({ behavior: "smooth", block: "start" }) 
     }
 
     document.getElementById("toggle-filters-button").addEventListener("click", function(event) {
@@ -676,9 +681,9 @@
         document.getElementById("filters-form").style.display = "block"
         document.getElementById("filters-button-icon").style.transform = "rotate(180deg)"
         document.getElementById("toggle-filters-button-text").innerText = "SKRIJ FILTRE"
+        document.getElementById("reports-list-id").scrollIntoView({ behavior: "smooth", block: "start" })
     }
 
-    // document.getElementById("id_sort_by")
 </script>
 
 {% endblock %}
