@@ -1109,7 +1109,7 @@ button:hover {
     line-height: 1.25;
 }
 
-.faq-question p, li {
+.faq-question p, .faq-question li {
     font-family: 'linlibertine', serif;
     margin-top: 0;
     margin-bottom: 15px;
