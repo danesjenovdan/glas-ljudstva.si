@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.views import View
@@ -49,6 +51,9 @@ def omnia(request):
 
 
 def landing(request, election_slug=None):
+    end_date = datetime.strptime('2026-05-15', '%Y-%m-%d').date()
+    start_date = datetime.now().date()
+    delta = end_date - start_date
     question_form_thankyou = False
 
     # if election_slug is None:
@@ -87,6 +92,34 @@ def landing(request, election_slug=None):
         question_form_thankyou = True
         election_slug = "shod"
 
+        election = Election.objects.first()
+        demands = Demand.objects.filter(election=election)
+        # get the latest updated report for each demand
+        reports = []
+        for d in demands:
+            related_reports = MonitoringReport.objects.filter(demand=d)
+            if related_reports:
+                latest_related_report = related_reports.latest('created_at')
+                reports.append(latest_related_report.id)
+        
+        # all relevant monitoring objects
+        mrs = MonitoringReport.objects.filter(id__in=reports)
+
+        # all possible demand states
+        all_demand_states = DemandState.objects.all().order_by('order')
+        # get number of filtered promises for each status
+        reports_by_states = {}
+        for report in mrs:
+            if (reports_by_states.get(report.state.name)):
+                reports_by_states[report.state.name].append(report)
+            else:
+                reports_by_states[report.state.name] = [report]
+        
+        try:
+            demands_fulfilled = len(reports_by_states['IZPOLNJENA'])
+        except KeyError:
+            demands_fulfilled = 0
+
     return render(
         request,
         "zahteve/landing.html",
@@ -96,6 +129,8 @@ def landing(request, election_slug=None):
             "voter_question_form": voter_question_form,
             "question_form_thankyou": question_form_thankyou,
             "election_slug": election_slug,
+            "weeks_remaining": int(delta.days / 7),
+            "promises_remaining": 122 - demands_fulfilled,
         },
     )
 
