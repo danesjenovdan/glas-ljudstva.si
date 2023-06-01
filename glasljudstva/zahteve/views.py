@@ -55,6 +55,7 @@ def landing(request, election_slug=None):
     start_date = datetime.now().date()
     delta = end_date - start_date
     question_form_thankyou = False
+    demands_fulfilled = 0
 
     # if election_slug is None:
     #     election_slug = "predsedniske-2022"
@@ -90,7 +91,7 @@ def landing(request, election_slug=None):
         parties = []
         voter_question_form = VoterQuestionForm()
         question_form_thankyou = True
-        election_slug = "shod"
+        election_slug = "obletnica"
 
         election = Election.objects.first()
         demands = Demand.objects.filter(election=election)
@@ -117,8 +118,8 @@ def landing(request, election_slug=None):
         
         try:
             demands_fulfilled = len(reports_by_states['IZPOLNJENA'])
-        except KeyError:
-            demands_fulfilled = 0
+        except KeyError as e:
+            print(e)
 
     return render(
         request,
