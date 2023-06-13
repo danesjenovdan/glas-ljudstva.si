@@ -1,5 +1,6 @@
 from django.urls import include, path
 from zahteve.views import (
+    amandma,
     landing,
     delovna_skupina,
     demand,
@@ -30,6 +31,7 @@ from zahteve.views import (
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', landing),
+    path('amandma-ZZVZZ/', amandma),
     path('omnia/', omnia),
     path('<int:delovna_skupina_id>/', delovna_skupina),
     path('zahteve/<int:demand_id>/', demand),

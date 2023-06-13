@@ -41,6 +41,9 @@ from zahteve.forms import (
 from zahteve.serializers import PartySerializer, MunicipalitySerializer
 from zahteve.math import calculate_most_controversial_demands
 
+def amandma(request):
+    return redirect('https://djnd.s3.fr-par.scw.cloud/djnd/glas-ljudstva/pdf/GL-amandma-ZZVZZ-junij-2023.pdf')
+
 # Create your views here.
 def after_registration(request):
     return render(request, "registration/thank_you.html")
