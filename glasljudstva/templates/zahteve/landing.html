@@ -22,7 +22,7 @@
     }
 </style>
 
-<!-- 
+<!--
 <div class="sub-header">
     <h2 style="text-align: center;"><a class="pdf"
             href="https://volitvomat.si/" target="_blank">Volitvomat</a> / <a class="pdf"
@@ -69,7 +69,8 @@
 {% elif election_slug == 'shod' %}
 {% include './landing_partials/shod.html' %}
 {% elif election_slug == 'obletnica' %}
-{% include './landing_partials/obletnica.html' %}
+{% comment %} {% include './landing_partials/obletnica.html' %} {% endcomment %}
+{% include './landing_partials/pismo.html' %}
 {% else %}
 {% include './landing_partials/intro.html' %}
 {% endif %}
