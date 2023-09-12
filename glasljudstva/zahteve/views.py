@@ -94,7 +94,7 @@ def landing(request, election_slug=None):
         parties = []
         voter_question_form = VoterQuestionForm()
         question_form_thankyou = True
-        election_slug = "obletnica"
+        election_slug = "zdravstvo-2"
 
         election = Election.objects.first()
         demands = Demand.objects.filter(election=election)
