@@ -312,14 +312,14 @@ function animateRecord($target, stop) {
 }
 
 $('#submit-email').on('click', function () {
-  fetch("https://podpri.djnd.si/api/subscribe/", {
+  fetch("https://podpri.lb.djnd.si/api/subscribe/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: $('#email').val(),
-        segment: 27,
+        segment_id: 10,
       }),
     })
     .then((res) => {
@@ -332,7 +332,7 @@ $('#submit-email').on('click', function () {
       alert('Hvala za prijavo!')
     })
     .catch((error) => {
-      alert('Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama pošlji mail na vsi@danesjenovdan.si.')
+      alert('Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.')
     });
 });
 
