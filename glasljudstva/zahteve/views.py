@@ -227,7 +227,7 @@ def monitoring(request, election_slug=None):
     # get the latest updated report for each demand
     reports = []
     for d in demands:
-        related_reports = MonitoringReport.objects.filter(demand=d)
+        related_reports = MonitoringReport.objects.filter(demand=d, published=True)
         if related_reports:
             latest_related_report = related_reports.latest('created_at')
             reports.append(latest_related_report.id)

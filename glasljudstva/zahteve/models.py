@@ -239,6 +239,7 @@ class MonitoringReport(Timestampable):
     state = models.ForeignKey("DemandState", null=True, verbose_name="Napredek pri uresničevanju zaveze:", on_delete=models.SET_NULL)
     summary = MartorField(blank=True, null=True, max_length=5000)
     notes = MartorField(blank=True, null=True, max_length=1000)
+    published = models.BooleanField(default=False, verbose_name="Objavi?")
 
     def __str__(self):
         return self.demand.title
