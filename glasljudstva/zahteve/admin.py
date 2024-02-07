@@ -100,10 +100,15 @@ class MonitoringReportForm(forms.ModelForm):
 class MonitoringReportAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     autocomplete_fields = ['demand']
-    list_filter = ('demand__workgroup',)
+    list_filter = ('demand__workgroup', 'state',)
     search_fields = ['demand__title']
+    list_display = ('get_title', 'state', 'published',)
 
     form = MonitoringReportForm
+
+    @admin.display(description='Ime zaveze')
+    def get_title(self, obj):
+        return obj.demand.title
 
 
 admin.site.register(Election, ElectionAdmin)
