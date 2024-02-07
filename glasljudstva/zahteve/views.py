@@ -105,7 +105,7 @@ def landing(request, election_slug=None):
             if related_reports:
                 latest_related_report = related_reports.latest('created_at')
                 reports.append(latest_related_report.id)
-        
+
         # all relevant monitoring objects
         mrs = MonitoringReport.objects.filter(id__in=reports)
 
@@ -118,7 +118,7 @@ def landing(request, election_slug=None):
                 reports_by_states[report.state.name].append(report)
             else:
                 reports_by_states[report.state.name] = [report]
-        
+
         try:
             demands_fulfilled = len(reports_by_states['IZPOLNJENA'])
         except KeyError as e:
@@ -231,7 +231,7 @@ def monitoring(request, election_slug=None):
         if related_reports:
             latest_related_report = related_reports.latest('created_at')
             reports.append(latest_related_report.id)
-    
+
     # all relevant monitoring objects
     mrs = MonitoringReport.objects.filter(id__in=reports)
 
@@ -257,15 +257,15 @@ def monitoring(request, election_slug=None):
         is_priority_demand = data['is_priority_demand']
         if is_priority_demand:
             mrs = mrs.filter(demand__priority_demand=is_priority_demand)
-        
+
         present_in_coalition_treaty = data['present_in_coalition_treaty']
         if present_in_coalition_treaty:
             mrs = mrs.filter(present_in_coalition_treaty=present_in_coalition_treaty)
-        
+
         cooperative = data['cooperative']
         if cooperative:
             mrs = mrs.filter(cooperative=cooperative)
-        
+
         responsible_state_bodies = data['responsible_state_bodies']
         if responsible_state_bodies:
             mrs = mrs.filter(responsible_state_bodies__in=responsible_state_bodies)
@@ -296,7 +296,7 @@ def monitoring(request, election_slug=None):
 
     # serialized_data = serialize("json", mrs)
     # serialized_data = json.loads(serialized_data)
-    
+
     return render(
         request,
         "monitoring/index.html",

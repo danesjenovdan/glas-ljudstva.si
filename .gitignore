@@ -1,3 +1,5 @@
 # secrets
 secrets.yaml
 *.sqlite3
+
+db*.dump
