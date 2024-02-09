@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_comments",
     "martor",
+    "home",
     "zahteve",
 ]
 

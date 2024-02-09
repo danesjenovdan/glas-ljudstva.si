@@ -1,0 +1,38 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="landing-grid">
+    <div class="side-area no-gutter">
+      {% include "home/landing/monitoring.html" %}
+    </div>
+    <div class="main-area bg-alt">
+      <div class="area-title">
+        <h2>AKTUALNO</h2>
+        <a href="#">Arhiv novic</a>
+      </div>
+      {% for i in "    " %}
+        {% include "home/landing/news.html" %}
+      {% endfor %}
+    </div>
+    <div class="full-area">
+      <div class="area-title">
+        <h2>AKTUALNE KAMPANJE</h2>
+        <a href="#">Pretekle kampanje</a>
+      </div>
+      {% for i in "    " %}
+        {% include "home/landing/campaign.html" %}
+      {% endfor %}
+    </div>
+    <div class="full-area no-gutter">
+      {% include "home/landing/members.html" %}
+    </div>
+    <div class="half-area bg-alt border-accent">
+      {% include "home/landing/support_org.html" %}
+    </div>
+    <div class="half-area bg-alt border-accent">
+      {% include "home/landing/support_individual.html" %}
+    </div>
+  </div>
+</div>
+{% endblock %}
