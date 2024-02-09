@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+
+{% block extrastyle %}{{ block.super }}
+
+<style>
+  /* martor css fixes */
+
+  #nav-sidebar table {
+    caption-side: unset;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #264b5d !important;
+    }
+
+    div div.martor-preview-stale {
+      background: repeating-linear-gradient(-45deg, #121212, #121212 10px, #212121 10px, #212121 20px) !important;
+    }
+    div div.martor-preview {
+      background-color: #212121 !important;
+      color: #f8f8f2 !important;
+    }
+    div div.martor-preview h1,
+    div div.martor-preview h2,
+    div div.martor-preview h3,
+    div div.martor-preview h4,
+    div div.martor-preview h5,
+    div div.martor-preview h6 {
+      color: #fff !important;
+    }
+    div div.martor-preview hr {
+      background: #fff !important;
+    }
+    div div.martor-preview pre {
+      background: #121212 !important;
+      color: #f8f8f2 !important;
+    }
+    div div.martor-preview blockquote {
+      background: #121212 !important;
+      color: #f8f8f2 !important;
+    }
+    div div.martor-preview code {
+      background: #121212 !important;
+      color: #f8f8f2 !important;
+    }
+  }
+</style>
+{% endblock %}
