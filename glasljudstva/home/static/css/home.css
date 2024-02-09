@@ -4,9 +4,11 @@
   --font-size-base: 16px;
   --font-sans: "wf-freesans", sans-serif;
   --font-serif: "wf-linlibertine", serif;
+  --font-mono: monospace;
 
   --color-bg: #fff;
   --color-bg-alt: #f3f3f3;
+  --color-bg-shade: #e8e8e8;
   --color-text: #231f20;
   --color-accent: #ed1c24;
 }
@@ -61,7 +63,9 @@ h6 {
   line-height: 1.2;
 }
 
-p {
+p,
+ul,
+ol {
   margin-block: 0;
   line-height: 1.5;
 }
@@ -221,9 +225,21 @@ button[disabled] {
 .landing-grid .area-title {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--color-text);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.landing-grid .area-title h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+}
+
+.landing-grid .area-title a {
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* card */
@@ -350,6 +366,166 @@ button[disabled] {
 }
 
 .monitoring-link .monitoring-content p {
-  font-size: 0.875rem;
   font-family: var(--font-serif);
+}
+
+/* landing news preview */
+.landing-news-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.landing-news-item + .landing-news-item {
+  margin-top: var(--gutter);
+}
+
+.landing-news-item .publish-date {
+  font-size: 0.875rem;
+}
+
+.landing-news-item .news-title {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.landing-news-item .read-more {
+  display: block;
+  padding: 0.5em 1em;
+  border: 1px solid var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* rich text */
+.rich-text {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+}
+
+.rich-text *:first-child {
+  margin-top: 0 !important;
+}
+
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4,
+.rich-text h5,
+.rich-text h6 {
+  margin: 0;
+  margin-top: 1em;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.rich-text h1 {
+  font-size: 1.25rem;
+}
+
+.rich-text h2 {
+  font-size: 1.125rem;
+}
+
+.rich-text h3 {
+  font-size: 1rem;
+}
+
+.rich-text p,
+.rich-text ul,
+.rich-text ol,
+.rich-text pre,
+.rich-text blockquote {
+  padding: 0;
+  margin: 0;
+  margin-top: 1em;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-style: normal;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.rich-text ul,
+.rich-text ol {
+  padding-inline-start: 2em;
+}
+
+.rich-text ul {
+  list-style-type: disc;
+}
+
+.rich-text ul ul {
+  list-style-type: circle;
+}
+
+.rich-text ul ul ul {
+  list-style-type: square;
+}
+
+.rich-text ol {
+  list-style-type: decimal;
+}
+
+.rich-text pre {
+  background: var(--color-bg-shade);
+  border-radius: 2px;
+  overflow: auto;
+}
+
+.rich-text pre code {
+  display: block;
+  padding: 1em;
+  background: var(--color-bg-shade);
+}
+
+.rich-text blockquote {
+  padding: 1em 1.5em;
+  background: var(--color-bg-shade);
+  border-left: 3px solid var(--color-text);
+}
+
+.rich-text em,
+.rich-text strong,
+.rich-text del,
+.rich-text code,
+.rich-text a {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  text-decoration: inherit;
+}
+
+.rich-text em {
+  font-style: italic;
+}
+
+.rich-text strong {
+  font-weight: 700;
+}
+
+.rich-text del {
+  text-decoration: line-through;
+}
+
+.rich-text code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  background: var(--color-bg-shade);
+  padding: 0.0625em 0.25em;
+  border-radius: 2px;
+}
+
+.rich-text a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1em;
+}
+
+.rich-text a:hover {
+  text-decoration: none;
 }

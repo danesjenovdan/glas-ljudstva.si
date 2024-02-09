@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import NewsItem
+
 
 def landing(request):
-    return render(request, 'home/landing.html')
+    news = NewsItem.objects.filter(published=True).order_by("-publish_time")[:3]
+
+    return render(request, "home/landing.html", {"news": news})
