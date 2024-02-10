@@ -1,0 +1,21 @@
+{% extends "home/base.html" %}
+{% load martortags %}
+
+{% block content %}
+<div class="container">
+  <div class="container">
+    <div class="object-page">
+      <h2 class="page-title">{{ news_item.title }}</h2>
+      <div class="object-meta">
+        <div class="publish-date">{{ news_item.publish_time|date:"j. F. Y" }}</div>
+      </div>
+      <div class="object-content">
+        <div class="rich-text">
+          {{ news_item.intro|safe_markdown }}
+          {{ news_item.content|safe_markdown }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

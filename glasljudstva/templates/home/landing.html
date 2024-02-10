@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="container">
+    <div class="landing-grid">
+      <div class="side-area no-gutter">
+        {% include "home/landing/monitoring.html" %}
+      </div>
+      <div class="main-area bg-alt">
+        {% include "home/landing/news.html" %}
+      </div>
+      <div class="full-area no-gutter">
+        {% include "home/landing/campaigns.html" %}
+      </div>
+      <div class="full-area no-gutter">
+        {% include "home/landing/members.html" %}
+      </div>
+      <div class="half-area bg-alt border-accent">
+        {% include "home/landing/support_org.html" %}
+      </div>
+      <div class="half-area bg-alt border-accent">
+        {% include "home/landing/support_individual.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+<div class="area-title">
+  <h2>Aktualno</h2>
+  <a href="/new-home/novice/">Arhiv novic</a>
+</div>
+{% for news_item in news %}
+{% include "home/landing/news_item.html" %}
+{% endfor %}

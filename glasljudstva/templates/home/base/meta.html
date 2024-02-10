@@ -1,0 +1,31 @@
+{% load static %}
+
+<title>Glas ljudstva</title>
+
+{% if og_title %}
+<meta property="og:title" content="{{ og_title }}">
+<meta name="twitter:title" content="{{ og_title }}">
+{% else %}
+<meta property="og:title" content="Glas ljudstva">
+<meta name="twitter:title" content="Glas ljudstva">
+{% endif %}
+
+{% if og_description %}
+<meta name="description" content="{{ og_description }}">
+<meta property="og:description" content="{{ og_description }}">
+<meta name="twitter:description" content="{{ og_description }}">
+{% else %}
+<meta property="og:description" content="Glas ljudstva združuje več kot 100 civilnodružbenih organizacij ter več tisoč posameznic in posameznikov z vseh družbenih področij in iz celotne Slovenije. Sledimo zavezam vlade na 138 zahtev, skrbimo za dvig volilne udeležbe na letošnjih trojnih volitvah in v središče predvolilnega časa umeščamo vsebinsko razpravo o demokratični, zeleni in pravični družbi.">
+<meta name="twitter:description" content="Glas ljudstva združuje več kot 100 civilnodružbenih organizacij ter več tisoč posameznic in posameznikov z vseh družbenih področij in iz celotne Slovenije. Sledimo zavezam vlade na 138 zahtev, skrbimo za dvig volilne udeležbe na letošnjih trojnih volitvah in v središče predvolilnega časa umeščamo vsebinsko razpravo o demokratični, zeleni in pravični družbi.">
+<meta name="description" content="Glas ljudstva združuje več kot 100 civilnodružbenih organizacij ter več tisoč posameznic in posameznikov z vseh družbenih področij in iz celotne Slovenije. Sledimo zavezam vlade na 138 zahtev, skrbimo za dvig volilne udeležbe na letošnjih trojnih volitvah in v središče predvolilnega časa umeščamo vsebinsko razpravo o demokratični, zeleni in pravični družbi.">
+{% endif %}
+
+<meta property="og:image" content="{% static 'img/glas-ljudstva-og.png' %}">
+<meta name="twitter:image" content="{% static 'img/glas-ljudstva-og.png' %}">
+
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="author" content="Glas ljudstva">
+<meta name="twitter:site" content="@glasljudstva">
+<meta name="twitter:creator" content="@glasljudstva">

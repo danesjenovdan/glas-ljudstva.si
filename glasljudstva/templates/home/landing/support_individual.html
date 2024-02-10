@@ -1,0 +1,56 @@
+<div class="card">
+  <h2 class="card-title">Pridruži se kot posameznik_ca</h2>
+  <div class="card-content">
+    <p>
+      Za začetek nam zaupaj svoj e-naslov in ostani na tekočem z dogajanjem.
+    </p>
+    <p class="subscribe-disclaimer">
+      Z oddajo se strinjaš, da
+      <a href="https://danesjenovdan.si/">Danes je nov dan</a> tvoj e-naslov
+      hrani in ti občasno pošlje elektronsko sporočilo z vsebino, vezano na Glas
+      ljudstva. Tvojega e-naslova ne bomo izdali nikomur (niti drugim
+      sodelujočim organizacijam).
+    </p>
+    <form class="subscribe-form" onsubmit="return false;">
+      <label for="subscribe-email">Vpiši svoj e-naslov</label>
+      <input type="email" id="subscribe-email" required />
+      <button id="subscribe-submit">Pridruži se</button>
+    </form>
+  </div>
+</div>
+<script>
+  const form = document.querySelector(".subscribe-form");
+  const emailField = form.querySelector("#subscribe-email");
+  const submitButton = form.querySelector("#subscribe-submit");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    emailField.disabled = true;
+    submitButton.disabled = true;
+    try {
+      const response = await fetch("https://podpri.lb.djnd.si/api/subscribe/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailField.value,
+          segment_id: 10,
+        }),
+      });
+      if (response.ok) {
+        alert("Hvala za prijavo!");
+        emailField.value = "";
+        emailField.disabled = false;
+        submitButton.disabled = false;
+      } else {
+        alert(
+          `Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.`
+        );
+      }
+    } catch (error) {
+      alert(
+        `Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.`
+      );
+    }
+  });
+</script>

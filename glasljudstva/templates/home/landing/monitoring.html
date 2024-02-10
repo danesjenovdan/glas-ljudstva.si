@@ -1,0 +1,24 @@
+{% load static solo_tags %}
+{% get_solo 'home.LandingPageConfig' as landing_page %}
+
+<div class="card gutter bg-alt">
+  {% for sidebarlink in landing_page.sidebarlink_set.all %}
+  {% if forloop.counter0 != 0 and sidebarlink.gap %}
+</div>
+<div class="card gutter bg-alt">
+  {% endif %}
+  <a href="{{ sidebarlink.url }}" class="monitoring-link">
+    <div class="monitoring-icon">
+      {% if sidebarlink.icon == 'eye' %}
+      <img src="{% static "svg/eye.svg" %}" alt="">
+      {% elif sidebarlink.icon == 'handshake' %}
+      <img src="{% static "svg/handshake.svg" %}" alt="">
+      {% endif %}
+    </div>
+    <div class="monitoring-content">
+      <h2 class="monitoring-title">{{ sidebarlink.title }}</h2>
+      <p>{{ sidebarlink.description }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</div>

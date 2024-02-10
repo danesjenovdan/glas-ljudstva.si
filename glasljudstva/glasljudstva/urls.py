@@ -18,12 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from zahteve import urls
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('martor/', include('martor.urls')),
-    path('', include(urls)),
+    path('new-home/', include('home.urls')),
+    path('', include('zahteve.urls')),
 ]
 
 if settings.DEBUG:
