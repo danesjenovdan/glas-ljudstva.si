@@ -91,7 +91,7 @@ class NewsItem(models.Model):
     )
 
     def get_absolute_url(self):
-        return f"/novice/{self.id}/{slugify(self.title)}"
+        return f"/new-home/novice/{self.id}/{slugify(self.title)}"
 
     def __str__(self):
         return self.title

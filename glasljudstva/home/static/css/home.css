@@ -529,3 +529,73 @@ button[disabled] {
 .rich-text a:hover {
   text-decoration: none;
 }
+
+.rich-text hr {
+  margin: 1.5em 0;
+  height: 0;
+  border: none;
+  border-top: 1px solid var(--color-text);
+}
+
+/* pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination .page-links {
+  display: flex;
+}
+
+.pagination .page-links > a,
+.pagination .page-links > span {
+  position: relative;
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin-left: -1px;
+  border: 1px solid var(--color-text);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.pagination .page-links > a:hover {
+  background: var(--color-bg-alt);
+}
+
+.pagination .page-links > .page-current {
+  background: var(--color-bg-alt);
+  border-color: var(--color-accent);
+  font-weight: 700;
+  z-index: 1;
+}
+
+/* object page */
+.object-page {
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.object-page .page-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-align: center;
+}
+
+.object-page .object-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gutter);
+  margin-block: var(--gutter);
+}
+
+.object-page .object-meta {
+  margin-block: var(--gutter);
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+.object-page .object-content {
+  margin-block: var(--gutter);
+}

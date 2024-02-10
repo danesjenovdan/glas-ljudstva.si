@@ -1,16 +1,7 @@
-{% load martortags %}
-
 <div class="area-title">
   <h2>Aktualno</h2>
-  <a href="#">Arhiv novic</a>
+  <a href="/new-home/novice/">Arhiv novic</a>
 </div>
 {% for news_item in news %}
-<article class="landing-news-item">
-  <div class="publish-date">{{ news_item.publish_time|date:"j. F. Y" }}</div>
-  <h3 class="news-title"><a href="{{ news_item.get_absolute_url }}">{{ news_item.title }}</a></h3>
-  <div class="rich-text">
-    {{ news_item.intro|safe_markdown }}
-  </div>
-  <a href="{{ news_item.get_absolute_url }}" class="read-more">Preberi več</a>
-</article>
+{% include "home/landing/news_item.html" %}
 {% endfor %}
