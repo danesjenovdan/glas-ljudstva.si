@@ -380,13 +380,19 @@ button[disabled] {
   text-decoration: none;
 }
 
+@media (max-width: 1100px) {
+  .monitoring-link {
+    flex-direction: column;
+  }
+}
+
 .monitoring-link + .monitoring-link {
   margin-top: var(--gutter);
 }
 
 .monitoring-link .monitoring-icon {
   --icon-size: 5rem;
-  flex: 0 0 var(--icon-size);
+  flex-shrink: 0;
   width: var(--icon-size);
 }
 
@@ -398,6 +404,13 @@ button[disabled] {
 
 .monitoring-link .monitoring-content {
   flex: 1;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .monitoring-link .monitoring-content {
+    text-align: center;
+  }
 }
 
 .monitoring-link .monitoring-content .monitoring-title {
