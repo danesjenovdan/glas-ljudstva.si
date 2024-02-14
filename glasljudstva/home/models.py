@@ -7,6 +7,7 @@ from solo.models import SingletonModel
 
 class SideBarLink(OrderableModel):
     class Icon(models.TextChoices):
+        BOX_TITLE = "box-title", "Naslov polja"
         EYE = "eye", "Oko"
         HANDSHAKE = "handshake", "Roka"
 
@@ -38,6 +39,8 @@ class SideBarLink(OrderableModel):
     )
     url = models.CharField(
         max_length=512,
+        blank=True,
+        null=True,
         verbose_name="Povezava",
     )
 

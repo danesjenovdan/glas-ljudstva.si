@@ -373,6 +373,18 @@ button[disabled] {
 }
 
 /* monitoring link cards */
+.monitoring-legend {
+  margin-inline: calc(var(--gutter) / 2 * -1);
+  margin-top: var(--gutter);
+  margin-bottom: calc(var(--gutter) / 1.5);
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.monitoring-legend:first-child {
+  margin-top: calc(var(--gutter) / 2 * -1);
+}
+
 .monitoring-link {
   display: flex;
   align-items: center;

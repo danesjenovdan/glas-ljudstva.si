@@ -7,6 +7,9 @@
 </div>
 <div class="card gutter bg-alt">
   {% endif %}
+  {% if sidebarlink.icon == 'box-title' %}
+  <h2 class="monitoring-legend">{{ sidebarlink.title }}</h2>
+  {% else %}
   <a href="{{ sidebarlink.url }}" class="monitoring-link">
     <div class="monitoring-icon">
       {% if sidebarlink.icon == 'eye' %}
@@ -16,9 +19,10 @@
       {% endif %}
     </div>
     <div class="monitoring-content">
-      <h2 class="monitoring-title">{{ sidebarlink.title }}</h2>
+      <h3 class="monitoring-title">{{ sidebarlink.title }}</h3>
       <p>{{ sidebarlink.description }}</p>
     </div>
   </a>
+  {% endif %}
   {% endfor %}
 </div>
