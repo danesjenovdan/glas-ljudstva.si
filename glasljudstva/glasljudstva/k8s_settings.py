@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-
     "rest_framework",
     "corsheaders",
     "django_comments",
@@ -75,7 +74,6 @@ INSTALLED_APPS = [
     "admin_ordering",
     "easy_thumbnails",
     "filer",
-
     "home",
     "zahteve",
 ]
@@ -219,22 +217,47 @@ MAUTIC_USER = os.getenv("MAUTIC_USER", "")
 MAUTIC_PASSWORD = os.getenv("MAUTIC_PASSWORD", "")
 MAUTIC_URL = os.getenv("MAUTIC_URL", "")
 
-MARTOR_THEME = 'bootstrap'
+MARTOR_THEME = "bootstrap"
 MARTOR_ENABLE_LABEL = True
 
 # Global martor settings
 # Input: string boolean, `true/false`
 MARTOR_ENABLE_CONFIGS = {
-    'emoji': 'false',        # to enable/disable emoji icons.
-    'imgur': 'false',        # to enable/disable imgur/custom uploader.
-    'mention': 'false',     # to enable/disable mention
-    'jquery': 'true',       # to include/revoke jquery (require for admin default django)
-    'living': 'true',      # to enable/disable live updates in preview
-    'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
-    'hljs': 'false',         # to enable/disable hljs highlighting in preview
+    "emoji": "false",  # to enable/disable emoji icons.
+    "imgur": "false",  # to enable/disable imgur/custom uploader.
+    "mention": "false",  # to enable/disable mention
+    "jquery": "true",  # to include/revoke jquery (require for admin default django)
+    "living": "false",  # to enable/disable live updates in preview
+    "spellcheck": "false",  # to enable/disable spellcheck in form textareas
+    "hljs": "false",  # to enable/disable hljs highlighting in preview
 }
 
 MARTOR_TOOLBAR_BUTTONS = [
-    'bold', 'italic', 'heading', 'unordered-list', 'ordered-list',
-    'link', 'toggle-maximize', 'help'
+    "bold",
+    "italic",
+    "horizontal",
+    "heading",
+    "pre-code",
+    "blockquote",
+    "unordered-list",
+    "ordered-list",
+    "link",
+    "image-link",
+    "toggle-maximize",
+    "help",
+]
+
+MARTOR_MARKDOWN_EXTENSIONS = [
+    "markdown.extensions.extra",
+    "markdown.extensions.nl2br",
+    "markdown.extensions.smarty",
+    "markdown.extensions.fenced_code",
+    # Custom filer extension
+    "glasljudstva.markdown_extensions.filer",
+    # Custom markdown extensions.
+    "martor.extensions.urlize",
+    "martor.extensions.del_ins",  # ~~strikethrough~~ and ++underscores++
+    "martor.extensions.emoji",  # to parse markdown emoji
+    "martor.extensions.mdx_video",  # to parse embed/iframe video
+    "martor.extensions.escape_html",  # to handle the XSS vulnerabilities
 ]
