@@ -6,7 +6,14 @@ from .models import ContentPage, NewsItem
 
 def landing(request):
     news = NewsItem.objects.filter(published=True).order_by("-publish_time")[:3]
-    return render(request, "home/landing.html", {"news": news})
+
+    return render(
+        request,
+        "home/landing.html",
+        {
+            "news": news,
+        },
+    )
 
 
 def news(request):
@@ -25,6 +32,7 @@ def news(request):
         request,
         "home/news.html",
         {
+            "page_title": "Novice",
             "page_obj": page_obj,
             "page_range": page_range,
         },
@@ -33,9 +41,25 @@ def news(request):
 
 def news_item(request, id, slug=""):
     news_item = get_object_or_404(NewsItem, id=id, published=True)
-    return render(request, "home/news_item.html", {"news_item": news_item})
+
+    return render(
+        request,
+        "home/news_item.html",
+        {
+            "page_title": news_item.title,
+            "news_item": news_item,
+        },
+    )
 
 
 def content_page(request, slug):
     content_page = get_object_or_404(ContentPage, slug=slug, published=True)
-    return render(request, "home/content_page.html", {"content_page": content_page})
+
+    return render(
+        request,
+        "home/content_page.html",
+        {
+            "page_title": content_page.title,
+            "content_page": content_page,
+        },
+    )
