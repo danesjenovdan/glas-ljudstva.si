@@ -3,7 +3,7 @@
 <div class="card gutter bg-alt">
   <div class="landing-campaign-item">
     <div class="campaign-image">
-      <img src="https://placehold.it/200x200" alt="">
+      <img src="{{ campaign_item.image.url }}" alt="{% firstof campaign_item.image.default_alt_text campaign_item.image.description campaign_item.image.label %}">
     </div>
     <div class="campaign-content">
       <h3 class="campaign-title"><a href="{{ campaign_item.get_absolute_url }}">{{ campaign_item.title }}</a></h3>

@@ -41,9 +41,11 @@ class NewsItemAdmin(admin.ModelAdmin):
     search_fields = ("title", "intro", "content")
 
 
-class CampaignItemAdmin(admin.ModelAdmin):
-    list_display = ("title", "promoted", "published")
+class CampaignItemAdmin(OrderableAdmin, admin.ModelAdmin):
+    list_display = ("title", "promoted", "published", "ordering")
+    list_editable = ("ordering",)
     search_fields = ("title", "intro", "content")
+    ordering_field_hide_input = True
 
 
 class ContentPageAdmin(admin.ModelAdmin):

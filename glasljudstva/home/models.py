@@ -2,6 +2,7 @@ from admin_ordering.models import OrderableModel
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
+from filer.fields.image import FilerImageField
 from martor.models import MartorField
 from solo.models import SingletonModel
 
@@ -142,10 +143,17 @@ class NewsItem(models.Model):
         verbose_name_plural = "Novice"
 
 
-class CampaignItem(models.Model):
+class CampaignItem(OrderableModel):
     title = models.CharField(
         max_length=200,
         verbose_name="Naslov",
+    )
+    image = FilerImageField(
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="campaign_image",
+        verbose_name="Slika",
     )
     intro = MartorField(
         blank=True,
@@ -172,7 +180,7 @@ class CampaignItem(models.Model):
     def __str__(self):
         return self.title
 
-    class Meta:
+    class Meta(OrderableModel.Meta):
         verbose_name = "Kampanja"
         verbose_name_plural = "Kampanje"
 
