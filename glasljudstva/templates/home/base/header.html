@@ -1,4 +1,5 @@
-{% load static %}
+{% load static solo_tags string_links %}
+{% get_solo 'home.LandingPageConfig' as landing_page %}
 
 <div class="container">
   <div class="container">
@@ -9,13 +10,14 @@
       </a>
       <nav class="links">
         <div class="page-nav">
-          <a href="#">O iniciativi</a>
-          <a href="#">Kontakt</a>
+          {% for link in landing_page.primarynavbarlink_set.all %}
+            <a href="{{ link.url|to_absolute_link }}" {% if link.url|is_external_link %}target="_blank"{% endif %}>{{ link.title }}</a>
+          {% endfor %}
         </div>
         <div class="socials">
-          <a href="https://www.facebook.com/glasljudstvazavse" target="_blank">Facebook</a>
-          <a href="https://www.instagram.com/glasljudstva/" target="_blank">Instagram</a>
-          <a href="https://twitter.com/glasljudstva" target="_blank">Twitter</a>
+          {% for link in landing_page.secondarynavbarlink_set.all %}
+            <a href="{{ link.url|to_absolute_link }}" {% if link.url|is_external_link %}target="_blank"{% endif %}>{{ link.title }}</a>
+          {% endfor %}
         </div>
       </nav>
     </header>

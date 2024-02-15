@@ -146,6 +146,7 @@ button[disabled] {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1.5rem;
   padding-block: 3rem;
 }
 
@@ -171,12 +172,12 @@ button[disabled] {
 
 .page-header .logo-type .logo {
   display: block;
-  height: 100px;
+  height: 85px;
 }
 
 .page-header .logo-type .type {
   margin: 0;
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 700;
 }
 
@@ -203,8 +204,9 @@ button[disabled] {
 
 .page-header .links > div {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 1em;
+  gap: 0.25em 1em;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -251,7 +253,7 @@ button[disabled] {
 
 .page-footer .logo {
   display: block;
-  height: 100px;
+  height: 85px;
 }
 
 @media (max-width: 690px) {

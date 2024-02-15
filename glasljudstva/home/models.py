@@ -53,6 +53,43 @@ class SideBarLink(OrderableModel):
         verbose_name_plural = "Povezave v stranski vrstici"
 
 
+class NavBarLink(OrderableModel):
+    landing_page = models.ForeignKey(
+        "LandingPageConfig",
+        on_delete=models.CASCADE,
+        verbose_name="Domača stran",
+    )
+
+    title = models.CharField(
+        max_length=100,
+        verbose_name="Naslov",
+    )
+    url = models.CharField(
+        max_length=512,
+        blank=True,
+        null=True,
+        verbose_name="Povezava",
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta(OrderableModel.Meta):
+        abstract = True
+
+
+class PrimaryNavBarLink(NavBarLink):
+    class Meta(NavBarLink.Meta):
+        verbose_name = "Povezava v glavni navigaciji"
+        verbose_name_plural = "Povezave v glavni navigaciji"
+
+
+class SecondaryNavBarLink(NavBarLink):
+    class Meta(NavBarLink.Meta):
+        verbose_name = "Povezava v sekundarni navigaciji"
+        verbose_name_plural = "Povezave v sekundarni navigaciji"
+
+
 class LandingPageConfig(SingletonModel):
     organizations = models.TextField(
         blank=True,

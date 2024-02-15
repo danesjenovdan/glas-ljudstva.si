@@ -1,4 +1,4 @@
-{% load static solo_tags %}
+{% load static solo_tags string_links %}
 {% get_solo 'home.LandingPageConfig' as landing_page %}
 
 <div class="card gutter bg-alt">
@@ -10,7 +10,7 @@
   {% if sidebarlink.icon == 'box-title' %}
   <h2 class="monitoring-legend">{{ sidebarlink.title }}</h2>
   {% else %}
-  <a href="{{ sidebarlink.url }}" class="monitoring-link">
+  <a href="{{ sidebarlink.url|to_absolute_link }}" {% if sidebarlink.url|is_external_link %}target="_blank"{% endif %} class="monitoring-link">
     <div class="monitoring-icon">
       {% if sidebarlink.icon == 'eye' %}
       <img src="{% static "svg/eye.svg" %}" alt="">

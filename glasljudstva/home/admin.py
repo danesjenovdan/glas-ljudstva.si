@@ -2,7 +2,24 @@ from admin_ordering.admin import OrderableAdmin
 from django.contrib import admin
 from solo.admin import SingletonModelAdmin
 
-from .models import ContentPage, LandingPageConfig, NewsItem, SideBarLink
+from .models import (
+    ContentPage,
+    LandingPageConfig,
+    NewsItem,
+    PrimaryNavBarLink,
+    SecondaryNavBarLink,
+    SideBarLink,
+)
+
+
+class PrimaryNavBarLinkInline(OrderableAdmin, admin.TabularInline):
+    model = PrimaryNavBarLink
+    ordering_field_hide_input = True
+
+
+class SecondaryNavBarLinkInline(OrderableAdmin, admin.TabularInline):
+    model = SecondaryNavBarLink
+    ordering_field_hide_input = True
 
 
 class SideBarLinkInline(OrderableAdmin, admin.TabularInline):
@@ -11,7 +28,11 @@ class SideBarLinkInline(OrderableAdmin, admin.TabularInline):
 
 
 class LandingPageConfigAdmin(SingletonModelAdmin):
-    inlines = [SideBarLinkInline]
+    inlines = [
+        PrimaryNavBarLinkInline,
+        SecondaryNavBarLinkInline,
+        SideBarLinkInline,
+    ]
 
 
 class NewsItemAdmin(admin.ModelAdmin):
