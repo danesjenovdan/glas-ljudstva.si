@@ -23,12 +23,19 @@
 </head>
 
 <body>
-    {% include "home/base/header.html" %}
+    <div class="page-wrapper">
+        <div class="header-wrapper">
+            {% include "home/base/header.html" %}
+        </div>
 
-    {% block content %}
-    {% endblock %}
+        <main class="content-wrapper">
+            {% block content %}{% endblock %}
+        </main>
 
-    {% include "home/base/footer.html" %}
+        <div class="footer-wrapper">
+            {% include "home/base/footer.html" %}
+        </div>
+    </div>
 
     <script>mediumZoom('.rich-text img')</script>
 </body>

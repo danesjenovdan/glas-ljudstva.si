@@ -1,12 +1,11 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
-from .models import NewsItem
+from .models import ContentPage, NewsItem
 
 
 def landing(request):
     news = NewsItem.objects.filter(published=True).order_by("-publish_time")[:3]
-
     return render(request, "home/landing.html", {"news": news})
 
 
@@ -33,6 +32,10 @@ def news(request):
 
 
 def news_item(request, id, slug=""):
-    news_item = NewsItem.objects.get(id=id)
-
+    news_item = get_object_or_404(NewsItem, id=id, published=True)
     return render(request, "home/news_item.html", {"news_item": news_item})
+
+
+def content_page(request, slug):
+    content_page = get_object_or_404(ContentPage, slug=slug, published=True)
+    return render(request, "home/content_page.html", {"content_page": content_page})

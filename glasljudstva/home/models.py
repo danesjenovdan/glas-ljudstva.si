@@ -1,4 +1,5 @@
 from admin_ordering.models import OrderableModel
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from martor.models import MartorField
@@ -102,3 +103,48 @@ class NewsItem(models.Model):
     class Meta:
         verbose_name = "Novica"
         verbose_name_plural = "Novice"
+
+
+class ContentPage(models.Model):
+    title = models.CharField(
+        max_length=200,
+        verbose_name="Naslov",
+    )
+    content = MartorField(
+        blank=True,
+        null=True,
+        verbose_name="Vsebina",
+    )
+    slug = models.SlugField(
+        max_length=200,
+        blank=True,
+        verbose_name="Ključ za povezavo",
+        help_text="Ime strani v povezavi (npr. glas-ljudstva.si/kljuc-za-povezavo, pusti prazno za samodejno generiranje ključa)",
+    )
+    published = models.BooleanField(
+        default=False,
+        verbose_name="Objavljeno",
+    )
+
+    def clean(self):
+        if not self.slug:
+            slug = slugify(self.title)
+            while ContentPage.objects.filter(slug=slug).exists():
+                slug = f"{slug}-1"
+            self.slug = slug
+        else:
+            same_slug = ContentPage.objects.filter(slug=self.slug)
+            if self.id:
+                same_slug = same_slug.exclude(id=self.id)
+            if same_slug.exists():
+                raise ValidationError({"slug": "Ključ za povezavo mora biti unikaten."})
+
+    def get_absolute_url(self):
+        return f"/new-home/{self.slug}"
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Vsebinska stran"
+        verbose_name_plural = "Vsebinske strani"

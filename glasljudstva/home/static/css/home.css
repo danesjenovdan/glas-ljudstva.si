@@ -13,6 +13,13 @@
   --color-accent: #ed1c24;
 }
 
+@media (max-width: 575.98px) {
+  :root {
+    --gutter: 1rem;
+    --font-size-base: 14px;
+  }
+}
+
 html {
   box-sizing: border-box;
   font-size: var(--font-size-base);
@@ -39,10 +46,26 @@ body {
   outline: 1px solid gold;
 }
 
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-wrapper > .content-wrapper {
+  flex: 1;
+}
+
 .container {
   max-width: 1200px;
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+@media (max-width: 575.98px) {
+  .container > .container {
+    padding-inline: 0;
+  }
 }
 
 .bg-alt {
@@ -217,6 +240,13 @@ button[disabled] {
   align-items: center;
   padding-block: 3rem;
   margin-top: 3rem;
+  gap: 1.5rem;
+}
+
+@media (max-width: 690px) {
+  .page-footer {
+    padding-block: 2rem;
+  }
 }
 
 .page-footer .logo {
@@ -224,9 +254,18 @@ button[disabled] {
   height: 100px;
 }
 
+@media (max-width: 690px) {
+  .page-footer .logo {
+    height: 50px;
+  }
+}
+
 .page-footer .author {
   font-size: 0.75rem;
+  line-height: 1.5;
   text-transform: uppercase;
+  text-align: right;
+  text-wrap: balance;
 }
 
 /* landing */
@@ -661,7 +700,8 @@ button[disabled] {
   border: 0;
 }
 
-.rich-text img {
+.rich-text img,
+.rich-text iframe {
   display: block;
   max-width: 100%;
 }
@@ -727,16 +767,26 @@ button[disabled] {
 }
 
 /* object page */
-.object-page {
+.object-page,
+.error-page {
   max-width: 860px;
   margin-inline: auto;
 }
 
-.object-page .page-title {
+.object-page .page-title,
+.error-page .page-title {
   font-family: var(--font-serif);
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--color-accent);
+  text-align: center;
+}
+
+.object-page .page-subtitle,
+.error-page .page-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -755,4 +805,13 @@ button[disabled] {
 
 .object-page .object-content {
   margin-block: var(--gutter);
+}
+
+/* error page */
+.error-page .page-title {
+  font-size: 4rem;
+}
+
+.error-page .page-subtitle {
+  font-size: 2rem;
 }

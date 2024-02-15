@@ -2,7 +2,7 @@ from admin_ordering.admin import OrderableAdmin
 from django.contrib import admin
 from solo.admin import SingletonModelAdmin
 
-from .models import LandingPageConfig, NewsItem, SideBarLink
+from .models import ContentPage, LandingPageConfig, NewsItem, SideBarLink
 
 
 class SideBarLinkInline(OrderableAdmin, admin.TabularInline):
@@ -16,8 +16,14 @@ class LandingPageConfigAdmin(SingletonModelAdmin):
 
 class NewsItemAdmin(admin.ModelAdmin):
     list_display = ("title", "publish_time", "published")
-    search_fields = ("title", "body")
+    search_fields = ("title", "intro", "content")
+
+
+class ContentPageAdmin(admin.ModelAdmin):
+    list_display = ("title", "slug", "published")
+    search_fields = ("title", "content")
 
 
 admin.site.register(LandingPageConfig, LandingPageConfigAdmin)
 admin.site.register(NewsItem, NewsItemAdmin)
+admin.site.register(ContentPage, ContentPageAdmin)
