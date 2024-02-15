@@ -6,10 +6,8 @@
     <div class="object-page">
       <h2 class="page-title">{{ page_title }}</h2>
       <div class="object-list">
-        {% for news_item in page_obj %}
-        <div class="card gutter bg-alt">
-          {% include "home/landing/news_item.html" %}
-        </div>
+        {% for campaign_item in page_obj %}
+          {% include "home/landing/campaign_item.html" %}
         {% endfor %}
       </div>
       {% include "home/base/pagination.html" %}

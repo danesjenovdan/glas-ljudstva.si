@@ -3,6 +3,7 @@ from django.contrib import admin
 from solo.admin import SingletonModelAdmin
 
 from .models import (
+    CampaignItem,
     ContentPage,
     LandingPageConfig,
     NewsItem,
@@ -40,11 +41,17 @@ class NewsItemAdmin(admin.ModelAdmin):
     search_fields = ("title", "intro", "content")
 
 
+class CampaignItemAdmin(admin.ModelAdmin):
+    list_display = ("title", "promoted", "published")
+    search_fields = ("title", "intro", "content")
+
+
 class ContentPageAdmin(admin.ModelAdmin):
     list_display = ("title", "slug", "published")
     search_fields = ("title", "content")
 
 
 admin.site.register(LandingPageConfig, LandingPageConfigAdmin)
+admin.site.register(CampaignItem, CampaignItemAdmin)
 admin.site.register(NewsItem, NewsItemAdmin)
 admin.site.register(ContentPage, ContentPageAdmin)

@@ -142,6 +142,41 @@ class NewsItem(models.Model):
         verbose_name_plural = "Novice"
 
 
+class CampaignItem(models.Model):
+    title = models.CharField(
+        max_length=200,
+        verbose_name="Naslov",
+    )
+    intro = MartorField(
+        blank=True,
+        null=True,
+        verbose_name="Uvod",
+    )
+    content = MartorField(
+        blank=True,
+        null=True,
+        verbose_name="Vsebina",
+    )
+    published = models.BooleanField(
+        default=False,
+        verbose_name="Objavljeno",
+    )
+    promoted = models.BooleanField(
+        default=False,
+        verbose_name="Izpostavljeno na domači strani",
+    )
+
+    def get_absolute_url(self):
+        return f"/new-home/kampanje/{self.id}/{slugify(self.title)}"
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Kampanja"
+        verbose_name_plural = "Kampanje"
+
+
 class ContentPage(models.Model):
     title = models.CharField(
         max_length=200,
