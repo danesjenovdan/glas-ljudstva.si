@@ -35,15 +35,13 @@ class FilerImagePattern(ImageInlineProcessor):
         if not src:
             return None, None, None
 
-        el = etree.Element("img")
-
-        el.set("src", src)
-
+        img = etree.Element("img")
+        img.set("src", src)
+        img.set("alt", self.unescape(text))
         if title is not None:
-            el.set("title", title)
+            img.set("title", title)
 
-        el.set("alt", self.unescape(text))
-        return el, m.start(0), index
+        return img, m.start(0), index
 
 
 def makeExtension(**kwargs):

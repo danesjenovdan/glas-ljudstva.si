@@ -17,6 +17,8 @@
 
     <link rel="stylesheet" href="{% static 'fonts/selfhosted.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/medium-zoom.min.js' %}"></script>
+
     <script defer data-domain="glas-ljudstva.si" src="https://plausible.lb.djnd.si/js/plausible.js"></script>
 </head>
 
@@ -27,4 +29,6 @@
     {% endblock %}
 
     {% include "home/base/footer.html" %}
+
+    <script>mediumZoom('.rich-text img')</script>
 </body>

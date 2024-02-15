@@ -662,6 +662,7 @@ button[disabled] {
 }
 
 .rich-text img {
+  display: block;
   max-width: 100%;
 }
 
@@ -670,6 +671,27 @@ button[disabled] {
   width: 1.125em;
   height: 1.125em;
   vertical-align: text-bottom;
+}
+
+.rich-text p.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1rem;
+}
+
+.rich-text p.gallery br {
+  display: none;
+}
+
+.rich-text p.gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* aspect-ratio: 3 / 2; breaks click zoom */
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+  background: var(--color-bg-shade);
 }
 
 /* pagination */
