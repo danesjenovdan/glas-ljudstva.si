@@ -1,12 +1,14 @@
 {% extends "admin/base.html" %}
 
 {% block extrastyle %}{{ block.super }}
-
 <style>
   /* martor css fixes */
-
   #nav-sidebar table {
     caption-side: unset;
+  }
+
+  .tab-martor-menu .nav-link {
+    color: var(--link-fg);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -46,4 +48,64 @@
     }
   }
 </style>
+{% endblock %}
+
+<!-- use responsive block since it comes after extrahead -->
+{% block responsive %}{{ block.super }}
+<script>
+  (function ($){
+    $ = $ || django.jQuery;
+
+    function insertFilerImage(editor) {
+      window.dismissRelatedImageLookupPopup = function (w, id, thumb, name) {
+        w.close();
+
+        const originalRange = editor.getSelectionRange();
+        if (editor.selection.isEmpty()) {
+          const curpos = editor.getCursorPosition();
+          editor.session.insert(curpos, ` ![${name}](filer:${id}) `);
+          editor.focus();
+          editor.selection.moveTo(curpos.row, curpos.column + 3);
+        } else {
+          const range = editor.getSelectionRange();
+          const text = editor.session.getTextRange(range);
+          editor.session.replace(range, `![${text}](filer:${id}) `);
+          editor.focus();
+          editor.selection.moveTo(
+            originalRange.end.row,
+            originalRange.end.column + 12
+          );
+        }
+      };
+
+      window.open('/admin/filer/folder/?_popup=1&_pick=file&img_only=1', 'filer-image-chooser', 'width=800,height=600');
+    };
+
+    function replaceImageEditorCommand(el, editor) {
+      editor.commands.removeCommand('markdownToImageLink');
+      editor.commands.addCommand({
+        name: 'markdownToImageLink',
+        bindKey: { win: 'Ctrl-Shift-I', mac: 'Command-Shift-I' },
+        exec: (editor) => insertFilerImage(editor),
+      });
+    }
+
+    $(() => {
+      $(window).on('martor.init', () => {
+        console.log('TODO: new martor element after load');
+      })
+      $('.main-martor').each((i, el) => {
+        const fieldName = el.dataset.fieldName;
+        const editor = $(`#martor-${fieldName}`)[0].env.editor;
+        // replace the shortcut
+        replaceImageEditorCommand(el, editor);
+        // replace the button click event
+        const button = el.querySelector('.markdown-image-link');
+        $(button).off().on('click', (event) => {
+          insertFilerImage(editor);
+        });
+      });
+    });
+  })(jQuery);
+</script>
 {% endblock %}

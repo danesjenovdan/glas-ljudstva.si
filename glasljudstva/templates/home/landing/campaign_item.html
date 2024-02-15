@@ -1,0 +1,16 @@
+{% load martortags %}
+
+<div class="card gutter bg-alt">
+  <div class="landing-campaign-item">
+    <div class="campaign-image">
+      <img src="{{ campaign_item.image.url }}" alt="{% firstof campaign_item.image.default_alt_text campaign_item.image.description campaign_item.image.label %}">
+    </div>
+    <div class="campaign-content">
+      <h3 class="campaign-title"><a href="{{ campaign_item.get_absolute_url }}">{{ campaign_item.title }}</a></h3>
+      <div class="rich-text">
+        {{ campaign_item.intro|safe_markdown }}
+      </div>
+      <a href="{{ campaign_item.get_absolute_url }}" class="read-more">Preberi več</a>
+    </div>
+  </div>
+</div>

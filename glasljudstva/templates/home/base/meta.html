@@ -1,11 +1,11 @@
 {% load static %}
 
-<title>Glas ljudstva</title>
-
-{% if og_title %}
-<meta property="og:title" content="{{ og_title }}">
-<meta name="twitter:title" content="{{ og_title }}">
+{% if page_title %}
+<title>{{ page_title }} - Glas ljudstva</title>
+<meta property="og:title" content="{{ page_title }} - Glas ljudstva">
+<meta name="twitter:title" content="{{ page_title }} - Glas ljudstva">
 {% else %}
+<title>Glas ljudstva</title>
 <meta property="og:title" content="Glas ljudstva">
 <meta name="twitter:title" content="Glas ljudstva">
 {% endif %}

@@ -28,7 +28,7 @@ env = dict(
     DATABASE_PASSWORD=os.getenv("DJANGO_DATABASE_PASSWORD", "postgres"),
     STATIC_ROOT=os.getenv("DJANGO_STATIC_ROOT", os.path.join(BASE_DIR, "../static")),
     STATIC_URL=os.getenv("DJANGO_STATIC_URL_BASE", "/static/"),
-    MEDIA_ROOT=os.getenv("DJANGO_MEDIA_ROOT", "/media/"),
+    MEDIA_ROOT=os.getenv("DJANGO_MEDIA_ROOT", os.path.join(BASE_DIR, "media")),
     MEDIA_URL=os.getenv("DJANGO_MEDIA_URL_BASE", "/media/"),
 )
 
@@ -66,14 +66,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-
     "rest_framework",
     "corsheaders",
     "django_comments",
     "martor",
     "solo",
     "admin_ordering",
-
+    "easy_thumbnails",
+    "filer",
     "home",
     "zahteve",
 ]
@@ -188,6 +188,7 @@ if os.getenv("DJANGO_ENABLE_S3", False):
         "DJANGO_AWS_S3_ENDPOINT_URL", "https://s3.fr-par.scw.cloud"
     )
     AWS_S3_SIGNATURE_VERSION = os.getenv("DJANGO_AWS_S3_SIGNATURE_VERSION", "s3v4")
+    AWS_S3_FILE_OVERWRITE = False
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
@@ -216,22 +217,47 @@ MAUTIC_USER = os.getenv("MAUTIC_USER", "")
 MAUTIC_PASSWORD = os.getenv("MAUTIC_PASSWORD", "")
 MAUTIC_URL = os.getenv("MAUTIC_URL", "")
 
-MARTOR_THEME = 'bootstrap'
+MARTOR_THEME = "bootstrap"
 MARTOR_ENABLE_LABEL = True
 
 # Global martor settings
 # Input: string boolean, `true/false`
 MARTOR_ENABLE_CONFIGS = {
-    'emoji': 'false',        # to enable/disable emoji icons.
-    'imgur': 'false',        # to enable/disable imgur/custom uploader.
-    'mention': 'false',     # to enable/disable mention
-    'jquery': 'true',       # to include/revoke jquery (require for admin default django)
-    'living': 'true',      # to enable/disable live updates in preview
-    'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
-    'hljs': 'false',         # to enable/disable hljs highlighting in preview
+    "emoji": "false",  # to enable/disable emoji icons.
+    "imgur": "false",  # to enable/disable imgur/custom uploader.
+    "mention": "false",  # to enable/disable mention
+    "jquery": "true",  # to include/revoke jquery (require for admin default django)
+    "living": "false",  # to enable/disable live updates in preview
+    "spellcheck": "false",  # to enable/disable spellcheck in form textareas
+    "hljs": "false",  # to enable/disable hljs highlighting in preview
 }
 
 MARTOR_TOOLBAR_BUTTONS = [
-    'bold', 'italic', 'heading', 'unordered-list', 'ordered-list',
-    'link', 'toggle-maximize', 'help'
+    "bold",
+    "italic",
+    "horizontal",
+    "heading",
+    "pre-code",
+    "blockquote",
+    "unordered-list",
+    "ordered-list",
+    "link",
+    "image-link",
+    "toggle-maximize",
+    "help",
+]
+
+MARTOR_MARKDOWN_EXTENSIONS = [
+    "markdown.extensions.extra",
+    "markdown.extensions.nl2br",
+    "markdown.extensions.smarty",
+    "markdown.extensions.fenced_code",
+    # Custom filer extension
+    "glasljudstva.markdown_extensions.filer",
+    # Custom markdown extensions.
+    "martor.extensions.urlize",
+    "martor.extensions.del_ins",  # ~~strikethrough~~ and ++underscores++
+    "martor.extensions.emoji",  # to parse markdown emoji
+    "martor.extensions.mdx_video",  # to parse embed/iframe video
+    "martor.extensions.escape_html",  # to handle the XSS vulnerabilities
 ]
