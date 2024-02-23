@@ -1,28 +1,22 @@
 {% load static solo_tags string_links %}
 {% get_solo 'home.LandingPageConfig' as landing_page %}
 
-<div class="card gutter bg-alt">
-  {% for sidebarlink in landing_page.sidebarlink_set.all %}
-  {% if forloop.counter0 != 0 and sidebarlink.gap %}
-</div>
-<div class="card gutter bg-alt">
-  {% endif %}
+{% for sidebarlink in landing_page.sidebarlink_set.all %}
   {% if sidebarlink.icon == 'box-title' %}
   <h2 class="monitoring-legend">{{ sidebarlink.title }}</h2>
   {% else %}
-  <a href="{{ sidebarlink.url|to_absolute_link }}" {% if sidebarlink.url|is_external_link %}target="_blank"{% endif %} class="monitoring-link">
+  <a href="{{ sidebarlink.url|to_absolute_link }}" {% if sidebarlink.url|is_external_link %}target="_blank"{% endif %} class="monitoring-link {% if sidebarlink.gap %}monitoring-link--with-gap{% endif %}">
     <div class="monitoring-icon">
       {% if sidebarlink.icon == 'eye' %}
-      <img src="{% static "svg/eye.svg" %}" alt="">
+      <img src="{% static "svg/noun-analysis-1173637.svg" %}" alt="">
       {% elif sidebarlink.icon == 'handshake' %}
-      <img src="{% static "svg/handshake.svg" %}" alt="">
+      <img src="{% static "svg/noun-commitment-6407590.svg" %}" alt="">
       {% endif %}
     </div>
     <div class="monitoring-content">
-      <h3 class="monitoring-title">{{ sidebarlink.title }}</h3>
+      <h3 class="monitoring-title">{{ sidebarlink.title }}<img src="{% static "svg/noun-right-arrow-1086470.svg" %}" alt=""></h3>
       <p>{{ sidebarlink.description }}</p>
     </div>
   </a>
   {% endif %}
-  {% endfor %}
-</div>
+{% endfor %}

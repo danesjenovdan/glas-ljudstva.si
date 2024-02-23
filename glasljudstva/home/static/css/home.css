@@ -221,17 +221,25 @@ button[disabled] {
   font-size: 1.75rem;
 }
 
+.page-header .links > .page-nav a {
+  text-decoration-thickness: 0.19em;
+  text-decoration-color: var(--color-accent);
+}
+
+.page-header .links > .page-nav a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 0.19em;
+  text-decoration-color: var(--color-accent);
+}
+
 .page-header .links > .socials {
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 
 @media (max-width: 690px) {
   .page-header .links > .page-nav {
     font-size: 1.25rem;
-  }
-
-  .page-header .links > .socials {
-    font-size: 0.875rem;
   }
 }
 
@@ -291,7 +299,7 @@ button[disabled] {
   grid-column: 6 / span 3;
   display: flex;
   flex-direction: column;
-  gap: var(--gutter);
+  gap: 0.5rem;
 }
 
 .landing-grid > .full-area {
@@ -415,21 +423,21 @@ button[disabled] {
 
 /* monitoring link cards */
 .monitoring-legend {
-  margin-inline: calc(var(--gutter) / 2 * -1);
-  margin-top: var(--gutter);
-  margin-bottom: calc(var(--gutter) / 1.5);
-  font-size: 1rem;
-  text-transform: uppercase;
+  color: var(--color-accent);
+  font-size: 1.25rem;
 }
 
-.monitoring-legend:first-child {
-  margin-top: calc(var(--gutter) / 2 * -1);
+.monitoring-link + .monitoring-legend,
+.monitoring-link.monitoring-link--with-gap {
+  margin-top: 1.25rem;
 }
 
 .monitoring-link {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  padding: 1.5rem;
+  border: 2px solid var(--color-text);
   text-decoration: none;
 }
 
@@ -439,12 +447,12 @@ button[disabled] {
   }
 }
 
-.monitoring-link + .monitoring-link {
-  margin-top: var(--gutter);
+.monitoring-link:hover {
+  background: var(--color-bg-alt);
 }
 
 .monitoring-link .monitoring-icon {
-  --icon-size: 5rem;
+  --icon-size: 3.5rem;
   flex-shrink: 0;
   width: var(--icon-size);
 }
@@ -453,6 +461,7 @@ button[disabled] {
   display: block;
   width: 100%;
   height: auto;
+  max-height: var(--icon-size);
 }
 
 .monitoring-link .monitoring-content {
@@ -467,20 +476,25 @@ button[disabled] {
 }
 
 .monitoring-link .monitoring-content .monitoring-title {
-  font-size: 1.25rem;
-  text-transform: uppercase;
+  font-size: 1.5rem;
   margin-bottom: 0.25rem;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.1em;
 }
 
-.monitoring-link:hover .monitoring-content .monitoring-title {
-  text-decoration: none;
+.monitoring-link .monitoring-content .monitoring-title img {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  margin-left: 0.5em;
 }
 
 .monitoring-link .monitoring-content p {
   font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.2;
 }
 
 /* landing news preview */
