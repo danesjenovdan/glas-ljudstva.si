@@ -1,7 +1,9 @@
+{% load static %}
+
 <div class="landing-campaigns">
   <div class="area-title">
     <h2>Aktualne kampanje</h2>
-    <a href="/new-home/kampanje/">Pretekle kampanje</a>
+    <a href="/kampanje/">Pretekle kampanje<img src="{% static "svg/noun-right-arrow-1086470.svg" %}" class="inline-icon" alt=""></a>
   </div>
   {% for campaign_item in campaigns %}
   {% include "home/landing/campaign_item.html" %}

@@ -1,4 +1,4 @@
-{% load martortags %}
+{% load static martortags %}
 
 <div class="card gutter bg-alt">
   <div class="landing-campaign-item">
@@ -10,7 +10,10 @@
       <div class="rich-text">
         {{ campaign_item.intro|safe_markdown }}
       </div>
-      <a href="{{ campaign_item.get_absolute_url }}" class="read-more">Preberi več</a>
+      <a href="{{ campaign_item.get_absolute_url }}" class="read-more">
+        <span>Preberi več</span>
+        <img src="{% static "svg/noun-right-arrow-1086470.svg" %}" class="inline-icon" alt="">
+      </a>
     </div>
   </div>
 </div>

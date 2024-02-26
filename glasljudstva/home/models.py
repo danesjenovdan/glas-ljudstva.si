@@ -19,9 +19,9 @@ class SideBarLink(OrderableModel):
         verbose_name="Domača stran",
     )
 
-    gap = models.BooleanField(
+    red = models.BooleanField(
         default=False,
-        verbose_name="Presledek",
+        verbose_name="Rdeče",
     )
     icon = models.CharField(
         max_length=100,
@@ -133,7 +133,7 @@ class NewsItem(models.Model):
     )
 
     def get_absolute_url(self):
-        return f"/new-home/novice/{self.id}/{slugify(self.title)}"
+        return f"/novice/{self.id}/{slugify(self.title)}"
 
     def __str__(self):
         return self.title
@@ -175,7 +175,7 @@ class CampaignItem(OrderableModel):
     )
 
     def get_absolute_url(self):
-        return f"/new-home/kampanje/{self.id}/{slugify(self.title)}"
+        return f"/kampanje/{self.id}/{slugify(self.title)}"
 
     def __str__(self):
         return self.title
@@ -220,7 +220,7 @@ class ContentPage(models.Model):
                 raise ValidationError({"slug": "Ključ za povezavo mora biti unikaten."})
 
     def get_absolute_url(self):
-        return f"/new-home/{self.slug}"
+        return f"/objava/{self.slug}"
 
     def __str__(self):
         return self.title
