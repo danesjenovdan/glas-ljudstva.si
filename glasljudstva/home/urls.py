@@ -15,6 +15,6 @@ urlpatterns = [
     path("novice/", news),
     path("kampanje/<int:id>/<slug:slug>/", campaign_item),
     path("kampanje/", campaigns),
-    path("<slug:slug>/", content_page),
+    path("objava/<slug:slug>/", content_page),
     path("", landing),
 ]

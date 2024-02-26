@@ -30,7 +30,9 @@ from zahteve.views import (
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('', landing),
+    path('', include('home.urls')),
+    # path('', landing),
+
     path('amandma-ZZVZZ/', amandma),
     path('omnia/', omnia),
     path('<int:delovna_skupina_id>/', delovna_skupina),
