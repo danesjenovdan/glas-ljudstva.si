@@ -2,16 +2,14 @@
 
 {% block content %}
 <div class="container">
-  <div class="container">
-    <div class="object-page">
-      <h2 class="page-title">{{ page_title }}</h2>
-      <div class="object-list">
-        {% for campaign_item in page_obj %}
-          {% include "home/landing/campaign_item.html" %}
-        {% endfor %}
-      </div>
-      {% include "home/base/pagination.html" %}
+  <div class="object-page object-page--wide">
+    <h2 class="page-title">{{ page_title }}</h2>
+    <div class="object-list landing-campaigns">
+      {% for campaign_item in page_obj %}
+        {% include "home/landing/campaign_item.html" %}
+      {% endfor %}
     </div>
+    {% include "home/base/pagination.html" %}
   </div>
 </div>
 {% endblock %}

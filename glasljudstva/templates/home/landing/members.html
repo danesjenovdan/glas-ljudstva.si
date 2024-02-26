@@ -1,13 +1,11 @@
 {% load solo_tags %}
 {% get_solo 'home.LandingPageConfig' as landing_page %}
 
-<div class="member-list">
+<div class="member-list card gutter bg-alt">
   <h2 class="members-title">Glas ljudstva trenutno sestavlja <em>{{ landing_page.organizations_count }}</em> organizacij in civilnodružbenih iniciativ.</h2>
-  <div class="card gutter bg-alt border-accent">
-    <div class="card-content">
-      <p>
-        {{ landing_page.organizations }}
-      </p>
-    </div>
+  <div class="card-content">
+    <p>
+      {{ landing_page.organizations }}
+    </p>
   </div>
 </div>

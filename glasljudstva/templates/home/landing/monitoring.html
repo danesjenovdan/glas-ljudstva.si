@@ -5,7 +5,7 @@
   {% if sidebarlink.icon == 'box-title' %}
   <h2 class="monitoring-legend">{{ sidebarlink.title }}</h2>
   {% else %}
-  <a href="{{ sidebarlink.url|to_absolute_link }}" {% if sidebarlink.url|is_external_link %}target="_blank"{% endif %} class="monitoring-link {% if sidebarlink.gap %}monitoring-link--with-gap{% endif %}">
+  <a href="{{ sidebarlink.url|to_absolute_link }}" {% if sidebarlink.url|is_external_link %}target="_blank"{% endif %} class="monitoring-link {% if sidebarlink.red %}monitoring-link--red{% endif %}">
     <div class="monitoring-icon">
       {% if sidebarlink.icon == 'eye' %}
       <img src="{% static "svg/noun-analysis-1173637.svg" %}" alt="">

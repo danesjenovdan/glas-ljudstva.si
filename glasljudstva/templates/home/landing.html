@@ -4,23 +4,25 @@
 <div class="container">
   <div class="container">
     <div class="landing-grid">
-      <div class="side-area no-gutter">
+      <div class="side-area">
         {% include "home/landing/monitoring.html" %}
       </div>
-      <div class="main-area no-gutter">
+      <div class="main-area">
         {% include "home/landing/news.html" %}
       </div>
-      <div class="full-area no-gutter">
+      <div class="full-area">
         {% include "home/landing/campaigns.html" %}
       </div>
-      <div class="full-area no-gutter">
+      <div class="full-area">
+        <div class="area-separator">
+          <hr>
+        </div>
+      </div>
+      <div class="half-area">
         {% include "home/landing/members.html" %}
       </div>
-      <div class="half-area bg-alt border-accent">
-        {% include "home/landing/support_org.html" %}
-      </div>
-      <div class="half-area bg-alt border-accent">
-        {% include "home/landing/support_individual.html" %}
+      <div class="half-area support-area">
+        {% include "home/landing/support.html" %}
       </div>
     </div>
   </div>

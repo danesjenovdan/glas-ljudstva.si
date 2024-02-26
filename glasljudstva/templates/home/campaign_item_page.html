@@ -3,14 +3,12 @@
 
 {% block content %}
 <div class="container">
-  <div class="container">
-    <div class="object-page">
-      <h2 class="page-title">{{ campaign_item.title }}</h2>
-      <div class="object-content">
-        <div class="rich-text">
-          {{ campaign_item.intro|safe_markdown }}
-          {{ campaign_item.content|safe_markdown }}
-        </div>
+  <div class="object-page">
+    <h2 class="page-title">{{ campaign_item.title }}</h2>
+    <div class="object-content">
+      <div class="rich-text">
+        {{ campaign_item.intro|safe_markdown }}
+        {{ campaign_item.content|safe_markdown }}
       </div>
     </div>
   </div>

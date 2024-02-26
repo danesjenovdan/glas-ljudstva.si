@@ -2,18 +2,14 @@
 
 {% block content %}
 <div class="container">
-  <div class="container">
-    <div class="object-page">
-      <h2 class="page-title">{{ page_title }}</h2>
-      <div class="object-list">
-        {% for news_item in page_obj %}
-        <div class="card gutter bg-alt">
-          {% include "home/landing/news_item.html" %}
-        </div>
-        {% endfor %}
-      </div>
-      {% include "home/base/pagination.html" %}
+  <div class="object-page">
+    <h2 class="page-title">{{ page_title }}</h2>
+    <div class="object-list">
+      {% for news_item in page_obj %}
+        {% include "home/landing/news_item.html" %}
+      {% endfor %}
     </div>
+    {% include "home/base/pagination.html" %}
   </div>
 </div>
 {% endblock %}

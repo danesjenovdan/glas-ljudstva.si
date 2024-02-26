@@ -1,6 +1,25 @@
-<div class="card">
-  <h2 class="card-title">Pridruži se kot posameznik_ca</h2>
-  <div class="card-content">
+{% load static %}
+
+<h2 class="monitoring-legend">Podpri iniciativo kot organizacija</h2>
+<div class="monitoring-link">
+  <div class="monitoring-icon">
+    <img src="{% static "svg/noun-join-us-5980040.svg" %}" alt="">
+  </div>
+  <div class="monitoring-content">
+    <p>
+      Če bi se radi aktivno vključili v iniciativo, pomagali pri širjenju glasu
+      ali pa predlagali konkretne zahteve iz svojega področja, nam pišite na
+      <a href="mailto:info@glas-ljudstva.si">info@glas-ljudstva.si</a>!
+    </p>
+  </div>
+</div>
+
+<h2 class="monitoring-legend">Pridruži se kot posameznik_ca</h2>
+<div class="monitoring-link">
+  <div class="monitoring-icon">
+    <img src="{% static "svg/noun-newsletter-3833433.svg" %}" alt="">
+  </div>
+  <div class="monitoring-content">
     <p>
       Za začetek nam zaupaj svoj e-naslov in ostani na tekočem z dogajanjem.
     </p>
@@ -12,12 +31,18 @@
       sodelujočim organizacijam).
     </p>
     <form class="subscribe-form" onsubmit="return false;">
-      <label for="subscribe-email">Vpiši svoj e-naslov</label>
-      <input type="email" id="subscribe-email" required />
-      <button id="subscribe-submit">Pridruži se</button>
+      <label for="subscribe-email">
+        Vpiši svoj e-naslov
+        <input type="email" id="subscribe-email" required />
+      </label>
+      <button id="subscribe-submit" type="submit">
+        <span>Pridruži se</span>
+        <img src="{% static "svg/noun-right-arrow-1086470-white.svg" %}" class="inline-icon" alt="">
+      </button>
     </form>
   </div>
 </div>
+
 <script>
   const form = document.querySelector(".subscribe-form");
   const emailField = form.querySelector("#subscribe-email");

@@ -19,9 +19,9 @@ class SideBarLink(OrderableModel):
         verbose_name="Domača stran",
     )
 
-    gap = models.BooleanField(
+    red = models.BooleanField(
         default=False,
-        verbose_name="Presledek",
+        verbose_name="Rdeče",
     )
     icon = models.CharField(
         max_length=100,
