@@ -1,5 +1,10 @@
+import re
+
+from django.contrib.syndication.views import Feed
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render
+from django.utils.feedgenerator import Atom1Feed, Rss201rev2Feed
+from martor.utils import markdownify
 
 from .models import CampaignItem, ContentPage, NewsItem
 
@@ -39,6 +44,38 @@ def news(request):
             "page_range": page_range,
         },
     )
+
+
+class NewsRssFeed(Feed):
+    feed_type = Rss201rev2Feed
+    title = "Glas ljudstva"
+    description = "Glas ljudstva združuje več kot 100 civilnodružbenih organizacij ter več tisoč posameznic in posameznikov z vseh družbenih področij in iz celotne Slovenije."
+    link = "https://glas-ljudstva.si/"
+    feed_url = "https://glas-ljudstva.si/novice/feed/rss/"
+    language = "sl"
+
+    def items(self):
+        return NewsItem.objects.filter(published=True).order_by("-publish_time")[:15]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        # markdown to html
+        html = markdownify(item.intro)
+        # fix relative urls
+        html = re.sub(r"\s(href|src)=\"//", r' \1="http://', html, flags=re.MULTILINE)
+        html = re.sub(r"\s(href|src)=\"/", r' \1="https://glas-ljudstva.si/', html, flags=re.MULTILINE)
+        return html
+
+    def item_pubdate(self, item):
+        return item.publish_time
+
+
+class NewsAtomFeed(NewsRssFeed):
+    feed_type = Atom1Feed
+    subtitle = NewsRssFeed.description
+    feed_url = "https://glas-ljudstva.si/novice/feed/atom/"
 
 
 def news_item(request, id, slug=""):
