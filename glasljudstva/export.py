@@ -1,5 +1,6 @@
 import csv
-from zahteve.models import Demand, Party, DemandAnswer, WorkGroup, Election
+
+from zahteve.models import Demand, DemandAnswer, Election, Party, WorkGroup
 
 
 def prettify_answer(answer):
@@ -14,16 +15,18 @@ election = Election.objects.filter(slug="predsedniske-2022").first()
 work_groups = WorkGroup.objects.filter(election=election).order_by("id")
 # parties = Party.objects.filter(finished_quiz=True).order_by("id")
 parties = Party.objects.filter(election=election).order_by("id")
-filtered_parties = parties.filter(party_name__in=[
-    "Anže Logar",
-    "Nataša Pirc Musar",
-    "Milan Brglez",
-    "Miha Kordiš",
-    "Gregor Bezenšek ml.",
-    "Sabina Senčar",
-    "Janez Cigler Kralj",
-    "Vladimir Prebilič"
-])
+filtered_parties = parties.filter(
+    party_name__in=[
+        "Anže Logar",
+        "Nataša Pirc Musar",
+        "Milan Brglez",
+        "Miha Kordiš",
+        "Gregor Bezenšek ml.",
+        "Sabina Senčar",
+        "Janez Cigler Kralj",
+        "Vladimir Prebilič",
+    ]
+)
 
 for workgroup in work_groups:
     with open(f"stranke/{workgroup.name}.csv", "w") as outfile:
@@ -50,11 +53,13 @@ for workgroup in work_groups:
         writer.writerow(["zahteva", "strinjanje"])
 
         for demand in Demand.objects.filter(workgroup=workgroup).order_by("id"):
-            writer.writerow([
-                demand.title,
-                DemandAnswer.objects.filter(
-                    demand=demand,
-                    party__in=filtered_parties,
-                    agree_with_demand=True
-                ).count()
-            ])
+            writer.writerow(
+                [
+                    demand.title,
+                    DemandAnswer.objects.filter(
+                        demand=demand,
+                        party__in=filtered_parties,
+                        agree_with_demand=True,
+                    ).count(),
+                ]
+            )
