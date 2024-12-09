@@ -7,21 +7,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0032_alter_monitoringreport_notes_and_more'),
+        ("zahteve", "0032_alter_monitoringreport_notes_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DemandState',
+            name="DemandState",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(verbose_name='Ime')),
-                ('description', models.TextField(verbose_name='Opis')),
-                ('order', models.IntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Vrstni red')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField(verbose_name="Ime")),
+                ("description", models.TextField(verbose_name="Opis")),
+                (
+                    "order",
+                    models.IntegerField(
+                        default=1,
+                        validators=[django.core.validators.MinValueValidator(1)],
+                        verbose_name="Vrstni red",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Stanje zaveze',
-                'verbose_name_plural': 'Stanja zaveze',
+                "verbose_name": "Stanje zaveze",
+                "verbose_name_plural": "Stanja zaveze",
             },
         ),
     ]

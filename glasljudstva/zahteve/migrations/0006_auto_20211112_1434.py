@@ -6,20 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0005_workgroup_description'),
+        ("zahteve", "0005_workgroup_description"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='workgroup',
-            name='og_description',
-            field=models.TextField(default='TODO'),
+            model_name="workgroup",
+            name="og_description",
+            field=models.TextField(default="TODO"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='workgroup',
-            name='og_title',
-            field=models.TextField(default='TODO'),
+            model_name="workgroup",
+            name="og_title",
+            field=models.TextField(default="TODO"),
             preserve_default=False,
         ),
     ]

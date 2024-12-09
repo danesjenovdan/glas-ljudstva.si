@@ -6,36 +6,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0026_party_is_winner_party_proposer_party_sex'),
+        ("zahteve", "0026_party_is_winner_party_proposer_party_sex"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='demand',
-            name='municipality',
+            model_name="demand",
+            name="municipality",
         ),
         migrations.RemoveField(
-            model_name='workgroup',
-            name='municipality',
+            model_name="workgroup",
+            name="municipality",
         ),
         migrations.AddField(
-            model_name='municipality',
-            name='demands',
-            field=models.ManyToManyField(to='zahteve.demand'),
+            model_name="municipality",
+            name="demands",
+            field=models.ManyToManyField(to="zahteve.demand"),
         ),
         migrations.AddField(
-            model_name='municipality',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to=''),
+            model_name="municipality",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to=""),
         ),
         migrations.AddField(
-            model_name='party',
-            name='already_has_pp',
+            model_name="party",
+            name="already_has_pp",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='party',
-            name='email',
+            model_name="party",
+            name="email",
             field=models.EmailField(blank=True, max_length=254, null=True),
         ),
     ]

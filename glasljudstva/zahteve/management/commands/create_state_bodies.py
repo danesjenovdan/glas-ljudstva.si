@@ -22,25 +22,23 @@ STATE_BODIES = [
     "Ministrstvo za naravne vire in prostor",
     "Ministrstvo za kohezijo in regionalni razvoj",
     "Ministrstvo za digitalno preobrazbo",
-
     "Ministrstvo za okolje in prostor",
     "Ministrstvo za gospodarski razvoj in tehnologijo",
     "Ministrstvo za infrastrukturo",
     "Ministrstvo za izobraževanje, znanost in šport",
-
     "Generalni sekretariat vlade RS",
     "Sekretariat državnega zbora RS",
     "Urad vlade za komuniciranje",
-
     "Služba vlade RS za digitalno preobrazbo",
 ]
 
+
 class Command(BaseCommand):
-    help = 'Create state body objects'
+    help = "Create state body objects"
 
     def handle(self, *args, **options):
-        self.stdout.write(f'Creating {len(STATE_BODIES)} state bodies ...')
+        self.stdout.write(f"Creating {len(STATE_BODIES)} state bodies ...")
         for stateBody in STATE_BODIES:
             sb, created = StateBody.objects.get_or_create(name=stateBody)
             sb.save()
-        self.stdout.write('DONE')
+        self.stdout.write("DONE")
