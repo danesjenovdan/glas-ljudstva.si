@@ -9,7 +9,6 @@ from zahteve.utils import id_generator, send_email
 # from django_comments.signals import comment_was_posted
 
 
-
 # @receiver(comment_was_posted, comment=None, request=None, **kwargs)
 # def confirm_comment(comment, request, **kwargs):
 
