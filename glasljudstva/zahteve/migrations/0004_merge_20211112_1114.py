@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0002_emailverification'),
-        ('zahteve', '0003_remove_demand_voices'),
+        ("zahteve", "0002_emailverification"),
+        ("zahteve", "0003_remove_demand_voices"),
     ]
 
-    operations = [
-    ]
+    operations = []

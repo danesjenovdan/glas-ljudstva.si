@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0009_newsletter'),
+        ("zahteve", "0009_newsletter"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='newsletter',
-            name='permission',
+            model_name="newsletter",
+            name="permission",
             field=models.BooleanField(blank=True, default=False),
         ),
     ]

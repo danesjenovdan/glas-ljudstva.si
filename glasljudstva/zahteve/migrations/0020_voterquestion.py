@@ -6,18 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0019_alter_party_image'),
+        ("zahteve", "0019_alter_party_image"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='VoterQuestion',
+            name="VoterQuestion",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=50)),
-                ('hometown', models.CharField(max_length=50)),
-                ('receiver', models.CharField(max_length=120)),
-                ('question', models.CharField(max_length=500)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(blank=True, max_length=50)),
+                ("hometown", models.CharField(max_length=50)),
+                ("receiver", models.CharField(max_length=120)),
+                ("question", models.CharField(max_length=500)),
             ],
         ),
     ]

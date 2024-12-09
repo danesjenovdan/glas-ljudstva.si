@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0038_alter_monitoringreport_cooperative'),
+        ("zahteve", "0038_alter_monitoringreport_cooperative"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='monitoringreport',
-            name='cooperative',
-            field=models.TextField(blank=True, choices=[('yes', 'Da'), ('no', 'Ne')], verbose_name='Državni organ(i) so iniciativi Glas ljudstva poslali pojasnila/odgovor o uresničevanju zaveze'),
+            model_name="monitoringreport",
+            name="cooperative",
+            field=models.TextField(
+                blank=True,
+                choices=[("yes", "Da"), ("no", "Ne")],
+                verbose_name="Državni organ(i) so iniciativi Glas ljudstva poslali pojasnila/odgovor o uresničevanju zaveze",
+            ),
         ),
     ]

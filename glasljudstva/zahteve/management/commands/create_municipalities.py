@@ -217,13 +217,14 @@ MUNICIPALITIES = [
     "Ankaran",
 ]
 
+
 class Command(BaseCommand):
-    help = 'Create municipality objects'
+    help = "Create municipality objects"
 
     def handle(self, *args, **options):
-        self.stdout.write(f'Creating {len(MUNICIPALITIES)} municipalities...')
+        self.stdout.write(f"Creating {len(MUNICIPALITIES)} municipalities...")
         for municipality in MUNICIPALITIES:
             m, created = Municipality.objects.get_or_create(name=municipality)
             m.slug = slugify(municipality)
             m.save()
-        self.stdout.write('DONE')
+        self.stdout.write("DONE")

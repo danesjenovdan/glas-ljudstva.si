@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0025_workgroup_municipality'),
+        ("zahteve", "0025_workgroup_municipality"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='party',
-            name='is_winner',
+            model_name="party",
+            name="is_winner",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='party',
-            name='proposer',
+            model_name="party",
+            name="proposer",
             field=models.TextField(blank=True),
         ),
         migrations.AddField(
-            model_name='party',
-            name='sex',
+            model_name="party",
+            name="sex",
             field=models.CharField(blank=True, max_length=1),
         ),
     ]

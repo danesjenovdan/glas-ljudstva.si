@@ -6,17 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0007_campaignitem_image'),
+        ("home", "0007_campaignitem_image"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='campaignitem',
-            options={'ordering': ['ordering'], 'verbose_name': 'Kampanja', 'verbose_name_plural': 'Kampanje'},
+            name="campaignitem",
+            options={
+                "ordering": ["ordering"],
+                "verbose_name": "Kampanja",
+                "verbose_name_plural": "Kampanje",
+            },
         ),
         migrations.AddField(
-            model_name='campaignitem',
-            name='ordering',
-            field=models.PositiveIntegerField(default=0, verbose_name='ordering'),
+            model_name="campaignitem",
+            name="ordering",
+            field=models.PositiveIntegerField(default=0, verbose_name="ordering"),
         ),
     ]

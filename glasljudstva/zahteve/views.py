@@ -1,48 +1,51 @@
+import json
 from datetime import datetime
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
-from django.views import View
-from django.http import HttpResponseNotFound
-from django.contrib.auth import authenticate, login
 from django import forms
-from django.core.exceptions import PermissionDenied, BadRequest
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.views.decorators.cache import cache_page
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.exceptions import BadRequest, PermissionDenied
 from django.core.serializers import serialize
-import json
-
+from django.http import HttpResponseNotFound
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.cache import cache_page
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from zahteve.forms import (
+    DemandAnswerForm,
+    MonitoringReportForm,
+    RegisterForm,
+    RequestRestorePasswordForm,
+    RestorePasswordForm,
+    VoterQuestionForm,
+)
+from zahteve.math import calculate_most_controversial_demands
 from zahteve.models import (
-    WorkGroup,
     Demand,
+    DemandAnswer,
+    DemandState,
+    Election,
     EmailVerification,
-    ResetPassword,
+    MonitoringReport,
+    Municipality,
     Newsletter,
     Party,
-    DemandAnswer,
-    Election,
-    Municipality,
-    MonitoringReport,
-    DemandState,
+    ResetPassword,
+    WorkGroup,
 )
-from zahteve.forms import (
-    RegisterForm,
-    RestorePasswordForm,
-    RequestRestorePasswordForm,
-    DemandAnswerForm,
-    VoterQuestionForm,
-    MonitoringReportForm,
-)
-from zahteve.serializers import PartySerializer, MunicipalitySerializer
-from zahteve.math import calculate_most_controversial_demands
+from zahteve.serializers import MunicipalitySerializer, PartySerializer
+
 
 def amandma(request):
-    return redirect('https://djnd.s3.fr-par.scw.cloud/djnd/glas-ljudstva/pdf/GL-amandma-ZZVZZ-junij-2023.pdf')
+    return redirect(
+        "https://djnd.s3.fr-par.scw.cloud/djnd/glas-ljudstva/pdf/GL-amandma-ZZVZZ-junij-2023.pdf"
+    )
+
 
 # Create your views here.
 def after_registration(request):
@@ -54,7 +57,7 @@ def omnia(request):
 
 
 def landing(request, election_slug=None):
-    end_date = datetime.strptime('2026-05-15', '%Y-%m-%d').date()
+    end_date = datetime.strptime("2026-05-15", "%Y-%m-%d").date()
     start_date = datetime.now().date()
     delta = end_date - start_date
     question_form_thankyou = False
@@ -103,24 +106,24 @@ def landing(request, election_slug=None):
         for d in demands:
             related_reports = MonitoringReport.objects.filter(demand=d)
             if related_reports:
-                latest_related_report = related_reports.latest('created_at')
+                latest_related_report = related_reports.latest("created_at")
                 reports.append(latest_related_report.id)
 
         # all relevant monitoring objects
         mrs = MonitoringReport.objects.filter(id__in=reports)
 
         # all possible demand states
-        all_demand_states = DemandState.objects.all().order_by('order')
+        all_demand_states = DemandState.objects.all().order_by("order")
         # get number of filtered promises for each status
         reports_by_states = {}
         for report in mrs:
-            if (reports_by_states.get(report.state.name)):
+            if reports_by_states.get(report.state.name):
                 reports_by_states[report.state.name].append(report)
             else:
                 reports_by_states[report.state.name] = [report]
 
         try:
-            demands_fulfilled = len(reports_by_states['IZPOLNJENA'])
+            demands_fulfilled = len(reports_by_states["IZPOLNJENA"])
         except KeyError as e:
             print(e)
 
@@ -205,7 +208,7 @@ def demands_party(request, party_id):
         "zahteve/stranka.html",
         context={
             "party": party,
-            "work_groups": work_groups
+            "work_groups": work_groups,
             # 'form': form
         },
     )
@@ -229,18 +232,18 @@ def monitoring(request, election_slug=None):
     for d in demands:
         related_reports = MonitoringReport.objects.filter(demand=d, published=True)
         if related_reports:
-            latest_related_report = related_reports.latest('created_at')
+            latest_related_report = related_reports.latest("created_at")
             reports.append(latest_related_report.id)
 
     # all relevant monitoring objects
     mrs = MonitoringReport.objects.filter(id__in=reports)
 
     # all possible demand states
-    all_demand_states = DemandState.objects.all().order_by('order')
+    all_demand_states = DemandState.objects.all().order_by("order")
     # get number of filtered promises for each status
     reports_by_states = {}
     for report in mrs:
-        if (reports_by_states.get(report.state.name)):
+        if reports_by_states.get(report.state.name):
             reports_by_states[report.state.name].append(report)
         else:
             reports_by_states[report.state.name] = [report]
@@ -250,44 +253,48 @@ def monitoring(request, election_slug=None):
     if filtersForm.is_valid():
         data = filtersForm.cleaned_data
 
-        state = data['state']
+        state = data["state"]
         if state:
             mrs = mrs.filter(state=state)
 
-        is_priority_demand = data['is_priority_demand']
+        is_priority_demand = data["is_priority_demand"]
         if is_priority_demand:
             mrs = mrs.filter(demand__priority_demand=is_priority_demand)
 
-        present_in_coalition_treaty = data['present_in_coalition_treaty']
+        present_in_coalition_treaty = data["present_in_coalition_treaty"]
         if present_in_coalition_treaty:
             mrs = mrs.filter(present_in_coalition_treaty=present_in_coalition_treaty)
 
-        cooperative = data['cooperative']
+        cooperative = data["cooperative"]
         if cooperative:
             mrs = mrs.filter(cooperative=cooperative)
 
-        responsible_state_bodies = data['responsible_state_bodies']
+        responsible_state_bodies = data["responsible_state_bodies"]
         if responsible_state_bodies:
             mrs = mrs.filter(responsible_state_bodies__in=responsible_state_bodies)
 
-        working_body = data['working_body']
+        working_body = data["working_body"]
         if working_body:
             mrs = mrs.filter(demand__workgroup=working_body)
 
-        sort_by = data['sort_by']
-        sort_dir = data['sort_dir']
+        sort_by = data["sort_by"]
+        sort_dir = data["sort_dir"]
         if not sort_by:
             sort_by = "workgroup"
         if sort_by == "state":
             if sort_dir == "desc":
-                mrs = mrs.order_by('-state__order')
+                mrs = mrs.order_by("-state__order")
             else:
-                mrs = mrs.order_by('state__order')
+                mrs = mrs.order_by("state__order")
         if sort_by == "workgroup":
             if sort_dir == "desc":
-                mrs = mrs.order_by('-demand__workgroup__order', '-demand__workgroup__name')
+                mrs = mrs.order_by(
+                    "-demand__workgroup__order", "-demand__workgroup__name"
+                )
             else:
-                mrs = mrs.order_by('demand__workgroup__order', 'demand__workgroup__name')
+                mrs = mrs.order_by(
+                    "demand__workgroup__order", "demand__workgroup__name"
+                )
 
     else:
         print("Form is not valid")
@@ -320,9 +327,7 @@ def monitoring_report(request, monitoring_report_id):
     return render(
         request,
         "monitoring/zaveza.html",
-        context={
-            "monitoringReport": monitoringReport
-        },
+        context={"monitoringReport": monitoringReport},
     )
 
 

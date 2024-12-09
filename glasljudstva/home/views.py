@@ -65,7 +65,12 @@ class NewsRssFeed(Feed):
         html = markdownify(item.intro)
         # fix relative urls
         html = re.sub(r"\s(href|src)=\"//", r' \1="http://', html, flags=re.MULTILINE)
-        html = re.sub(r"\s(href|src)=\"/", r' \1="https://glas-ljudstva.si/', html, flags=re.MULTILINE)
+        html = re.sub(
+            r"\s(href|src)=\"/",
+            r' \1="https://glas-ljudstva.si/',
+            html,
+            flags=re.MULTILINE,
+        )
         return html
 
     def item_pubdate(self, item):

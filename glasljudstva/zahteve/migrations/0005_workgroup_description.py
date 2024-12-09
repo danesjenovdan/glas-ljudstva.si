@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0004_merge_20211112_1114'),
+        ("zahteve", "0004_merge_20211112_1114"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='workgroup',
-            name='description',
-            field=models.TextField(default='primer'),
+            model_name="workgroup",
+            name="description",
+            field=models.TextField(default="primer"),
             preserve_default=False,
         ),
     ]

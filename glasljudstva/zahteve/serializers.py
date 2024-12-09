@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Party, Municipality
+
+from .models import Municipality, Party
 
 
 class PartySerializer(serializers.ModelSerializer):
@@ -7,7 +8,17 @@ class PartySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Party
-        fields = ['id', 'party_name', 'image_url', 'url', 'proposer', 'sex', 'is_winner', 'municipality', 'already_has_pp']
+        fields = [
+            "id",
+            "party_name",
+            "image_url",
+            "url",
+            "proposer",
+            "sex",
+            "is_winner",
+            "municipality",
+            "already_has_pp",
+        ]
 
 
 class MunicipalitySerializer(serializers.ModelSerializer):
@@ -15,4 +26,4 @@ class MunicipalitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Municipality
-        fields = ['id', 'name', 'email', 'image', 'slug']
+        fields = ["id", "name", "email", "image", "slug"]

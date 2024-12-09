@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0039_alter_monitoringreport_cooperative'),
+        ("zahteve", "0039_alter_monitoringreport_cooperative"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='monitoringreport',
-            name='published',
-            field=models.BooleanField(default=True, verbose_name='Objavi?'),
+            model_name="monitoringreport",
+            name="published",
+            field=models.BooleanField(default=True, verbose_name="Objavi?"),
             preserve_default=False,
         ),
     ]

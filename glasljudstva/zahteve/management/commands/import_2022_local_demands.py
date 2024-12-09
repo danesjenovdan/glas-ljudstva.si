@@ -1,7 +1,8 @@
+import csv
+from io import StringIO
+
 from django.core.management.base import BaseCommand, CommandError
 from zahteve.models import Demand, Election, Municipality
-from io import StringIO
-import csv
 
 DEMANDS = """Občina bi morala uvesti participativni proračun v višini najmanj 1 % občinskega proračuna.,vse
 Na občinskem spletnem mestu bi morali biti po vsaki seji občinskega sveta objavljeni poimenski rezultati glasovanj posameznih svetnic in svetnikov.,vse
@@ -45,26 +46,27 @@ Občina bi morala urediti in komunalno opremiti zazidljive parcele za stanovanjs
 "Občina bi morala zaposliti osebo, ki bo zadolžena za pridobivanje sredstev iz EU.",Cerkno
 """
 
+
 class Command(BaseCommand):
-    help = 'Create demands for 2022 local elections and link them with municipalities'
+    help = "Create demands for 2022 local elections and link them with municipalities"
 
     def handle(self, *args, **options):
-        election = Election.objects.get(slug='lokalne-volitve-2022')
+        election = Election.objects.get(slug="lokalne-volitve-2022")
 
-        self.stdout.write(f'Creating and linking demands with municipalities...')
+        self.stdout.write(f"Creating and linking demands with municipalities...")
         f = StringIO(DEMANDS)
         reader = csv.reader(f)
         for row in reader:
             demand = row[0]
-            obcine_string = row[1] or 'vse'
-            obcine = list(map(lambda x: x.strip(), obcine_string.split(',')))
+            obcine_string = row[1] or "vse"
+            obcine = list(map(lambda x: x.strip(), obcine_string.split(",")))
 
             self.stdout.write(f'Creating demand "{demand[:80]}"...')
             obj = Demand.objects.create(
                 title=demand,
                 election=election,
             )
-            if obcine == ['vse']:
+            if obcine == ["vse"]:
                 municipalities = Municipality.objects.all()
                 for m in municipalities:
                     self.stdout.write(f'Linking with "{m.name}"...')
@@ -77,6 +79,6 @@ class Command(BaseCommand):
                     m.demands.add(obj)
                     m.save()
 
-            self.stdout.write('---')
+            self.stdout.write("---")
 
-        self.stdout.write('DONE')
+        self.stdout.write("DONE")

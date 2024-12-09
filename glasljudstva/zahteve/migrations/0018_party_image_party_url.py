@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zahteve', '0017_demand_priority_demand'),
+        ("zahteve", "0017_demand_priority_demand"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='party',
-            name='image',
-            field=models.ImageField(null=True, upload_to='party-images'),
+            model_name="party",
+            name="image",
+            field=models.ImageField(null=True, upload_to="party-images"),
         ),
         migrations.AddField(
-            model_name='party',
-            name='url',
+            model_name="party",
+            name="url",
             field=models.URLField(blank=True),
         ),
     ]

@@ -1,9 +1,10 @@
-import string
 import random
+import string
+
 from django.conf import settings
-from django.utils.html import strip_tags
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):

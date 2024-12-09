@@ -1,24 +1,27 @@
+import uuid
+from datetime import datetime
 from importlib import import_module
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import RegexValidator
 from django.db import models
-from django.utils.translation import gettext_lazy as _
-from datetime import datetime
 from django.utils.text import slugify
-import uuid
+from django.utils.translation import gettext_lazy as _
+
 
 class Timestampable(models.Model):
     """
     An abstract base class model that provides self-updating
     ``created`` and ``modified`` fields.
     """
+
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
 
     class Meta:
         abstract = True
+
 
 class Versionable(models.Model):
     """
@@ -27,16 +30,10 @@ class Versionable(models.Model):
     """
 
     valid_from = models.DateTimeField(
-        help_text=_('row valid from'),
-        blank=True,
-        null=True,
-        default=None
+        help_text=_("row valid from"), blank=True, null=True, default=None
     )
     valid_to = models.DateTimeField(
-        help_text=_('row valid to'),
-        blank=True,
-        null=True,
-        default=None
+        help_text=_("row valid to"), blank=True, null=True, default=None
     )
 
     class Meta:
@@ -61,10 +58,13 @@ class VersionableProperty(Versionable):
     class Meta:
         abstract = True
 
+
 class VersionableFieldsOwner(models.Model):
     @staticmethod
     def versionable_property_on_date(owner, property_model_name, timestamp):
-        versionable_properties_module = import_module('parladata.models.versionable_properties')
+        versionable_properties_module = import_module(
+            "parladata.models.versionable_properties"
+        )
         PropertyModel = getattr(versionable_properties_module, property_model_name)
         active_properties = PropertyModel.objects.filter(
             models.Q(owner=owner),
@@ -74,13 +74,17 @@ class VersionableFieldsOwner(models.Model):
 
         if active_properties.count() > 1:
             # TODO maybe a more descriptive exception is appropriate
-            raise Exception(f'More than one active {property_model_name} at {timestamp}. Check your data.')
-        
+            raise Exception(
+                f"More than one active {property_model_name} at {timestamp}. Check your data."
+            )
+
         return active_properties.first()
 
     @staticmethod
     def versionable_property_value_on_date(owner, property_model_name, datetime):
-        active_property = VersionableFieldsOwner.versionable_property_on_date(owner, property_model_name, datetime)
+        active_property = VersionableFieldsOwner.versionable_property_on_date(
+            owner, property_model_name, datetime
+        )
         if active_property:
             return active_property.value
         return None
@@ -91,26 +95,23 @@ class VersionableFieldsOwner(models.Model):
     def latest_versionable_property_timestamp_before(self, timestamp):
         versionable_properties = map(
             lambda x: x.model,
-            filter(
-                lambda x: x.attname == 'owner_id',
-                self._meta._relation_tree
-            )
+            filter(lambda x: x.attname == "owner_id", self._meta._relation_tree),
         )
         timestamps = []
         for versionable_property in versionable_properties:
             try:
                 latest_versionable_property = versionable_property.objects.filter(
                     owner=self
-                ).latest('valid_from')
+                ).latest("valid_from")
 
                 if latest_versionable_property.valid_from:
                     timestamps.append(latest_versionable_property.valid_from)
             except versionable_property.DoesNotExist:
                 pass
-        
+
         if len(timestamps) == 0:
             return datetime.now()
-        
+
         # sort in place
         timestamps.sort()
         return timestamps[-1]
@@ -128,7 +129,7 @@ class VersionableFieldsOwner(models.Model):
 class Sluggable(models.Model):
     def slug(self):
         if self.name:
-            return slugify(f'{self.id}-{self.name}')
+            return slugify(f"{self.id}-{self.name}")
         return str(self.id)
 
     class Meta:
