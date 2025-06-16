@@ -2,6 +2,7 @@ import csv
 from io import StringIO
 
 from django.core.management.base import BaseCommand, CommandError
+
 from zahteve.models import Demand, Election, Municipality
 
 DEMANDS = """Občina bi morala uvesti participativni proračun v višini najmanj 1 % občinskega proračuna.,vse

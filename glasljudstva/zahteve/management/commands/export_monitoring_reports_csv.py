@@ -1,6 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
-from zahteve.models import MonitoringReport, YES_NO_PARTIALLY_OPTIONS
 import csv
+
+from django.core.management.base import BaseCommand
+
+from zahteve.models import YES_NO_PARTIALLY_OPTIONS, MonitoringReport
 
 
 class Command(BaseCommand):

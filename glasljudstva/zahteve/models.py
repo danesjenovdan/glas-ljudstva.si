@@ -5,6 +5,7 @@ from django.utils.encoding import filepath_to_uri
 from django.utils.http import urlencode
 from django_comments.moderation import CommentModerator, moderator
 from martor.models import MartorField
+
 from zahteve.behaviors.models import Timestampable, Versionable
 from zahteve.utils import id_generator
 
