@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django_comments.models import Comment
+
 from zahteve.models import EmailVerification, ResetPassword
 from zahteve.utils import id_generator, send_email
 

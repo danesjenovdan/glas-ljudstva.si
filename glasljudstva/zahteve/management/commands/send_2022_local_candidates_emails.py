@@ -2,6 +2,7 @@ import time
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
 from zahteve.mautic_api import MauticApi
 from zahteve.models import Election, Municipality, Party
 

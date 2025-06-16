@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.text import slugify
+
 from zahteve.models import StateBody
 
 STATE_BODIES = [
