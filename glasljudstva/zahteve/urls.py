@@ -51,6 +51,9 @@ urlpatterns = [
     path("monitoring-zaveze/<int:monitoring_report_id>/", monitoring_report),
     path("<slug:election_slug>/", landing),
     path("<slug:election_slug>/zahteve/", landing),
+    path("<slug:election_slug>/zahteve/<int:demand_id>/", demand),
+    path("<slug:election_slug>/zahteve/stranka/<int:party_id>/", demands_party),
+    path("<slug:election_slug>/skupina/<int:delovna_skupina_id>/", delovna_skupina),
     # URLS for candidates, twice. this is just cosmetics
     # first for parties
     path("<slug:election_slug>/stranke/", party),

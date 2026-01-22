@@ -16,13 +16,13 @@
 {% for wg in work_groups %}
 <div class="working-group-header">
     <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
-    <a href="/{{wg.id}}">
+    <a href="/{{ wg.election.slug }}/skupina/{{wg.id}}">
         <h1>{{ wg.name }}</h1>
     </a>
 </div>
 <div class="masonry">
     {% for demand in wg.demands %}
-    <a href="/zahteve/{{demand.id}}" class="masonry-card party-masonry-card {% if party.id in demand.partys_which_agree_in_ids %}agrees-yes {% else %}agrees-no{% endif %}">
+    <a href="/{{ party.election.slug }}/zahteve/{{demand.id}}" class="masonry-card party-masonry-card {% if party.id in demand.partys_which_agree_in_ids %}agrees-yes {% else %}agrees-no{% endif %}">
         <div class="masonry-card-body">
             <h1>{{ demand.title }}</h1>
             {% if party.id in demand.partys_which_agree_in_ids %}

@@ -84,7 +84,7 @@
     }
 
 </style>
-    
+
     {% comment %} <div class="divider divider-left working-group"></div> {% endcomment %}
     <div class="demand-header">
         <h2 class="markdown-header">Monitoring zaveze</h2>
@@ -140,7 +140,7 @@
     </div>
 
     {% comment %} <div>
-        <a href="/{{monitoringReport.demand.workgroup.id}}">Več zavez iz tega področja</a>
+        <a href="/{{ monitoringReport.demand.election.slug }}/skupina/{{monitoringReport.demand.workgroup.id}}">Več zavez iz tega področja</a>
     </div> {% endcomment %}
 
     <div class="divider divider-left"></div>
@@ -161,10 +161,10 @@
     </div>
     <div class="grey-box-text demand-grey-box">
         <span>
-            Zahtevo ureja delovna skupina: <a href="/{{monitoringReport.demand.workgroup.id}}">{{ monitoringReport.demand.workgroup.name }}</a>
+            Zahtevo ureja delovna skupina: <a href="/{{ monitoringReport.demand.election.slug }}/skupina/{{monitoringReport.demand.workgroup.id}}">{{ monitoringReport.demand.workgroup.name }}</a>
         </span>
     </div>
-    
+
     {% comment %} <div class="divider divider-left"></div> {% endcomment %}
 
 {% endblock %}

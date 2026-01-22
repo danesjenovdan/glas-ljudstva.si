@@ -23,7 +23,7 @@
     </div>
     <div class="grey-box-text demand-grey-box">
         <span>
-            Zahtevo ureja delovna skupina: <a href="/{{demand.workgroup.id}}">{{ demand.workgroup.name }}</a>
+            Zahtevo ureja delovna skupina: <a href="/{{ demand.election.slug }}/skupina/{{demand.workgroup.id}}">{{ demand.workgroup.name }}</a>
         </span>
     </div>
     <div class="divider divider-left"></div>
@@ -36,11 +36,11 @@
     <div class="demand-agree">
         {% for party in demand.partys_which_agree %}
             <div class="party">
-                <a href="/zahteve/stranka/{{ party.id }}">
+                <a href="/{{ party.election.slug }}/zahteve/stranka/{{ party.id }}">
                     <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
                 </a>
                 <span class="party-name">
-                    <a href="/zahteve/stranka/{{ party.id }}">
+                    <a href="/{{ party.election.slug }}/zahteve/stranka/{{ party.id }}">
                         {{ party.party_name }}
                     </a>
                 </span>
@@ -57,11 +57,11 @@
         {% for answer in demand.answers_which_dont_agree %}
         <div class="demand-dont-agree">
             <div class="party">
-                <a href="/zahteve/stranka/{{ answer.party.id }}">
+                <a href="/{{ answer.party.election.slug }}/zahteve/stranka/{{ answer.party.id }}">
                     <img src="{{ answer.party.image_url }}" alt="{{ answer.party.party_name }}" onerror="nofind()" />
                 </a>
                 <span class="party-name">
-                    <a href="/zahteve/stranka/{{ answer.party.id }}">{{ answer.party.party_name }}</a>
+                    <a href="/{{ answer.party.election.slug }}/zahteve/stranka/{{ answer.party.id }}">{{ answer.party.party_name }}</a>
                 </span>
             </div>
             {% if answer.comment %}
@@ -72,7 +72,7 @@
         </div>
         {% endfor %}
     {% endif %}
-    
+
     <div class="divider divider-left"></div>
 
     <!-- komentarji so skriti -->

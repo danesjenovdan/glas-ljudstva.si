@@ -44,7 +44,7 @@
         </div>
     </div>
 </div> -->
-<!-- 
+<!--
 <div class="sub-header">
     <h1 style="text-align: center; margin-bottom: 40px;">
         Oddaj podpis v podporo zakonu za dostopno javno zdravstvo!
@@ -68,6 +68,8 @@
 {% include './landing_partials/intro-predsedniske.html' %}
 {% elif election_slug == 'drzavnozborske-volitve-2022' %}
 {% include './landing_partials/intro-dz.html' %}
+{% elif election_slug == 'drzavnozborske-volitve-2026' %}
+{% include './landing_partials/intro-dz-2026.html' %}
 {% elif election_slug == 'lokalne-volitve-2022' %}
 {% include './landing_partials/intro-lokalne.html' %}
 {% elif election_slug == 'zdravstvo' %}
@@ -100,15 +102,15 @@
     {% for party in parties %}
     <div class="party" style="margin-bottom: 20px;">
         <!-- {% if party.image %}
-            <a href="/zahteve/stranka/{{ party.id }}">
+            <a href="/{{ election_slug }}/zahteve/stranka/{{ party.id }}">
                 <img src="{% get_media_prefix %}{{ party.image }}" alt="{{ party.party_name }}"/>
             </a>
             {% endif %} -->
-        <a href="/zahteve/stranka/{{ party.id }}" style="width: 64px; height: 64px;">
+        <a href="/{{ election_slug }}/zahteve/stranka/{{ party.id }}" style="width: 64px; height: 64px;">
             <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
         </a>
         <span class="party-name">
-            <a href="/zahteve/stranka/{{ party.id }}">
+            <a href="/{{ election_slug }}/zahteve/stranka/{{ party.id }}">
                 {{ party.party_name }}
             </a>
         </span>
@@ -120,7 +122,7 @@
 {% for wg in work_groups %}
 <div class="working-group-header">
     <img class="logo" src="{% static 'svg/logo-glasljudstva.svg' %}">
-    <a href="/{{wg.id}}">
+    <a href="/{{ wg.election.slug }}/skupina/{{wg.id}}">
         <h1>{{ wg.name }}</h1>
     </a>
 </div>
@@ -183,12 +185,12 @@
     </style>
     <div class="masonry-card">
         <div class="masonry-card-body">
-            <a href="/zahteve/{{demand.id}}">
+            <a href="/{{ election_slug }}/zahteve/{{demand.id}}">
                 <h1>{{ demand.title }}</h1>
             </a>
             <div>
                 {% for party in demand.partys_which_agree %}
-                <a href="/zahteve/stranka/{{ party.id }}" class="partylink">
+                <a href="/{{ election_slug }}/zahteve/stranka/{{ party.id }}" class="partylink">
                     <div class="party-image" title="{{ party.party_name }}">
                         <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
                     </div>
@@ -196,7 +198,7 @@
                 {% endfor %}
                 <br />
                 {% for party in demand.partys_which_dont_agree %}
-                <a href="/zahteve/stranka/{{ party.id }}" class="partylink disagrees">
+                <a href="/{{ election_slug }}/zahteve/stranka/{{ party.id }}" class="partylink disagrees">
                     <div class="party-image" title="{{ party.party_name }}">
                         <img src="{{ party.image_url }}" alt="{{ party.party_name }}" onerror="nofind()" />
                     </div>

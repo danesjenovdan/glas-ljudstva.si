@@ -31,7 +31,7 @@
     <div class="divider divider-left"></div>
     <div class="masonry">
     {% for demand in demands %}
-        <a href="/zahteve/{{demand.id}}" class="masonry-card">
+        <a href="/{{ demand.election.slug }}/zahteve/{{demand.id}}" class="masonry-card">
             <div class="masonry-card-body">
                 <h1>{{ demand.title }}</h1>
                 <!-- <p>{{ demand.description }}</p> -->
