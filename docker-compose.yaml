@@ -1,4 +1,5 @@
-version: '3'
+volumes:
+  pgdata:
 
 services:
   glasljudstva:
@@ -11,6 +12,9 @@ services:
       DJANGO_SETTINGS_MODULE: glasljudstva.k8s_settings
       DJANGO_SECRET_KEY: make-me-secret
       DJANGO_DATABASE_HOST: db
+      DJANGO_DATABASE_NAME: glasljudstva
+      DJANGO_DATABASE_USERNAME: glasljudstva
+      DJANGO_DATABASE_PASSWORD: changeme
       MAUTIC_URL: http://mautic.hostname/api/
       MAUTIC_USER: change_mautic_user
       MAUTIC_PASSWORD: change_mautic_password
@@ -20,15 +24,12 @@ services:
       - db
 
   db:
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: glasljudstva
+      POSTGRES_USER: glasljudstva
+      POSTGRES_PASSWORD: changeme
     ports:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
