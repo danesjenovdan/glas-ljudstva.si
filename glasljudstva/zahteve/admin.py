@@ -82,6 +82,7 @@ class RelatedElectionOnlyFieldListFilter(admin.RelatedFieldListFilter):
 class DemandAnswerAdmin(admin.ModelAdmin):
     list_display = ("get_demand_title", "get_election", "party")
     list_filter = ("demand__election", ("party", RelatedElectionOnlyFieldListFilter))
+    search_fields = ["demand__title", "party__party_name"]
 
     def get_election(self, obj):
         return obj.demand.election
