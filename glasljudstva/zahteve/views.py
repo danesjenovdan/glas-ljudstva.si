@@ -514,7 +514,8 @@ def party_instructions(request, election_slug=None):
             )
         ) == len(demands)
 
-    next = WorkGroup.objects.filter(election=election).order_by("id").first().id
+    next_obj = WorkGroup.objects.filter(election=election).order_by("id").first()
+    next = next_obj.id if next_obj else None
 
     return render(
         request,
