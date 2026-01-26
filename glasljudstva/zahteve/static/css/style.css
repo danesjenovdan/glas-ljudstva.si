@@ -285,7 +285,7 @@ a {
 }
 
 .menu {
-    flex-direction: column; 
+    flex-direction: column;
     align-items: flex-end;
     padding-left: 0;
     padding-right: 0;
@@ -297,7 +297,7 @@ a {
 
 .menu .faq,
 .menu .democracy-festival {
-    font-size: 20px;   
+    font-size: 20px;
 }
 
 /* .menu .faq {
@@ -1122,4 +1122,18 @@ button:hover {
     font-size: 36px;
     line-height: 1.25;
     color: black;
+}
+
+/*  */
+.rich-text {
+    font-family: 'linlibertine', serif;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.rich-text p,
+.rich-text ul,
+.rich-text ol {
+    margin-top: 0;
+    margin-bottom: 1em;
 }

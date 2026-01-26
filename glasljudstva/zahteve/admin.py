@@ -74,7 +74,9 @@ class RelatedElectionOnlyFieldListFilter(admin.RelatedFieldListFilter):
         election_id = request.GET.get("demand__election__id__exact")
         if election_id:
             limit_choices_to = Q(election_id=election_id)
-        return field.get_choices(include_blank=False, ordering=ordering, limit_choices_to=limit_choices_to)
+        return field.get_choices(
+            include_blank=False, ordering=ordering, limit_choices_to=limit_choices_to
+        )
 
 
 class DemandAnswerAdmin(admin.ModelAdmin):
