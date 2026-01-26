@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 from martor.fields import MartorFormField
 
 from zahteve.models import (
@@ -20,7 +21,6 @@ from zahteve.models import (
 )
 
 # Register your models here.
-admin.site.register(WorkGroup)
 admin.site.register(EmailVerification)
 admin.site.register(Newsletter)
 admin.site.register(VoterQuestion)
@@ -39,6 +39,12 @@ admin.site.register(DemandState)
 # admin.site.register(Party, PartyAdmin)
 
 
+class WorkGroupAdmin(admin.ModelAdmin):
+    list_display = ("name", "election", "order")
+    list_filter = ("election",)
+    search_fields = ["name"]
+
+
 class PartyInline(admin.StackedInline):
     model = Party
     extra = 1
@@ -52,6 +58,7 @@ class DemandInline(admin.StackedInline):
 class PartyAdmin(admin.ModelAdmin):
     list_display = ("party_name", "election", "finished_quiz")
     list_filter = ("election",)
+    search_fields = ["party_name", "user__username"]
 
 
 class DemandAdmin(admin.ModelAdmin):
@@ -60,9 +67,22 @@ class DemandAdmin(admin.ModelAdmin):
     search_fields = ["title"]
 
 
+class RelatedElectionOnlyFieldListFilter(admin.RelatedFieldListFilter):
+    def field_choices(self, field, request, model_admin):
+        ordering = self.field_admin_ordering(field, request, model_admin)
+        limit_choices_to = {}
+        election_id = request.GET.get("demand__election__id__exact")
+        if election_id:
+            limit_choices_to = Q(election_id=election_id)
+        return field.get_choices(
+            include_blank=False, ordering=ordering, limit_choices_to=limit_choices_to
+        )
+
+
 class DemandAnswerAdmin(admin.ModelAdmin):
     list_display = ("get_demand_title", "get_election", "party")
-    list_filter = ("demand__election",)
+    list_filter = ("demand__election", ("party", RelatedElectionOnlyFieldListFilter))
+    search_fields = ["demand__title", "party__party_name"]
 
     def get_election(self, obj):
         return obj.demand.election
@@ -82,6 +102,7 @@ class DemandAnswerAdmin(admin.ModelAdmin):
 
 
 class ElectionAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug")
     inlines = [
         PartyInline,
         DemandInline,
@@ -138,6 +159,7 @@ class MonitoringReportAdmin(admin.ModelAdmin):
         return obj.demand.title
 
 
+admin.site.register(WorkGroup, WorkGroupAdmin)
 admin.site.register(Election, ElectionAdmin)
 admin.site.register(Demand, DemandAdmin)
 admin.site.register(Party, PartyAdmin)

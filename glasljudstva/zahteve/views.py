@@ -143,7 +143,7 @@ def landing(request, election_slug=None):
     )
 
 
-def delovna_skupina(request, delovna_skupina_id):
+def delovna_skupina(request, delovna_skupina_id, election_slug=None):
     try:
         delovna_skupina = WorkGroup.objects.get(id=delovna_skupina_id)
     except WorkGroup.DoesNotExist:
@@ -166,7 +166,7 @@ def delovna_skupina(request, delovna_skupina_id):
     )
 
 
-def demand(request, demand_id):
+def demand(request, demand_id, election_slug=None):
     # form = RegisterForm()
     try:
         demand = Demand.objects.get(id=demand_id)
@@ -183,7 +183,7 @@ def demand(request, demand_id):
     )
 
 
-def demands_party(request, party_id):
+def demands_party(request, party_id, election_slug=None):
     # form = RegisterForm()
     try:
         party = Party.objects.get(id=party_id)
@@ -514,7 +514,8 @@ def party_instructions(request, election_slug=None):
             )
         ) == len(demands)
 
-    next = WorkGroup.objects.filter(election=election).order_by("id").first().id
+    next_obj = WorkGroup.objects.filter(election=election).order_by("id").first()
+    next = next_obj.id if next_obj else None
 
     return render(
         request,

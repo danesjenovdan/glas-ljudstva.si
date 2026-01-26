@@ -48,7 +48,9 @@ class WorkGroup(Timestampable, Versionable):
 
 class Demand(Timestampable, Versionable):
     title = models.TextField(null=False, blank=False, verbose_name="Vprašanje")
-    description = models.TextField(null=True, blank=True, verbose_name="Dodaten opis")
+    description = MartorField(
+        blank=True, null=True, max_length=10000, verbose_name="Dodaten opis"
+    )
     workgroup = models.ForeignKey(
         "WorkGroup",
         null=True,
@@ -165,7 +167,11 @@ class Party(models.Model):
         Election, on_delete=models.CASCADE, verbose_name="Volitve"
     )
     municipality = models.ForeignKey(
-        Municipality, null=True, on_delete=models.SET_NULL, verbose_name="Občina"
+        Municipality,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Občina",
     )
     already_has_pp = models.BooleanField(
         default=False, verbose_name="Je že izvajal_a PP v prejšnjem mandatu?"

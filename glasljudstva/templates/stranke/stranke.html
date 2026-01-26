@@ -1,4 +1,5 @@
 {% extends "./base.html" %}
+{% load martortags %}
 
 {% block content %}
 
@@ -6,7 +7,7 @@
     <form method="POST" class="demand-quiz-form" autocomplete="off">
         {% csrf_token %}
         {{ formset.management_form }}
-        
+
         {% for form in forms %}
         <div class="demand-answer-form">
             <h1>{{ forloop.counter }}. {{ form.title }}</h1>
@@ -16,15 +17,17 @@
             {% endif %}
 
             {% if form.description %}
-            <p>{{ form.description }}</p>
+            <div class="rich-text">
+                {{ form.description|safe_markdown }}
+            </div>
             {% endif %}
-            
+
             <div class="form-agree-radio">
                 <label for="id_form-{{ forloop.counter0 }}-agree_with_demand_0">
-                    <input 
-                        type="radio" 
-                        name="form-{{ forloop.counter0 }}-agree_with_demand" 
-                        value="True" 
+                    <input
+                        type="radio"
+                        name="form-{{ forloop.counter0 }}-agree_with_demand"
+                        value="True"
                         id="id_form-{{ forloop.counter0 }}-agree_with_demand_0" {% if form.agree_with_demand == True %} checked {% endif %}
                         onclick="party_quiz_radio_click(this);"
                     >
@@ -33,17 +36,17 @@
             </div>
             <div class="form-agree-radio">
                 <label for="id_form-{{ forloop.counter0 }}-agree_with_demand_1">
-                    <input 
-                        type="radio" 
-                        name="form-{{ forloop.counter0 }}-agree_with_demand" 
-                        value="False" 
+                    <input
+                        type="radio"
+                        name="form-{{ forloop.counter0 }}-agree_with_demand"
+                        value="False"
                         id="id_form-{{ forloop.counter0 }}-agree_with_demand_1" {% if form.agree_with_demand == False %} checked {% endif %}
                         onclick="party_quiz_radio_click(this);"
                     >
                     NE
                 </label>
             </div>
-            
+
             <div class="form-comment {% if form.agree_with_demand != False %}hidden{% endif %}">
                 <h4>Če želite, lahko dodate komentar: (največ 1000 znakov)</h4>
                 <textarea name="form-{{ forloop.counter0 }}-comment" cols="40" rows="10" id="id_form-{{ forloop.counter0 }}-comment" maxlength="1000">{{ form.comment }}</textarea>
@@ -53,7 +56,7 @@
             <input type="hidden" name="form-{{ forloop.counter0 }}-party" id="id_form-{{ forloop.counter0 }}-party" value="{{ form.party }}">
 
         </div>
-        
+
         {% endfor %}
         <div class="button-wrapper">
             <button class="submit" type="submit">Shrani in nadaljuj</button>
