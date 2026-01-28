@@ -55,12 +55,20 @@
     </h1>
 </div> -->
 
+{% if election_slug == 'drzavnozborske-volitve-2026' %}
+<div class="sub-header">
+    <h2 style="text-align: center; margin-bottom: 40px;">
+        Zahteve iniciative Glas ljudstva so bile predane političnim strankam.
+    </h2>
+</div>
+{% else %}
 <div class="sub-header">
     <h2 style="text-align: center; margin-bottom: 40px;">
         Vlada ima samo še <span style="color: red">{{ weeks_remaining }}</span> tednov,
         da izpolni <a href="/monitoring">preostalih <span style="color: red">{{ promises_remaining }}</span> neizpolnjenih zavez</a>.
     </h2>
 </div>
+{% endif %}
 <div class="divider"></div>
 
 <!-- include the right introduction component -->
