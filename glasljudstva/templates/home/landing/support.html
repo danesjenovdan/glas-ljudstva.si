@@ -49,33 +49,43 @@
   const submitButton = form.querySelector("#subscribe-submit");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    emailField.disabled = true;
-    submitButton.disabled = true;
-    try {
-      const response = await fetch("https://podpri.lb.djnd.si/api/subscribe/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: emailField.value,
-          segment_id: 10,
-        }),
-      });
-      if (response.ok) {
-        alert("Hvala za prijavo!");
-        emailField.value = "";
-        emailField.disabled = false;
-        submitButton.disabled = false;
-      } else {
-        alert(
-          `Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.`
-        );
-      }
-    } catch (error) {
-      alert(
-        `Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.`
-      );
-    }
+
+    const email = emailField.value;
+
+    let campaign_slug = "glas-ljudstva";
+    let segment_id = 10;
+
+    let url = `https://moj.djnd.si/${campaign_slug}/prijava?segment_id=${segment_id}`;
+    url += `&email=${encodeURIComponent(email)}`;
+    window.open(`${url}`, `_blank`);
+
+    // emailField.disabled = true;
+    // submitButton.disabled = true;
+    // try {
+    //   const response = await fetch("https://podpri.lb.djnd.si/api/subscribe/", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email: emailField.value,
+    //       segment_id: 10,
+    //     }),
+    //   });
+    //   if (response.ok) {
+    //     alert("Hvala za prijavo!");
+    //     emailField.value = "";
+    //     emailField.disabled = false;
+    //     submitButton.disabled = false;
+    //   } else {
+    //     alert(
+    //       `Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.`
+    //     );
+    //   }
+    // } catch (error) {
+    //   alert(
+    //     `Ups, nekaj je šlo narobe. :( Če se napaka ne odpravi sama, pošlji mail na vsi@danesjenovdan.si.`
+    //   );
+    // }
   });
 </script>
