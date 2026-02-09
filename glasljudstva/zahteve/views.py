@@ -562,7 +562,9 @@ def party_finish(request, election_slug=None):
     if party.municipality:
         demands = demands.filter(municipality=party.municipality)
     allow_submit = len(
-        DemandAnswer.objects.filter(party=party, agree_with_demand__isnull=False)
+        DemandAnswer.objects.filter(
+            demand__in=demands, party=party, agree_with_demand__isnull=False
+        )
     ) == len(demands)
     finished_quiz = party.finished_quiz
 
