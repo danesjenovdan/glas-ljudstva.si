@@ -51,6 +51,11 @@ class Demand(Timestampable, Versionable):
     description = MartorField(
         blank=True, null=True, max_length=10000, verbose_name="Dodaten opis"
     )
+    list_title = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Naslov (za prikaz na seznamu, če je prazno se prikazuje 'Vprašanje')",
+    )
     workgroup = models.ForeignKey(
         "WorkGroup",
         null=True,

@@ -104,7 +104,7 @@
         <h1>Povezave do obljub individualnih strank</h1>
 </div> -->
 
-{% if election_slug == 'predsedniske-2022' or election_slug == 'drzavnozborske-volitve-2022' or election_slug == 'lokalne-volitve-2022' %}
+{% if election_slug == 'predsedniske-2022' or election_slug == 'drzavnozborske-volitve-2022' or election_slug == 'lokalne-volitve-2022' or election_slug == 'drzavnozborske-volitve-2026' %}
 <h2 style="text-align: center; margin-bottom: 40px;">Povezave do stališč posameznih kandidatk in kandidatov.</h2>
 <div class="demand-agree">
     {% for party in parties %}
@@ -194,7 +194,7 @@
     <div class="masonry-card">
         <div class="masonry-card-body">
             <a href="/{{ election_slug }}/zahteve/{{demand.id}}">
-                <h1>{{ demand.title }}</h1>
+                <h1>{% if demand.list_title %}{{ demand.list_title }}{% else %}{{ demand.title }}{% endif %}</h1>
             </a>
             <div>
                 {% for party in demand.partys_which_agree %}
