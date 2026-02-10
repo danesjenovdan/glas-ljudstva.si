@@ -1,5 +1,5 @@
 {% extends "registration/base.html" %}
-{% load static %}
+{% load static martortags %}
 
 {% block content %}
 <div>
@@ -15,7 +15,9 @@
             <div class="summary">
                 <h3>{{ forloop.counter }}. {{ answer.demand.title }}</h3>
                 {% if answer.demand.description %}
-                    <p>{{ answer.demand.description }}</p>
+                <div class="rich-text">
+                    {{ answer.demand.description|safe_markdown }}
+                </div>
                 {% endif %}
                 <p>{% if answer.agree_with_demand %}DA{% else %}NE{% endif %}</p>
                 {% if answer.comment %}

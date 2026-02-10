@@ -24,7 +24,7 @@
     {% for demand in wg.demands %}
     <a href="/{{ party.election.slug }}/zahteve/{{demand.id}}" class="masonry-card party-masonry-card {% if party.id in demand.partys_which_agree_in_ids %}agrees-yes {% else %}agrees-no{% endif %}">
         <div class="masonry-card-body">
-            <h1>{{ demand.title }}</h1>
+            <h1>{% if demand.list_title %}{{ demand.list_title }}{% else %}{{ demand.title }}{% endif %}</h1>
             {% if party.id in demand.partys_which_agree_in_ids %}
             <img src="{% static 'svg/podpira.svg' %}">
             {% else %}

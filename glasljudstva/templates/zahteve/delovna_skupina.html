@@ -33,7 +33,7 @@
     {% for demand in demands %}
         <a href="/{{ demand.election.slug }}/zahteve/{{demand.id}}" class="masonry-card">
             <div class="masonry-card-body">
-                <h1>{{ demand.title }}</h1>
+                <h1>{% if demand.list_title %}{{ demand.list_title }}{% else %}{{ demand.title }}{% endif %}</h1>
                 <!-- <p>{{ demand.description }}</p> -->
             </div>
             <!-- <div class="masonry-card-footer">
