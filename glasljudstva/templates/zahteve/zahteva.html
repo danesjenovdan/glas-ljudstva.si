@@ -1,6 +1,6 @@
 {% extends 'zahteve/frame.html' %}
 {% load static %}
-{% load comments %}
+{% load comments martortags %}
 
 {% block content %}
     <div class="divider divider-left working-group"></div>
@@ -12,9 +12,9 @@
     <div class="row">
         <div class="col">
             {% if demand.description %}
-            <p class="demand-description">
-                {{ demand.description }}
-            </p>
+            <div class="demand-description rich-text">
+                {{ demand.description|safe_markdown }}
+            </div>
             {% endif %}
             {% if demand.priority_demand %}
             <p class="demand-description"><strong>Ta zahteva mora biti izpolnjena v roku enega leta od nastopa mandata.</strong></p>
