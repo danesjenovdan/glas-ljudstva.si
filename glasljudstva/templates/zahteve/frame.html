@@ -146,10 +146,97 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <img class="logo" src="{% static 'svg/logo-glasljudstva-black.svg' %}">
-                </div>
-                <div class="col">
-                    <p>Spletno mesto z 🖤 postavil Danes je nov dan.</p>
+                    <style>
+                        .page-footer {
+                            width: 100%;
+                            font-family: system-ui, sans-serif;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            gap: 1.5rem;
+                        }
+
+                        @media (max-width: 690px) {
+                            .page-footer {
+                                flex-direction: column;
+                                padding-block: 2rem;
+                            }
+                        }
+
+                        .page-footer .logo {
+                            display: block;
+                            height: 85px;
+                        }
+
+                        @media (max-width: 690px) {
+                            .page-footer .logo {
+                                height: 50px;
+                            }
+                        }
+
+                        .page-footer .author {
+                            margin-top: 1rem;
+                            font-size: 0.75rem;
+                            line-height: 1.5;
+                            text-transform: uppercase;
+                            text-align: right;
+                            text-wrap: balance;
+                        }
+
+                        @media (max-width: 690px) {
+                            .page-footer .author {
+                                margin-top: 2rem;
+                                text-align: center;
+                            }
+                        }
+
+                        .page-footer .funding {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.75rem;
+                            max-width: 650px;
+                            font-size: 0.625rem;
+                            line-height: 1.5;
+                            text-align: right;
+                        }
+
+                        @media (max-width: 450px) {
+                            .page-footer .funding {
+                                flex-direction: column-reverse;
+                                text-align: center;
+                            }
+                        }
+
+                        .page-footer .funding img {
+                            display: block;
+                            width: auto;
+                            height: 50px;
+                        }
+
+                        .page-footer .funding div {
+                            text-wrap: balance;
+                        }
+                    </style>
+                    <footer class="page-footer">
+                        <img class="logo" src="{% static 'svg/logo-glasljudstva-black.svg' %}" />
+                        <div class="right">
+                            <div class="funding">
+                                <div>
+                                    Financirano s strani Evropske unije. Izražena stališča in mnenja so
+                                    zgolj stališča in mnenja avtorjev in ni nujno, da odražajo stališča
+                                    in mnenja Evropske unije ali Evropske izvajalske agencije za
+                                    izobraževanje in kulturo (EACEA). Zanje ne moreta biti odgovorna
+                                    niti Evropska unija niti EACEA
+                                </div>
+                                <div>
+                                    <img src="{% static 'img/SL_FundedbytheEU_RGB_POS.png' %}" alt="Funded by the EU Logo" />
+                                </div>
+                            </div>
+                            <div class="author">
+                                Spletno mesto z 🖤 postavil <a href="https://danesjenovdan.si" target="_blank">Danes je nov dan</a>.
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
