@@ -185,7 +185,10 @@ class Party(models.Model):
 
     @property
     def image_url(self):
-        return f"https://djnd.s3.fr-par.scw.cloud/glas-ljudstva/img/{filepath_to_uri(self.party_name)}.jpg"
+        # this property is for backwards compatibility before images were fixed on s3
+        if self.image:
+            return self.image.url
+        return "https://djnd.s3.fr-par.scw.cloud/djnd/glas-ljudstva/svg/oseba.svg"
 
     def __str__(self):
         return self.party_name

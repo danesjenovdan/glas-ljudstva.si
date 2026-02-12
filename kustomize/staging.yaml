@@ -72,12 +72,12 @@ spec:
             - "120"
           ports:
             - containerPort: 8000
-          envFrom:
-              - secretRef:
-                  name: glas-ljudstva-secrets
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: glasljudstva.k8s_settings
+          envFrom:
+            - secretRef:
+                name: glas-ljudstva-secrets
           resources:
             requests:
               memory: 100Mi
