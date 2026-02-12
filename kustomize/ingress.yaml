@@ -55,3 +55,28 @@ spec:
                 name: glas-ljudstva
                 port:
                   number: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: glas-ljudstva-nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - files.glas-ljudstva.si
+      secretName: glas-ljudstva-nginx-tls
+  rules:
+    - host: files.glas-ljudstva.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: glas-ljudstva-nginx
+                port:
+                  number: 80

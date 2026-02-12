@@ -5,7 +5,7 @@ metadata:
   labels:
     app: glas-ljudstva
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: glas-ljudstva
@@ -14,9 +14,15 @@ spec:
       labels:
         app: glas-ljudstva
     spec:
+      volumes:
+        - name: glas-ljudstva-storage
+          emptyDir: {}
       initContainers:
         - name: collectstatic
           image: glas-ljudstva
+          volumeMounts:
+            - name: glas-ljudstva-storage
+              mountPath: /storage
           command:
             - python
             - manage.py
@@ -37,6 +43,9 @@ spec:
               cpu: 500m
         - name: migrate
           image: glas-ljudstva
+          volumeMounts:
+            - name: glas-ljudstva-storage
+              mountPath: /storage
           command:
             - python
             - manage.py
@@ -57,6 +66,9 @@ spec:
       containers:
         - name: glas-ljudstva
           image: glas-ljudstva
+          volumeMounts:
+            - name: glas-ljudstva-storage
+              mountPath: /storage
           command:
             - gunicorn
             - glasljudstva.wsgi:application
@@ -85,3 +97,17 @@ spec:
             limits:
               memory: 1Gi
               cpu: 500m
+        - name: glas-ljudstva-nginx
+          image: nginx:alpine
+          volumeMounts:
+            - name: glas-ljudstva-storage
+              mountPath: /usr/share/nginx/html
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: 50Mi
+              cpu: 50m
+            limits:
+              memory: 200Mi
+              cpu: 100m
