@@ -39,7 +39,14 @@ from zahteve.models import (
     ResetPassword,
     WorkGroup,
 )
-from zahteve.serializers import MunicipalitySerializer, PartySerializer
+from zahteve.serializers import (
+    DemandAnswerVolitvomatSerializer,
+    DemandVolitvomatSerializer,
+    MunicipalitySerializer,
+    PartySerializer,
+    PartyVolitvomatSerializer,
+    WorkGroupVolitvomatSerializer,
+)
 
 
 def amandma(request):
@@ -829,6 +836,32 @@ class Volitvomat(APIView):
                 "questions": questions,
                 "parties": party_serializer.data,
                 # "municipalities": municipality_serializer.data
+            }
+        )
+
+
+class VolitvomatV2(APIView):
+    def get(self, request, format=None, election_slug=None):
+        election = get_object_or_404(Election, slug=election_slug)
+
+        parties = Party.objects.filter(election=election, finished_quiz=True)
+        parties_serializer = PartyVolitvomatSerializer(parties, many=True)
+
+        workgroups = WorkGroup.objects.filter(election=election).order_by("order", "id")
+        workgroups_serializer = WorkGroupVolitvomatSerializer(workgroups, many=True)
+
+        demands = Demand.objects.filter(election=election).order_by("id")
+        demands_serializer = DemandVolitvomatSerializer(demands, many=True)
+
+        answers = DemandAnswer.objects.filter(demand__in=demands, party__in=parties)
+        answers_serializer = DemandAnswerVolitvomatSerializer(answers, many=True)
+
+        return Response(
+            {
+                "parties": parties_serializer.data,
+                "workgroups": workgroups_serializer.data,
+                "questions": demands_serializer.data,
+                "answers": answers_serializer.data,
             }
         )
 

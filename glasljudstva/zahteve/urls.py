@@ -8,6 +8,7 @@ from zahteve.views import (
     Registracija,
     RestorePasswordView,
     Volitvomat,
+    VolitvomatV2,
     after_registration,
     amandma,
     delovna_skupina,
@@ -81,4 +82,5 @@ urlpatterns = [
     path("api/volitvomat/municipalities", MunicipalitiesList.as_view()),
     path("api/volitvomat/", Volitvomat.as_view()),
     path("api/municipalities/", QuestionsByMunicipalities.as_view()),
+    path("api/v2/volitvomat/<slug:election_slug>/", VolitvomatV2.as_view()),
 ]
