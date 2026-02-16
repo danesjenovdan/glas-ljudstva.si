@@ -62,9 +62,9 @@ class PartyAdmin(admin.ModelAdmin):
 
 
 class DemandAdmin(admin.ModelAdmin):
-    list_display = ("title", "election")
+    list_display = ("id", "title", "list_title", "election")
     list_filter = ("election",)
-    search_fields = ["title"]
+    search_fields = ["title", "list_title"]
 
 
 class RelatedElectionOnlyFieldListFilter(admin.RelatedFieldListFilter):

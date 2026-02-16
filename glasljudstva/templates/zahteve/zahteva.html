@@ -5,9 +5,7 @@
 {% block content %}
     <div class="divider divider-left working-group"></div>
     <div class="demand-header">
-        <h1>
-            {{ demand.title }}
-        </h1>
+        <h1>{% if demand.list_title %}{{ demand.list_title }}{% else %}{{ demand.title }}{% endif %}</h1>
     </div>
     <div class="row">
         <div class="col">
