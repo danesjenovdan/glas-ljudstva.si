@@ -37,6 +37,7 @@ from zahteve.models import (
     Newsletter,
     Party,
     ResetPassword,
+    VolitvomatDisplayedDemands,
     WorkGroup,
 )
 from zahteve.serializers import (
@@ -844,6 +845,11 @@ class VolitvomatV2(APIView):
     def get(self, request, format=None, election_slug=None):
         election = get_object_or_404(Election, slug=election_slug)
 
+        displayed_demands = VolitvomatDisplayedDemands.objects.filter(
+            election=election
+        ).first()
+        demand_ids = displayed_demands.demand_ids if displayed_demands else None
+
         parties = Party.objects.filter(election=election, finished_quiz=True)
         parties_serializer = PartyVolitvomatSerializer(parties, many=True)
 
@@ -851,6 +857,8 @@ class VolitvomatV2(APIView):
         workgroups_serializer = WorkGroupVolitvomatSerializer(workgroups, many=True)
 
         demands = Demand.objects.filter(election=election).order_by("id")
+        if demand_ids:
+            demands = demands.filter(id__in=demand_ids)
         demands_serializer = DemandVolitvomatSerializer(demands, many=True)
 
         answers = DemandAnswer.objects.filter(demand__in=demands, party__in=parties)

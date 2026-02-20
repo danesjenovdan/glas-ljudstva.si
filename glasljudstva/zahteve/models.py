@@ -181,6 +181,10 @@ class Party(models.Model):
     already_has_pp = models.BooleanField(
         default=False, verbose_name="Je že izvajal_a PP v prejšnjem mandatu?"
     )
+    our_answers = models.BooleanField(
+        default=False,
+        verbose_name="To so naši odgovori (stranka ni oddala vprašalnika)",
+    )
     mautic_id = models.IntegerField(blank=True, null=True)
 
     @property
@@ -223,6 +227,24 @@ class DemandAnswer(models.Model):
         ]
         verbose_name = "Odgovor kandidata_ke"
         verbose_name_plural = "Odgovori kandidatov"
+
+
+class VolitvomatDisplayedDemands(models.Model):
+    election = models.ForeignKey(
+        Election, on_delete=models.CASCADE, verbose_name="Volitve"
+    )
+    demand_ids = models.JSONField(
+        blank=True,
+        null=True,
+        verbose_name="ID-ji vprašanj, ki se prikazujejo v volitvomatih (če je prazno, se prikazujejo vsa)",
+    )
+
+    def __str__(self):
+        return f"Prikazana vprašanja za {self.election.name}"
+
+    class Meta:
+        verbose_name = "Prikazana vprašanja na volitvomatu"
+        verbose_name_plural = "Prikazana vprašanja na volitvomatu"
 
 
 class VoterQuestion(models.Model):

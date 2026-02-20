@@ -16,6 +16,7 @@ from zahteve.models import (
     Newsletter,
     Party,
     StateBody,
+    VolitvomatDisplayedDemands,
     VoterQuestion,
     WorkGroup,
 )
@@ -56,9 +57,25 @@ class DemandInline(admin.StackedInline):
 
 
 class PartyAdmin(admin.ModelAdmin):
-    list_display = ("party_name", "election", "finished_quiz")
-    list_filter = ("election",)
+    list_display = ("party_name", "election", "get_finished_quiz", "get_our_answers")
+    list_filter = ("election", "finished_quiz", "our_answers")
     search_fields = ["party_name", "user__username"]
+
+    @admin.display(
+        description="Oddan vprašalnik",
+        ordering="finished_quiz",
+        boolean=True,
+    )
+    def get_finished_quiz(self, obj):
+        return obj.finished_quiz
+
+    @admin.display(
+        description="Naši odgovori",
+        ordering="our_answers",
+        boolean=True,
+    )
+    def get_our_answers(self, obj):
+        return obj.our_answers
 
 
 class DemandAdmin(admin.ModelAdmin):
@@ -99,6 +116,10 @@ class DemandAnswerAdmin(admin.ModelAdmin):
 
     get_demand_title.admin_order_field = "demand"
     get_demand_title.short_description = "Demand"
+
+
+class VolitvomatDisplayedDemandsAdmin(admin.ModelAdmin):
+    list_display = ("election",)
 
 
 class ElectionAdmin(admin.ModelAdmin):
@@ -164,5 +185,6 @@ admin.site.register(Election, ElectionAdmin)
 admin.site.register(Demand, DemandAdmin)
 admin.site.register(Party, PartyAdmin)
 admin.site.register(DemandAnswer, DemandAnswerAdmin)
+admin.site.register(VolitvomatDisplayedDemands, VolitvomatDisplayedDemandsAdmin)
 admin.site.register(Municipality, MunicipalityAdmin)
 admin.site.register(MonitoringReport, MonitoringReportAdmin)
