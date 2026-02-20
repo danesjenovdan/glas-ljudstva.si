@@ -34,7 +34,7 @@ class PartyVolitvomatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Party
-        fields = ["id", "name", "image", "our_answers"]
+        fields = ["id", "name", "image", "email", "our_answers"]
 
 
 class WorkGroupVolitvomatSerializer(serializers.ModelSerializer):
