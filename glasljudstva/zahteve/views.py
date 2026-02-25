@@ -82,9 +82,9 @@ def landing(request, election_slug=None):
         # TODO: treba je urediti prikaz zahtev, da bodo na strani tudi tiste, ki ne pašejo pod noben work group
         work_groups = WorkGroup.objects.filter(election=election).order_by("?")
 
-        parties = Party.objects.filter(election=election, finished_quiz=True).order_by(
-            "?"
-        )
+        parties = Party.objects.filter(
+            election=election, finished_quiz=True, our_answers=False
+        ).order_by("?")
 
         # TODO: če se bo to uporabljajo tudi za predsedniške in lokalne volitve,
         # je treba dodat election še v ta model (VoterQuestion)

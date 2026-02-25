@@ -78,28 +78,40 @@ class Demand(Timestampable, Versionable):
     def partys_which_agree(self):
         return Party.objects.filter(
             id__in=DemandAnswer.objects.filter(
-                demand=self, agree_with_demand=True, party__finished_quiz=True
+                demand=self,
+                agree_with_demand=True,
+                party__finished_quiz=True,
+                party__our_answers=False,
             ).values_list("party__id", flat=True)
         )
 
     @property
     def partys_which_agree_in_ids(self):
         return DemandAnswer.objects.filter(
-            demand=self, agree_with_demand=True, party__finished_quiz=True
+            demand=self,
+            agree_with_demand=True,
+            party__finished_quiz=True,
+            party__our_answers=False,
         ).values_list("party__id", flat=True)
 
     @property
     def partys_which_dont_agree(self):
         return Party.objects.filter(
             id__in=DemandAnswer.objects.filter(
-                demand=self, agree_with_demand=False, party__finished_quiz=True
+                demand=self,
+                agree_with_demand=False,
+                party__finished_quiz=True,
+                party__our_answers=False,
             ).values_list("party__id", flat=True)
         )
 
     @property
     def answers_which_dont_agree(self):
         return DemandAnswer.objects.filter(
-            demand=self, agree_with_demand=False, party__finished_quiz=True
+            demand=self,
+            agree_with_demand=False,
+            party__finished_quiz=True,
+            party__our_answers=False,
         )
 
     class Meta:
