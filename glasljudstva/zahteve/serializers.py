@@ -46,7 +46,15 @@ class WorkGroupVolitvomatSerializer(serializers.ModelSerializer):
 class DemandVolitvomatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demand
-        fields = ["id", "title", "list_title", "description", "workgroup_id"]
+        fields = [
+            "id",
+            "title",
+            "list_title",
+            "simple_title",
+            "simple_description",
+            "description",
+            "workgroup_id",
+        ]
 
 
 class DemandAnswerVolitvomatSerializer(serializers.ModelSerializer):
