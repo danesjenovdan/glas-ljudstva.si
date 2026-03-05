@@ -47,14 +47,32 @@ class WorkGroup(Timestampable, Versionable):
 
 
 class Demand(Timestampable, Versionable):
-    title = models.TextField(null=False, blank=False, verbose_name="Vprašanje")
+    title = models.TextField(
+        null=False,
+        blank=False,
+        verbose_name="Vprašanje",
+    )
     description = MartorField(
-        blank=True, null=True, max_length=10000, verbose_name="Dodaten opis"
+        blank=True,
+        null=True,
+        max_length=10000,
+        verbose_name="Dodaten opis",
     )
     list_title = models.TextField(
         blank=True,
         null=True,
         verbose_name="Naslov (za prikaz na seznamu, če je prazno se prikazuje 'Vprašanje')",
+    )
+    simple_title = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Preprost naslov (za prikaz na volitvomatu)",
+    )
+    simple_description = MartorField(
+        blank=True,
+        null=True,
+        max_length=1000,
+        verbose_name="Preprost opis (za prikaz na volitvomatu)",
     )
     workgroup = models.ForeignKey(
         "WorkGroup",
