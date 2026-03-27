@@ -9,7 +9,7 @@ resources:
 images:
 - name: glas-ljudstva
   newName: rg.fr-par.scw.cloud/djnd/glas-ljudstva
-  newTag: '79808b6c9002b9e1c7f8eda07e23b13027c3e055'
+  newTag: 'be4a7f0894ee7f740ef182764ba5e5d9cdd204bb'
 - name: glas-ljudstva-staging
   newName: rg.fr-par.scw.cloud/djnd/glas-ljudstva-staging
-  newTag: '79808b6c9002b9e1c7f8eda07e23b13027c3e055'
+  newTag: 'be4a7f0894ee7f740ef182764ba5e5d9cdd204bb'
