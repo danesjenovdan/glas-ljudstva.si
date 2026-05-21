@@ -1,0 +1,41 @@
+{% extends "home/base.html" %}
+{% load static martortags %}
+
+{% block content %}
+<div class="container">
+  <div class="object-page">
+    <h2 class="page-title">{{ dpc.title }}</h2>
+    <div class="object-content">
+      <div class="rich-text">
+        {{ dpc.content|safe_markdown }}
+      </div>
+    </div>
+    <div class="object-grid">
+      <div class="half-area">
+        <div class="donation-box">
+          <h3 class="donation-title">{{ dpc.donation_recurring_title }}</h3>
+          <p class="donation-description">{{ dpc.donation_recurring_description }}</p>
+          <div>
+            <a href="/doniraj/mesecno/" class="donation-link">
+              <span>{{ dpc.donation_recurring_button_text }}</span>
+              <img src="{% static "svg/noun-right-arrow-1086470.svg" %}" class="inline-icon" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="half-area">
+        <div class="donation-box">
+          <h3 class="donation-title">{{ dpc.donation_once_title }}</h3>
+          <p class="donation-description">{{ dpc.donation_once_description }}</p>
+          <div>
+            <a href="/doniraj/enkrat/" class="donation-link">
+              <span>{{ dpc.donation_once_button_text }}</span>
+              <img src="{% static "svg/noun-right-arrow-1086470.svg" %}" class="inline-icon" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

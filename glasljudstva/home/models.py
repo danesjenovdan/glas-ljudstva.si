@@ -228,3 +228,60 @@ class ContentPage(models.Model):
     class Meta:
         verbose_name = "Vsebinska stran"
         verbose_name_plural = "Vsebinske strani"
+
+
+class DonationPageConfig(SingletonModel):
+    title = models.CharField(
+        max_length=200,
+        verbose_name="Naslov",
+    )
+    content = MartorField(
+        blank=True,
+        null=True,
+        verbose_name="Vsebina",
+    )
+    donation_once_title = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name="Naslov za enkratno donacijo",
+    )
+    donation_once_description = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name="Opis za enkratno donacijo",
+    )
+    donation_once_button_text = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Besedilo na gumbu za enkratno donacijo",
+    )
+    donation_once_url = models.URLField()
+    donation_recurring_title = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name="Naslov za mesečno donacijo",
+    )
+    donation_recurring_description = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name="Opis za mesečno donacijo",
+    )
+    donation_recurring_button_text = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="Besedilo na gumbu za mesečno donacijo",
+    )
+    donation_recurring_url = models.URLField()
+
+    def __str__(self):
+        return "Donacijska stran"
+
+    class Meta:
+        verbose_name = "Donacijska stran"
+        verbose_name_plural = "Donacijske strani"

@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed, Rss201rev2Feed
 from martor.utils import markdownify
 
-from .models import CampaignItem, ContentPage, NewsItem
+from .models import CampaignItem, ContentPage, DonationPageConfig, NewsItem
 
 
 def landing(request):
@@ -151,5 +151,42 @@ def newsletter_signup_page(request):
         "home/newsletter_signup_page.html",
         {
             "page_title": "Pridruži se",
+        },
+    )
+
+
+def donation_page(request):
+    dpc = DonationPageConfig.objects.first()
+    title = dpc.title if dpc and dpc.title else "Doniraj"
+
+    return render(
+        request,
+        "home/donation_page.html",
+        {
+            "page_title": title,
+            "dpc": dpc,
+        },
+    )
+
+
+def donation_embed_page(request):
+    dpc = DonationPageConfig.objects.first()
+    title = dpc.title if dpc and dpc.title else "Doniraj"
+
+    full_url = request.build_absolute_uri()
+    if "enkrat" in full_url:
+        embed_url = dpc.donation_once_url if dpc and dpc.donation_once_url else ""
+    else:
+        embed_url = (
+            dpc.donation_recurring_url if dpc and dpc.donation_recurring_url else ""
+        )
+
+    return render(
+        request,
+        "home/donation_embed_page.html",
+        {
+            "page_title": title,
+            "dpc": dpc,
+            "embed_url": embed_url,
         },
     )

@@ -1,0 +1,17 @@
+{% extends "home/base.html" %}
+{% load static martortags %}
+
+{% block content %}
+<div class="container">
+  <div class="container">
+    <iframe id="DonationEmbed" src="{{ embed_url }}" border="0"></iframe>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.min.js"
+      integrity="sha512-f0wd6UIvZbsjPNebGx+uMzHmg6KXr1jWvumJDYSEDmwYJYOptZ0dTka/wBJu7Tj80tnCYMKoKicqvZiIc9GJgw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>iFrameResize({ checkOrigin: false }, '#DonationEmbed');</script>
+  </div>
+</div>
+{% endblock %}

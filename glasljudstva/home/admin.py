@@ -5,6 +5,7 @@ from solo.admin import SingletonModelAdmin
 from .models import (
     CampaignItem,
     ContentPage,
+    DonationPageConfig,
     LandingPageConfig,
     NewsItem,
     PrimaryNavBarLink,
@@ -57,3 +58,4 @@ admin.site.register(LandingPageConfig, LandingPageConfigAdmin)
 admin.site.register(CampaignItem, CampaignItemAdmin)
 admin.site.register(NewsItem, NewsItemAdmin)
 admin.site.register(ContentPage, ContentPageAdmin)
+admin.site.register(DonationPageConfig, SingletonModelAdmin)
