@@ -323,12 +323,17 @@ img.inline-icon {
 }
 
 /* landing */
-.landing-grid {
+.landing-grid,
+.object-page .object-grid {
   margin-inline: calc(-1 * var(--gutter));
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: var(--gutter);
   grid-auto-flow: dense;
+}
+
+.object-page .object-grid {
+  margin-inline: 0;
 }
 
 .landing-grid > .main-area {
@@ -342,23 +347,35 @@ img.inline-icon {
   gap: 0.5rem;
 }
 
-.landing-grid > .full-area {
+.landing-grid > .full-area,
+.object-page .object-grid > .full-area {
   grid-column: 1 / -1;
 }
 
-.landing-grid > .half-area {
+.landing-grid > .half-area,
+.object-page .object-grid > .half-area {
   grid-column: span 4;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  &.center-area {
+    grid-column: 3 / span 4;
+  }
 }
 
 @media (max-width: 690px) {
   .landing-grid > .main-area,
   .landing-grid > .side-area,
   .landing-grid > .full-area,
-  .landing-grid > .half-area {
+  .landing-grid > .half-area,
+  .object-page .object-grid > .full-area,
+  .object-page .object-grid > .half-area {
     grid-column: 1 / -1;
+
+    &.center-area {
+      grid-column: 1 / -1;
+    }
   }
 }
 
@@ -511,6 +528,17 @@ a.monitoring-link--red:hover {
 
 .support-area .monitoring-link .monitoring-icon {
   --icon-size: 4.5rem;
+}
+
+.support-area.support-area--reorder {
+  .monitoring-legend {
+    margin-top: 1.25rem;
+  }
+
+  .monitoring-legend:nth-child(1),
+  .monitoring-legend:nth-child(1) + .monitoring-link {
+    order: 2;
+  }
 }
 
 /* landing news preview */
@@ -939,4 +967,54 @@ a.monitoring-link--red:hover {
 
 .error-page .page-subtitle {
   font-size: 2rem;
+}
+
+/* donation page */
+.donation-box {
+  padding: 1.5rem;
+  border: 2px solid var(--color-text);
+  text-decoration: none;
+}
+
+.donation-box .donation-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  /* text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1em; */
+}
+
+.donation-box .donation-description {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.donation-box .donation-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding: 1em 1.25em 0.75em;
+  border: 1px solid var(--color-text);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.donation-box .donation-link:hover {
+  background: var(--color-bg-shade);
+}
+
+.donation-box .donation-link img.inline-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+#DonationEmbed {
+  border: 0;
+  width: 100%;
+  min-height: 830px;
 }

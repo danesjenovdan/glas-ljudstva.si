@@ -7,9 +7,12 @@ from .views import (
     campaign_item,
     campaigns,
     content_page,
+    donation_embed_page,
+    donation_page,
     landing,
     news,
     news_item,
+    newsletter_signup_page,
 )
 
 
@@ -27,5 +30,9 @@ urlpatterns = [
     path("kampanje/<int:id>/<slug:slug>/", campaign_item),
     path("kampanje/", campaigns),
     path("objava/<slug:slug>/", content_page),
+    path("pridruzi-se/", newsletter_signup_page),
+    path("doniraj/", donation_page),
+    path("doniraj/enkrat/", donation_embed_page),
+    path("doniraj/mesecno/", donation_embed_page),
     path("", landing),
 ]
