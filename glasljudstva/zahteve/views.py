@@ -77,7 +77,7 @@ def landing(request, election_slug=None):
 
     if election_slug:
 
-        election = Election.objects.get(slug=election_slug)
+        election = get_object_or_404(Election, slug=election_slug)
 
         # TODO: treba je urediti prikaz zahtev, da bodo na strani tudi tiste, ki ne pašejo pod noben work group
         work_groups = WorkGroup.objects.filter(election=election).order_by("?")
