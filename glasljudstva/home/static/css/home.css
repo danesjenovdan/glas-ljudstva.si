@@ -351,6 +351,10 @@ img.inline-icon {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  &.center-area {
+    grid-column: 3 / span 4;
+  }
 }
 
 @media (max-width: 690px) {
@@ -359,6 +363,10 @@ img.inline-icon {
   .landing-grid > .full-area,
   .landing-grid > .half-area {
     grid-column: 1 / -1;
+
+    &.center-area {
+      grid-column: 1 / -1;
+    }
   }
 }
 
@@ -511,6 +519,17 @@ a.monitoring-link--red:hover {
 
 .support-area .monitoring-link .monitoring-icon {
   --icon-size: 4.5rem;
+}
+
+.support-area.support-area--reorder {
+  .monitoring-legend {
+    margin-top: 1.25rem;
+  }
+
+  .monitoring-legend:nth-child(1),
+  .monitoring-legend:nth-child(1) + .monitoring-link {
+    order: 2;
+  }
 }
 
 /* landing news preview */

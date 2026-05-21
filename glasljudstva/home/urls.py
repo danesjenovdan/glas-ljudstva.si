@@ -10,6 +10,7 @@ from .views import (
     landing,
     news,
     news_item,
+    newsletter_signup_page,
 )
 
 
@@ -27,5 +28,6 @@ urlpatterns = [
     path("kampanje/<int:id>/<slug:slug>/", campaign_item),
     path("kampanje/", campaigns),
     path("objava/<slug:slug>/", content_page),
+    path("pridruzi-se/", newsletter_signup_page),
     path("", landing),
 ]

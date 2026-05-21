@@ -143,3 +143,13 @@ def content_page(request, slug):
             "content_page": content_page,
         },
     )
+
+
+def newsletter_signup_page(request):
+    return render(
+        request,
+        "home/newsletter_signup_page.html",
+        {
+            "page_title": "Pridruži se",
+        },
+    )
