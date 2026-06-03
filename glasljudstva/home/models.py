@@ -7,12 +7,15 @@ from martor.models import MartorField
 from solo.models import SingletonModel
 
 
-class SideBarLink(OrderableModel):
-    class Icon(models.TextChoices):
-        BOX_TITLE = "box-title", "Naslov polja"
-        EYE = "eye", "Oko"
-        HANDSHAKE = "handshake", "Roka"
+class IconChoices(models.TextChoices):
+    BOX_TITLE = "box-title", "Naslov polja"
+    EYE = "eye", "Oko"
+    HANDSHAKE = "handshake", "Dokument"
+    SUPPORT = "support", "Podpora"
+    EMAIL = "email", "E-pošta"
 
+
+class SideBarLink(OrderableModel):
     landing_page = models.ForeignKey(
         "LandingPageConfig",
         on_delete=models.CASCADE,
@@ -25,8 +28,8 @@ class SideBarLink(OrderableModel):
     )
     icon = models.CharField(
         max_length=100,
-        choices=Icon.choices,
-        default=Icon.HANDSHAKE,
+        choices=IconChoices.choices,
+        default=IconChoices.HANDSHAKE,
         verbose_name="Ikona",
     )
     title = models.CharField(
@@ -52,6 +55,34 @@ class SideBarLink(OrderableModel):
     class Meta(OrderableModel.Meta):
         verbose_name = "Povezava v stranski vrstici"
         verbose_name_plural = "Povezave v stranski vrstici"
+
+
+class FooterBox(OrderableModel):
+    landing_page = models.ForeignKey(
+        "LandingPageConfig",
+        on_delete=models.CASCADE,
+        verbose_name="Domača stran",
+    )
+
+    icon = models.CharField(
+        max_length=100,
+        choices=IconChoices.choices,
+        default=IconChoices.HANDSHAKE,
+        verbose_name="Ikona",
+    )
+    title = models.CharField(
+        max_length=100,
+        verbose_name="Naslov",
+    )
+    content = MartorField(
+        blank=True,
+        null=True,
+        verbose_name="Vsebina",
+    )
+
+    class Meta(SideBarLink.Meta):
+        verbose_name = "Škatla v nogi strani"
+        verbose_name_plural = "Škatle v nogi strani"
 
 
 class NavBarLink(OrderableModel):
