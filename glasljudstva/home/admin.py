@@ -6,6 +6,7 @@ from .models import (
     CampaignItem,
     ContentPage,
     DonationPageConfig,
+    FooterBox,
     LandingPageConfig,
     NewsItem,
     PrimaryNavBarLink,
@@ -29,11 +30,17 @@ class SideBarLinkInline(OrderableAdmin, admin.TabularInline):
     ordering_field_hide_input = True
 
 
+class FooterBoxInline(OrderableAdmin, admin.TabularInline):
+    model = FooterBox
+    ordering_field_hide_input = True
+
+
 class LandingPageConfigAdmin(SingletonModelAdmin):
     inlines = [
         PrimaryNavBarLinkInline,
         SecondaryNavBarLinkInline,
         SideBarLinkInline,
+        FooterBoxInline,
     ]
 
 

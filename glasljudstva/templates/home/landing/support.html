@@ -1,4 +1,25 @@
-{% load static %}
+{% load static solo_tags martortags %}
+{% get_solo 'home.LandingPageConfig' as landing_page %}
+
+{% for footer_box in landing_page.footerbox_set.all %}
+<h2 class="monitoring-legend">{{ footer_box.title }}</h2>
+<div class="monitoring-link">
+  <div class="monitoring-icon">
+    {% if footer_box.icon == 'eye' %}
+      <img src="{% static "svg/noun-analysis-1173637.svg" %}" alt="">
+      {% elif footer_box.icon == 'handshake' %}
+      <img src="{% static "svg/noun-commitment-6407590.svg" %}" alt="">
+      {% elif footer_box.icon == 'support' %}
+      <img src="{% static "svg/noun-join-us-5980040.svg" %}" alt="">
+      {% elif footer_box.icon == 'email' %}
+      <img src="{% static "svg/noun-newsletter-3833433.svg" %}" alt="">
+      {% endif %}
+  </div>
+  <div class="monitoring-content">
+    {{ footer_box.content|safe_markdown }}
+  </div>
+</div>
+{% endfor %}
 
 <h2 class="monitoring-legend">Podpri iniciativo kot organizacija</h2>
 <div class="monitoring-link">
