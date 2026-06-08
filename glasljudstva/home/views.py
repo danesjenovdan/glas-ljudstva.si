@@ -2,6 +2,7 @@ import re
 
 from django.contrib.syndication.views import Feed
 from django.core.paginator import Paginator
+from django.http import QueryDict
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed, Rss201rev2Feed
 from martor.utils import markdownify
@@ -169,6 +170,25 @@ def donation_page(request):
     )
 
 
+def get_referrer_params(request):
+    referrers = [
+        request.META.get("HTTP_REFERER"),
+        *request.GET.getlist("referer"),
+        *request.GET.getlist("referrer"),
+    ]
+    referrers = [r for r in referrers if r]
+    get_params = {
+        "referrer": ", ".join(referrers),
+    }
+    for key in request.GET:
+        if key.startswith("utm_"):
+            value = ", ".join(request.GET.getlist(key))
+            get_params[key] = value
+    return {
+        **get_params,
+    }
+
+
 def donation_embed_page(request):
     dpc = DonationPageConfig.objects.first()
     title = dpc.title if dpc and dpc.title else "Doniraj"
@@ -176,10 +196,25 @@ def donation_embed_page(request):
     full_url = request.build_absolute_uri()
     if "enkrat" in full_url:
         embed_url = dpc.donation_once_url if dpc and dpc.donation_once_url else ""
+        type_text = "enkrat"
     else:
         embed_url = (
             dpc.donation_recurring_url if dpc and dpc.donation_recurring_url else ""
         )
+        type_text = "mesecno"
+
+    if "?" in embed_url:
+        embed_url += "&"
+    else:
+        embed_url += "?"
+
+    referrer_params = get_referrer_params(request)
+    default_params_string = f"referrer=glas-ludstva.si&utm_source=glas-ludstva.si&utm_medium=website&utm_campaign=podpri&utm_content={type_text}"
+    query_dict = QueryDict(default_params_string, mutable=True)
+    for key, value in referrer_params.items():
+        if value:
+            query_dict[key] = value
+    embed_url += query_dict.urlencode()
 
     return render(
         request,
