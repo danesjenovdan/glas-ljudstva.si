@@ -209,7 +209,7 @@ def donation_embed_page(request):
         embed_url += "?"
 
     referrer_params = get_referrer_params(request)
-    default_params_string = f"referrer=glas-ludstva.si&utm_source=glas-ludstva.si&utm_medium=website&utm_campaign=podpri&utm_content={type_text}"
+    default_params_string = f"referrer=glas-ljudstva.si&utm_source=glas-ljudstva.si&utm_medium=website&utm_campaign=podpri&utm_content={type_text}"
     query_dict = QueryDict(default_params_string, mutable=True)
     for key, value in referrer_params.items():
         if value:
