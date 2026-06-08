@@ -10,13 +10,14 @@
         {{ dpc.content|safe_markdown }}
       </div>
     </div>
+    {% with request.GET.urlencode as query_string %}
     <div class="object-grid">
       <div class="half-area">
         <div class="donation-box">
           <h3 class="donation-title">{{ dpc.donation_recurring_title }}</h3>
           <p class="donation-description">{{ dpc.donation_recurring_description }}</p>
           <div>
-            <a href="/doniraj/mesecno/" class="donation-link">
+            <a href="/doniraj/mesecno/{% if query_string %}?{{ query_string }}{% endif %}" class="donation-link">
               <span>{{ dpc.donation_recurring_button_text }}</span>
               <img src="{% static "svg/noun-right-arrow-1086470.svg" %}" class="inline-icon" alt="">
             </a>
@@ -28,7 +29,7 @@
           <h3 class="donation-title">{{ dpc.donation_once_title }}</h3>
           <p class="donation-description">{{ dpc.donation_once_description }}</p>
           <div>
-            <a href="/doniraj/enkrat/" class="donation-link">
+            <a href="/doniraj/enkrat/{% if query_string %}?{{ query_string }}{% endif %}" class="donation-link">
               <span>{{ dpc.donation_once_button_text }}</span>
               <img src="{% static "svg/noun-right-arrow-1086470.svg" %}" class="inline-icon" alt="">
             </a>
@@ -36,6 +37,7 @@
         </div>
       </div>
     </div>
+    {% endwith %}
   </div>
 </div>
 {% endblock %}
