@@ -131,6 +131,17 @@ class LandingPageConfig(SingletonModel):
         default=0,
         verbose_name="Število organizacij",
     )
+    privacy_policy_url = models.CharField(
+        max_length=512,
+        blank=True,
+        null=True,
+        verbose_name="Povezava do politike zasebnosti",
+    )
+    footer_text = MartorField(
+        blank=True,
+        null=True,
+        verbose_name="Besedilo v nogi strani",
+    )
 
     def __str__(self):
         return "Domača stran"
@@ -230,7 +241,7 @@ class ContentPage(models.Model):
         max_length=200,
         blank=True,
         verbose_name="Ključ za povezavo",
-        help_text="Ime strani v povezavi (npr. glas-ljudstva.si/kljuc-za-povezavo, pusti prazno za samodejno generiranje ključa)",
+        help_text="Ime strani v povezavi (npr. glas-ljudstva.si/objava/kljuc-za-povezavo/, pusti prazno za samodejno generiranje ključa)",
     )
     published = models.BooleanField(
         default=False,
