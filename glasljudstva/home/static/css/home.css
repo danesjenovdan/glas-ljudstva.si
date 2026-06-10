@@ -255,20 +255,42 @@ img.inline-icon {
 .page-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding-block: 3rem;
   margin-top: 3rem;
   gap: 1.5rem;
 }
 
-@media (max-width: 690px) {
+@media (max-width: 900px) {
   .page-footer {
     flex-direction: column;
+    align-items: stretch;
     padding-block: 2rem;
   }
 }
 
+.page-footer .left,
+.page-footer .right {
+  flex: 1;
+}
+
+.page-footer .left {
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 690px) {
+  .page-footer .left {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
 .page-footer .logo {
+  flex-shrink: 0;
   display: block;
   height: 85px;
 }
@@ -279,47 +301,27 @@ img.inline-icon {
   }
 }
 
+.page-footer .footer-text {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.page-footer .author,
+.page-footer .privacy {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
 .page-footer .author {
   margin-top: 1rem;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  text-transform: uppercase;
-  text-align: right;
-  text-wrap: balance;
 }
 
 @media (max-width: 690px) {
-  .page-footer .author {
-    margin-top: 2rem;
+  .page-footer .author,
+  .page-footer .privacy {
     text-align: center;
   }
-}
-
-.page-footer .funding {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  max-width: 650px;
-  font-size: 0.625rem;
-  line-height: 1.5;
-  text-align: right;
-}
-
-@media (max-width: 450px) {
-  .page-footer .funding {
-    flex-direction: column-reverse;
-    text-align: center;
-  }
-}
-
-.page-footer .funding img {
-  display: block;
-  width: auto;
-  height: 50px;
-}
-
-.page-footer .funding div {
-  text-wrap: balance;
 }
 
 /* landing */
@@ -933,6 +935,13 @@ a.monitoring-link--red:hover {
   font-weight: 700;
   color: var(--color-accent);
   text-align: center;
+}
+
+@media (max-width: 690px) {
+  .object-page .page-title,
+  .error-page .page-title {
+    font-size: 2rem;
+  }
 }
 
 .object-page .page-subtitle,

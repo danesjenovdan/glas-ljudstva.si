@@ -1,28 +1,24 @@
-{% load static %}
+{% load static solo_tags martortags %}
+{% get_solo 'home.LandingPageConfig' as landing_page %}
 
 <div class="bg-alt">
   <div class="container">
     <div class="container">
       <footer class="page-footer">
-        <img
-          class="logo"
-          src="{% static 'svg/logo-glasljudstva-black.svg' %}"
-        />
+        <div class="left">
+          <img
+            class="logo"
+            src="{% static 'svg/logo-glasljudstva-black.svg' %}"
+          />
+          <div class="footer-text">
+          {% if landing_page.footer_text %}
+            {{ landing_page.footer_text|safe_markdown }}
+          {% endif %}
+          </div>
+        </div>
         <div class="right">
-          <div class="funding">
-            <div>
-              Financirano s strani Evropske unije. Izražena stališča in mnenja
-              so zgolj stališča in mnenja avtorja(-ev) in ni nujno, da odražajo
-              stališča in mnenja Evropske unije ali Evropske izvajalske agencije
-              za izobraževanje in kulturo (EACEA). Zanje ne moreta biti
-              odgovorna niti Evropska unija niti EACEA.
-            </div>
-            <div>
-              <img
-                src="{% static 'img/SL_Co-fundedbytheEU_RGB_POS.png' %}"
-                alt="Co-funded by the EU Logo"
-              />
-            </div>
+          <div class="privacy">
+            <a href="{{ landing_page.privacy_policy_url }}">Politika zasebnosti in varstva osebnih podatkov</a>
           </div>
           <div class="author">
             Spletno mesto z 🖤 postavil
