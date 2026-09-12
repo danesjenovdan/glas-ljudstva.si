@@ -107,7 +107,7 @@
         {% block content %}
         {% endblock %}
         <!-- <div class="divider"></div> -->
-        <div class="row">
+        {% comment %} <div class="row">
             <div class="col col-third">
                 <p class="organisations-description">Glas ljudstva trenutno sestavlja <span
                         id="number">{{ landing_page.organizations_count }}</span>&nbsp;organizacij in civilnodružbenih iniciativ.</p>
@@ -117,7 +117,7 @@
                   {{ landing_page.organizations }}
                 </p>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- <div class="row">
             <div class="col">
                 <p style="text-align: center;">Posamezne zahteve iniciative Glas ljudstva so bile izoblikovane na podlagi posvetovanj mnogih sodelujočih. Zato ni nujno, da imajo prav vse sodelujoče organizacije izoblikovana stališča glede vseh predstavljenih zahtev.</p>
