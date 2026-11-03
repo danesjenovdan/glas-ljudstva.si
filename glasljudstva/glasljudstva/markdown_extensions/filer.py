@@ -1,7 +1,9 @@
 from xml.etree.ElementTree import Element
+
 from filer.models.filemodels import File
 from markdown import Extension
 from markdown.inlinepatterns import IMAGE_LINK_RE, ImageInlineProcessor
+
 
 class FilerExtension(Extension):
     def extendMarkdown(self, md):
