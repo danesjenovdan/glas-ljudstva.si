@@ -1,16 +1,30 @@
 volumes:
-  pgdata:
+  postgres-data:
+
 
 services:
-  glasljudstva:
-    build: ./glasljudstva
-    ports:
-      - 8000:8000
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    expose:
+      - "5432"
     environment:
-      PYTHONUNBUFFERED: 1
+      POSTGRES_DB: glasljudstva
+      POSTGRES_USER: glasljudstva
+      POSTGRES_PASSWORD: changeme
+
+  django:
+    build: ./glasljudstva
+    command: ./manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./glasljudstva:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_RUNSERVER_HIDE_WARNING: "true"
       DJANGO_DEBUG: "yes"
       DJANGO_SETTINGS_MODULE: glasljudstva.k8s_settings
-      DJANGO_SECRET_KEY: make-me-secret
       DJANGO_DATABASE_HOST: db
       DJANGO_DATABASE_NAME: glasljudstva
       DJANGO_DATABASE_USERNAME: glasljudstva
@@ -18,18 +32,5 @@ services:
       MAUTIC_URL: http://mautic.hostname/api/
       MAUTIC_USER: change_mautic_user
       MAUTIC_PASSWORD: change_mautic_password
-    volumes:
-      - ./glasljudstva:/app
     depends_on:
       - db
-
-  db:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: glasljudstva
-      POSTGRES_USER: glasljudstva
-      POSTGRES_PASSWORD: changeme
-    ports:
-      - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data

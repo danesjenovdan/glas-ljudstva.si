@@ -1,15 +1,14 @@
+from xml.etree.ElementTree import Element
+
 from filer.models.filemodels import File
 from markdown import Extension
 from markdown.inlinepatterns import IMAGE_LINK_RE, ImageInlineProcessor
-from markdown.util import etree
 
 
 class FilerExtension(Extension):
-    def extendMarkdown(self, md, md_globals):
-        md.inlinePatterns.add(
-            "filer_image_link",
-            FilerImagePattern(IMAGE_LINK_RE, md),
-            "<image_link",
+    def extendMarkdown(self, md):
+        md.inlinePatterns.register(
+            FilerImagePattern(IMAGE_LINK_RE, md), "filer_image_link", 151
         )
 
 
@@ -35,7 +34,7 @@ class FilerImagePattern(ImageInlineProcessor):
         if not src:
             return None, None, None
 
-        img = etree.Element("img")
+        img = Element("img")
         img.set("src", src)
         img.set("alt", self.unescape(text))
         if title is not None:
