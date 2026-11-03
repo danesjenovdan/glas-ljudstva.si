@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.14-slim-trixie
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -16,7 +16,8 @@ RUN apt-get update && \
     python3-tk \
     libharfbuzz-dev \
     libfribidi-dev \
-    libxcb1-dev
+    libxcb1-dev \
+    libpq-dev
 
 RUN /usr/local/bin/python -m pip install --upgrade pip
 
